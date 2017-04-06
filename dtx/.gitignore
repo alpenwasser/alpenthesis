@@ -4,4 +4,7 @@
 *.toc
 *.ctr
 *.pdf
-*minted*
+*.glo
+*.idx
+*.tex
+*.cls

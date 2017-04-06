@@ -1,0 +1,52 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesClass{alpenthesis}%
+    [2017/04/06 v0.0.1 PDF-LaTeX class for my thesis]
+\LoadClassWithOptions{memoir}
+\RequirePackage[light,nott]{kpfonts}
+\RequirePackage[scaled=0.8125]{DejaVuSansMono}
+\RequirePackage{xcolor}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
+\RequirePackage[%
+    bookmarksnumbered=true,
+    colorlinks=true,
+    linkcolor=cyan!50!blue,
+    citecolor=violet,
+    urlcolor=purple]{hyperref}
+\RequirePackage[english]{babel}
+\RequirePackage{minted}
+\RequirePackage{tcolorbox}
+\RequirePackage{amsmath}
+\RequirePackage[separate-uncertainty=true]{siunitx}
+\RequirePackage{counttexruns}
+\RequirePackage{booktabs}
+\newcommand*\pacname[1]{\textsf{#1}}
+\newcommand*\code[1]{\texttt{#1}}
+\maxsecnumdepth{subsubsection}
+\maxtocdepth{subsubsection}
+\chapterstyle{veelo}
+\newcommand\aiiistock{%
+    \stockaiii
+    \settrimmedsize{297mm}{210mm}{*}
+    \setlength{\trimtop}{\stockheight}
+    \addtolength{\trimtop}{-\paperheight}
+    \setlength{\trimedge}{\stockwidth}
+    \addtolength{\trimedge}{-\paperwidth}
+    \settrims{0.5\trimtop}{0.5\trimedge}
+    \renewcommand*{\trimmarkscolor}{\color{red}}
+    \showtrimson
+    \checkandfixthelayout
+}
+\showtrimsoff
+\setlrmarginsandblock{0.142857111\paperwidth}{0.190476190\paperwidth}{*}
+\setulmarginsandblock{0.111111111\paperheight}{*}{1.5}%
+\checkandfixthelayout
+\setsecheadstyle{\Large\bfseries\sffamily}
+\setsubsecheadstyle{\large\bfseries\sffamily}
+\setsubsubsecheadstyle{\bfseries\sffamily}
+\pagestyle{headings}
+\captionnamefont{\bfseries\small}
+\captiontitlefont{\small}
+\captiondelim{: }
+\newfixedcaption{\figcaption}{figure}
+\newfixedcaption{\tabcaption}{table}
