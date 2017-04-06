@@ -47,14 +47,9 @@
     \usepackage[ngerman]{babel}
 \fi
 \usepackage{xcolor-solarized}
-\usepackage[%
-    bookmarksnumbered=true,
-    colorlinks=true,
-    linkcolor=cyan!50!blue,
-    citecolor=violet,
-    urlcolor=purple]{hyperref}
 \usepackage[light,nott]{kpfonts}
 \usepackage[scaled=0.85]{DejaVuSansMono}
+\usepackage{hypdoc}
 % ------------------------------------------ HELPER MACROS %
 \newcommand*\pacname[1]{\textsf{#1}}
 \newcommand*\code[1]{\texttt{#1}}
@@ -70,6 +65,17 @@
 %^^A ------------------------------------------------------------------------- %
 %^^A TITLE, ABSTRACT, ToC <<<
 % \GetFileInfo{alpenthesis.dtx}
+% \DoNotIndex{\addtolength,\bfseries,\captiondelim,\captionnamefont}
+% \DoNotIndex{\captiontitlefont,\checkandfixthelayout,\color,\Large}
+% \DoNotIndex{\large,\LoadWithClassOptions,\maxsecnumdepth,\maxtocdepth}
+% \DoNotIndex{\newcommand,\newfixedcaption,\pagestyle,\paperheight}
+% \DoNotIndex{\paperwidth,\renewcommand,\RequirePackage,\setlength}
+% \DoNotIndex{\setlrmarginsandblock,\setsecheadstyle,\setsubsecheadstyle}
+% \DoNotIndex{\setsubsubsecheadstyle,\settrimmedsize,\settrims}
+% \DoNotIndex{\setulmarginsandblock,\sffamily,\small,\stockaiii}
+% \DoNotIndex{\stockwidth,\textsf,\texttt,\trimedge,\trimmarkscolor}
+% \DoNotIndex{\trimtop}
+%
 % \author{Raphael Frey \\[1ex] \href{https://github.com/alpenwasser/}%
 %                                     {\nolinkurl{https://github.com/alpenwasser/}}}
 %
@@ -162,7 +168,7 @@
 % \section{User Interface}
 % \label{sec:user-interface}
 %
-% \DescribeMacro{\documentclass\oarg{args}\{alpenthesis\}}
+% |\documentclass\oarg{args}{alpenthesis}|
 %
 % \ifenglish
 %    Loads  the  \athes\  class  with options  \meta{args}. Those  options  are
@@ -211,7 +217,7 @@
 % \section{Implementation}
 % \label{sec:implementation}
 %
-% \StopEventually{}
+% \StopEventually{\PrintIndex}
 %^^A ------------------------------------------------- BASE CLASS, PACKAGES %<<<
 % \ifenglish
 %    \subsection{Base Class and Packages}
