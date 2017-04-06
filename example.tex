@@ -1,0 +1,69 @@
+\documentclass[a4paper,11pt,oneside,showtrims]{alpenthesis}
+\usepackage{lipsum}
+
+%% ================================================================= SET TITLE %
+\title{My Thesis}
+\author{Raphael Frey \\[1ex]\href{https://github.com/alpenwasser/}
+                                 {\nolinkurl{https://github.com/alpenwasser/}}}
+
+%% ============================================================== END PREAMBLE %
+\begin{document}
+%% ============================================================= BEGIN CONTENT %
+\begin{titlingpage}
+    \maketitle
+\end{titlingpage}
+\frontmatter
+\tableofcontents*
+
+\mainmatter
+\chapter{First Chapter}
+
+\lipsum[1]
+
+\section{A Section}
+
+\lipsum[2]
+
+\subsection{Some Subsection}
+
+\begin{table}
+    \centering
+    \caption{tabular inside float}
+    \label{tab:float}
+    \begin{tabular}{lll}
+        \toprule
+        \scshape Header 1 & \scshape Header 2 & \scshape Header 3 \\
+        \midrule
+        Content           & Content           & Content           \\
+        Content           & Content           & Content           \\
+        Content           & Content           & Content           \\
+        Content           & Content           & Content           \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\lipsum[3]
+
+\begin{center}
+    \tabcaption{Tabular outside of float}
+    \label{tab:outside}
+    \begin{tabular}{lll}
+        \toprule
+        \scshape Header 1 & \scshape Header 2 & \scshape Header 3 \\
+        \midrule
+        Content           & Content           & Content           \\
+        Content           & Content           & Content           \\
+        Content           & Content           & Content           \\
+        Content           & Content           & Content           \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+\subsubsection{A subsubsection}
+
+A \code{Code Snippet}
+
+A \pacname{package} name.
+
+%% ============================================================== END CONTENT %
+\end{document}

@@ -6,8 +6,9 @@ default:
 	@pdflatex -shell-escape $(CLASSNAME).dtx
 	@mv $(CLASSNAME).pdf $(CLASSNAME)-en.pdf
 	@pdflatex -shell-escape $(CLASSNAME)-de.tex
-	@cp $(CLASSNAME).cls ../
 	@pdflatex -shell-escape $(EXAMPLE)
+	@cp $(CLASSNAME).cls ../
+	@cp $(EXAMPLE).tex ../
 
 # Preserve PDF documents, template and class file.
 # This is what we might want to hand to an end user.
