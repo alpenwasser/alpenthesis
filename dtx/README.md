@@ -1,5 +1,5 @@
-The fhnwfactsheet LaTeX Class
-=============================
+The alpenthesis LaTeX Class
+===========================
 
 Installation
 ============

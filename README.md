@@ -1,7 +1,7 @@
-FHNW Fact Sheet LaTeX Class
-===========================
+alpenthesis LaTeX Class
+=======================
 
-A LaTeX Class for creating project fact sheets.
+A LaTeX Class for my thesis.
 
 TODO
 ----
