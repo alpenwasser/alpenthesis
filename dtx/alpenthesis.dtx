@@ -1,0 +1,502 @@
+% \iffalse meta-comment
+% -------------------------------------------------------- %
+% Copyright (c) 2017 Raphael Frey rmfrey@runbox.com        %
+% -------------------------------------------------------- %
+%                                                          %
+% This file  may be distributed and/or  modified under the %
+% conditions of  the LaTeX Project Public  License, either %
+% version 1.3c  of this  license or  (at your  option) any %
+% later version. The latest version of this license is in: %
+%                                                          %
+%     http://www.latex-project.org/lppl.txt                %
+%                                                          %
+% and version 1.3c  or later is part  of all distributions %
+% of LaTeX version 2008/05/04 or later.                    %
+% -------------------------------------------------------- %
+% \fi
+%
+%\CheckSum{0}
+%
+%
+%^^A ------------------------------------------------------------------------- %
+%^^A DRIVER, PROVIDESCLASS ETC. <<<
+% \iffalse
+%<*driver>
+\ProvidesFile{alpenthesis.dtx}
+%</driver>
+%<class>\NeedsTeXFormat{LaTeX2e}
+%<class>\ProvidesClass{alpenthesis}%
+%<*class>
+    [2017/04/06 v0.0.1 PDF-LaTeX class for my thesis]
+%</class>
+%<*driver>
+\expandafter\ifx\csname ifenglish\endcsname\relax
+    \expandafter\newif\csname ifenglish\endcsname
+    \englishtrue
+\fi
+\documentclass[a4paper,11pt,oneside]{ltxdoc}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+% ----------------------------------------------- PACKAGES %
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\ifenglish
+    \usepackage[english]{babel}
+\else
+    \usepackage[ngerman]{babel}
+\fi
+\usepackage{xcolor-solarized}
+\usepackage[%
+    bookmarksnumbered=true,
+    colorlinks=true,
+    linkcolor=cyan!50!blue,
+    citecolor=violet,
+    urlcolor=purple]{hyperref}
+\usepackage[light,nott]{kpfonts}
+\usepackage[scaled=0.85]{DejaVuSansMono}
+% ------------------------------------------ HELPER MACROS %
+\newcommand*\pacname[1]{\textsf{#1}}
+\newcommand*\code[1]{\texttt{#1}}
+\newcommand*\athes{\pacname{alpenthesis}}
+\newcommand*\memoir{\pacname{memoir}}
+\begin{document} % ****************************** DOCUMENT %
+    \DocInput{alpenthesis.dtx}
+\end{document}
+%</driver>
+% \fi
+%^^A >>>
+%
+%^^A ------------------------------------------------------------------------- %
+%^^A TITLE, ABSTRACT, ToC <<<
+% \GetFileInfo{alpenthesis.dtx}
+% \author{Raphael Frey \\[1ex] \href{https://github.com/alpenwasser/}%
+%                                     {\nolinkurl{https://github.com/alpenwasser/}}}
+%
+% \ifenglish
+%   \title{The \athes\ Class\thanks{This document corresponds
+%       to \athes~\fileversion, dated~\filedate.}}
+%   \maketitle
+%   \begin{abstract}
+%        The \athes\  class is the  \LaTeX class I  wrote for my  thesis. It is
+%        based on  the \memoir\  class and  is a  collection of  various custom
+%        commands  and  configurations  to  suit my  personal  preferences  and
+%        requirements. You may or  may not find some of it  useful, but keep in
+%        mind that this is a class created  for a specific use case to cater to
+%        a  select  few people's  preferences,  so  some  things may  not  seem
+%        sensible or acceptable to you.
+%
+%        For  this  reason, the  class  does  not really  allow  for  a lot  of
+%        customisation\footnotemark. It is primarily a ``fire-and-forget'' sort of affair.
+%
+%        \footnotetext{%
+%            In principle,  most options and  commands from the  \memoir\ class
+%            are present and  supported, but because this class loads  a lot of
+%            packages  and preforms  a lot  of customization,  the results  may
+%            sometimes  be undesired. I  have taken  no particular  precautions
+%            when it comes to compatibility on  this level beyond what I needed
+%            to make my personal configuration work as desired.}
+%   \end{abstract}
+% \else
+%   \title{Die \athes-Klasse\thanks{Dieses Dokument entspricht
+%          \athes~\fileversion, datiert~\filedate.}}
+%   \maketitle
+%   \begin{abstract}
+%        Die \athes-Klasse  ist die \LaTeX-Klasse,  die ich f\"ur  meine Thesis
+%        entwickelt habe,  aufbauend auf  der \memoir-Klasse. Sie  ist prim\"ar
+%        eine Kollektion  von massgeschneiderten Befehlen  und Konfigurationen,
+%        um   meine   pers\"onlichen   Bed\"urfnisse   und   Anforderungen   zu
+%        erf\"ullen. Jemand  k\"onnte einen  Teil  davon allenfalls  n\"utzlich
+%        finden. Man beachte  aber, dass diese Klasse  f\"ur einen spezifischen
+%        Zweck f\"ur  einige wenige  Personen geschrieben  wurde. Somit m\"ogen
+%        einige  Dinge  aus der  Sicht  der  geneigten Leserin  nicht  sinnvoll
+%        implementiert sein.
+%
+%        Aus diesem  Grund ist  bei dieser  Klasse auch  nicht viel  Raum f\"ur
+%        Konfiguration  vorgesehen\footnotemark. Es  ist  gr\"osstenteils  eine
+%        ``fire-and-forget''-Angelegenheit.
+%
+%        \footnotetext{%
+%            Im   Prinzip  werden   die  meisten   Optionen  und   Befehle  der
+%            \pacname{memoir}-Klasse unterst\"utzt, aber  je nach Einstellungen
+%            k\"onnten seltsame  Ergebnisse  auftreten,  da diese  Klasse viele
+%            Packages l\"adt  und diverse Konfigurationen macht. Ich  habe hier
+%            nicht explizit auf Kompatibilit\"at geachtet.}
+%   \end{abstract}
+% \fi
+%
+% \tableofcontents
+%^^A >>>
+%
+%^^A ------------------------------------------------------------------------- %
+%^^A INSTALLATION <<<
+% \section{Installation}
+% \label{sec:installation}
+%
+% \ifenglish
+%    This section  deals with setting  up the \pacname{alpenthesis}  class and
+%    setting up  a document with  it. Once you have generated  the \code{.cls}
+%    class  file and  the \code{.pdf}  documentation (that  is: this  file, or
+%    its  equivalent  in  another  language), or  have  received  those  files
+%    from  somebody,  you  will   need  to  place  the  \code{alpenthesis.cls}
+%    file  in  the  directory  of  your document  and  then  activate  it  via
+%    |\documentclass{alpenthesis}|. See the \code{example.tex} for an example.
+%
+%    ^^A\inputminted[linenos=true,numbersep=4pt,fontsize=\footnotesize]{tex}{example.tex}
+%   ^^A TODO: File structure tree with the needed files.
+% \else
+%    Dieser      Abschnitt      erkl\"art       die      Installation      der
+%    \pacname{alpenthesis}-Klasse  und  erl\"autert,   wie  man  ein  Dokument
+%    mit  ihr einrichtet. Nachdem  man  die \code{.cls}  Klassendatei und  die
+%    Dokumentation  (dieses  Dokument,   oder  ein  anderssprachiges  Pendant)
+%    generiert oder diese Dateien von  einer anderen Quelle erhalten hat, muss
+%    man die Klassendatei \code{alpenthesis.cls} im selben Verzeichnis wie das
+%    zu generierende Dokument platzieren und via |\documentclass{alpenthesis}|
+%    aktivieren. Siehe  die  Datei   \code{example.tex},  welche  mitgeliefert
+%    worden sein sollte.
+% \fi
+%^^A >>>
+%
+%^^A ------------------------------------------------------------------------- %
+%^^A USER INTERFACE <<<
+% \section{User Interface}
+% \label{sec:user-interface}
+%
+% \DescribeMacro{\documentclass\oarg{args}\{alpenthesis\}}
+%
+% \ifenglish
+%    Loads  the  \athes\  class  with options  \meta{args}. Those  options  are
+%    directly passed through to the  underlying \memoir\ class, so most options
+%    for \memoir\  can be  specified. However, some may  be less  sensible than
+%    others, given all the other configurations \athes\ makes.
+%
+%    If you require heavy customisation,  it is probably recommendable to start
+%    off with the \memoir\ class itself as a base and build from there, relying
+%    on its excellent documentation.
+% \else
+%    L\"aedt    die    \athes-Klasse    mit   den    spezifizierten    Optionen
+%    \meta{args}. Diese   Optionen   werden   direkt   an   die   unterliegende
+%    \memoir-Klasse  weitergegeben. Somit  k\"onnen   beinahe  alle  f\"ur  die
+%    \memoir-Klasse verf\"ugbaren Optionen  geladen werden. Man beachte jedoch,
+%    dass  nicht unbedingt  alle  Optionen Sinn  machen,  da die  \athes-Klasse
+%    selbst noch einige Konfigurationen vornimmt.
+%
+%    M\"ochte man  starke Individualisierungen  vornehmen, macht  es vermutlich
+%    mehr Sinn, die  \memoir-Klasse direkt zu laden und  anhand der exzellenten
+%    Dokumentation die gew\"unschte Konfiguration zu erstellen.
+% \fi
+%
+% \DescribeMacro{\aiiistock}
+% \ifenglish
+%    Sets the  stock size to  A3 paper, keeping the  trimmed paper size  at A4,
+%    vertically and  horizontally centered. Prints trim  marks for the  A4 page
+%    centered on the A3 sheet.
+%
+%    To disable  trim marks,  you can  use the  |\showtrimsoff|. |\showtrimson|
+%    will  enable them  again. Refer  to the  \memoir\  documentation for  more
+%    information.
+% \else
+%    Setzt  die  Bogengr\"osse  auf  A3,  w\"ahrend  die  bedruckte  Seite  auf
+%    A4  behalten wird.   Der  bedruckte Bereich  ist  vertikal und  horizontal
+%    zentriert auf dem A3-Bogen. Druckt Markierungen um die A4-Seite.
+%
+%    Um  die  Markierungen zu  entfernen  kann  der |\showtrimsoff|-Befehl  von
+%    \memoir\ benutzt werden. |\showtrimson| schaltet sie wieder ein. Siehe die
+%    \memoir-Dokumentation.
+% \fi
+%^^A >>>
+%
+%^^A ------------------------------------------------------------------------- %
+%^^A IMPLEMENTATION <<<
+% \section{Implementation}
+% \label{sec:implementation}
+%
+% \StopEventually{}
+%^^A ------------------------------------------------- BASE CLASS, PACKAGES %<<<
+% \ifenglish
+%    \subsection{Base Class and Packages}
+%    \label{subsec:packages}
+%    English description of base class and packages.
+% \else
+%    \subsection{Basisklasse und Packages}
+%    \label{subsec:packages}
+%    Deutsche Beschreibung der Implementation.
+% \fi
+%^^A Need the class guards to prevent the macro code from being included again
+%^^A in example.tex and the German .tex file
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\LoadClassWithOptions{memoir}
+\RequirePackage[light,nott]{kpfonts}
+\RequirePackage[scaled=0.8125]{DejaVuSansMono}
+\RequirePackage{xcolor}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
+\RequirePackage[%
+    bookmarksnumbered=true,
+    colorlinks=true,
+    linkcolor=cyan!50!blue,
+    citecolor=violet,
+    urlcolor=purple]{hyperref}
+\RequirePackage[english]{babel}
+\RequirePackage{minted}
+\RequirePackage{tcolorbox}
+\RequirePackage{amsmath}
+\RequirePackage[separate-uncertainty=true]{siunitx}
+\RequirePackage{counttexruns}
+\RequirePackage{booktabs}
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+%^^A >>>
+%^^A -------------------------------------------------------- HELPER MACROS %<<<
+% \ifenglish
+%   \subsection{Helper Macros}
+%   \label{subsec:helpermacros}
+%   English description of helper macros.
+% \else
+%   \subsection{Hilfs-Macros}
+%   \label{subsec:helpermacros}
+%   Deutsche Beschreibung der Hilfs-Macros.
+% \fi
+%
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\newcommand*\pacname[1]{\textsf{#1}}
+\newcommand*\code[1]{\texttt{#1}}
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+%^^A >>>
+%^^A -------------------------------------------------------- MEMOIR CONFIG %<<<
+% \ifenglish
+%   \subsection{\memoir Configuration}
+%   \label{subsec:memconfig}
+%   English description of \memoir-specific configurations.
+%   \subsubsection{General Configuration} ^^A ----------------- General Config %
+%   \label{subsubsec:nemoir:general-config}
+% \else
+%   \subsection{\memoir Konfiguration}
+%   \label{subsec:memconfig}
+%   Deutsche Beschreibung von \memoir-spezifischen Konfigurationen.
+%   \subsubsection{Allgemeine Konfiguration}
+%   \label{subsubsec:nemoir:general-config}
+% \fi
+%
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\maxsecnumdepth{subsubsection}
+\maxtocdepth{subsubsection}
+\chapterstyle{veelo}
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \ifenglish
+%     \subsubsection{Page Layout} ^^A ---------------------------- Page Layout %
+%     \label{subsubsec:page-layout}
+% \else
+%     \subsubsection{Seiten-Layout}
+%     \label{subsubsec:page-layout}
+% \fi
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\newcommand\aiiistock{%
+    \stockaiii
+    \settrimmedsize{297mm}{210mm}{*}
+    \setlength{\trimtop}{\stockheight}
+    \addtolength{\trimtop}{-\paperheight}
+    \setlength{\trimedge}{\stockwidth}
+    \addtolength{\trimedge}{-\paperwidth}
+    \settrims{0.5\trimtop}{0.5\trimedge}
+    \renewcommand*{\trimmarkscolor}{\color{red}}
+    \showtrimson
+    \checkandfixthelayout
+}
+\showtrimsoff
+\setlrmarginsandblock{0.142857111\paperwidth}{0.190476190\paperwidth}{*}
+\setulmarginsandblock{0.111111111\paperheight}{*}{1.5}%
+\checkandfixthelayout
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \ifenglish
+%    \subsubsection{Sectional Title Fonts} ^^A --------------- Sec Title Fonts %
+%    \label{subsubsec:title-fonts}
+% \else
+%    \subsubsection{Schriftarten f\"ur Titel von Abschnitten}
+%    \label{subsubsec:title-fonts}
+% \fi
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\setsecheadstyle{\Large\bfseries\sffamily}
+\setsubsecheadstyle{\large\bfseries\sffamily}
+\setsubsubsecheadstyle{\bfseries\sffamily}
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \ifenglish
+%   \subsubsection{Headers and Footers} ^^A -------------- Headers and Footers %
+%   \label{subsubsec:headers-footers}
+% \else
+%   \subsubsection{Kopf- und Fusszeilen}
+%   \label{subsubsec:headers-footers}
+% \fi
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\pagestyle{headings}
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \ifenglish
+%   \subsubsection{Captions} ^^A ------------------------------------ Captions %
+%   \label{subsubsec:captions}
+% \else
+%   \subsubsection{Legenden}
+%   \label{subsubsec:captions}
+% \fi
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\captionnamefont{\bfseries\small}
+\captiontitlefont{\small}
+\captiondelim{: }
+% Captions for use outside of floats
+\newfixedcaption{\figcaption}{figure}
+\newfixedcaption{\tabcaption}{table}
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+%
+% \Finale
+%^^A >>>
+%^^A >>>
+%
+%^^A ------------------------------------------------------------------------- %
+%^^A example <<<
+% \iffalse
+%<*example>
+\documentclass[a4paper,11pt,oneside,showtrims]{alpenthesis}
+%\aiiistock
+\usepackage{lipsum}
+
+%% ================================================================= SET TITLE %
+\title{My Thesis}
+\author{Raphael Frey \\[1ex]\href{https://github.com/alpenwasser/}
+                                 {\nolinkurl{https://github.com/alpenwasser/}}}
+
+%% ============================================================== END PREAMBLE %
+\begin{document}
+%% ============================================================= BEGIN CONTENT %
+\begin{titlingpage}
+    \maketitle
+\end{titlingpage}
+\frontmatter
+\tableofcontents*
+
+\mainmatter
+\chapter{First Chapter}
+
+\lipsum[1]
+
+\section{A Section}
+
+\lipsum[2]
+
+\subsection{Some Subsection}
+
+\begin{table}
+    \centering
+    \caption{tabular inside float}
+    \label{tab:float}
+    \begin{tabular}{lll}
+        \toprule
+        \scshape Header 1 & \scshape Header 2 & \scshape Header 3 \\
+        \midrule
+        Content           & Content           & Content           \\
+        Content           & Content           & Content           \\
+        Content           & Content           & Content           \\
+        Content           & Content           & Content           \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\lipsum[3]
+
+\begin{center}
+    \tabcaption{Tabular outside of float}
+    \label{tab:outside}
+    \begin{tabular}{lll}
+        \toprule
+        \scshape Header 1 & \scshape Header 2 & \scshape Header 3 \\
+        \midrule
+        Content           & Content           & Content           \\
+        Content           & Content           & Content           \\
+        Content           & Content           & Content           \\
+        Content           & Content           & Content           \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+\subsubsection{A subsubsection}
+
+A \code{Code Snippet}
+
+A \pacname{package} name.
+
+%% ============================================================== END CONTENT %
+\end{document}
+%</example>
+% \fi
+%^^A >>>
+%
+%^^A ------------------------------------------------------------------------- %
+%^^A MULTI-LANGUAGE SUPPORT <<<
+% \iffalse
+%<*de>
+\expandafter\newif\csname ifenglish\endcsname
+\englishfalse
+\input{alpenthesis.dtx}
+%</de>
+% \fi
+%^^A >>>
+%
+%^^A ------------------------------------------------------------------------- %
+%^^A CHARACTER TABLE <<<
+% \CharacterTable
+%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%   Digits        \0\1\2\3\4\5\6\7\8\9
+%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%   Dollar        \$     Percent       \%     Ampersand     \&
+%   Acute accent  \'     Left paren    \(     Right paren   \)
+%   Asterisk      \*     Plus          \+     Comma         \,
+%   Minus         \-     Point         \.     Solidus       \/
+%   Colon         \:     Semicolon     \;     Less than     \<
+%   Equals        \=     Greater than  \>     Question mark \?
+%   Commercial at \@     Left bracket  \[     Backslash     \\
+%   Right bracket \]     Circumflex    \^     Underscore    \_
+%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%   Right brace   \}     Tilde         \~}
+%^^A >>>
+\endinput
+%^^A vim: foldenable foldcolumn=2 foldmethod=marker foldmarker=<<<,>>>

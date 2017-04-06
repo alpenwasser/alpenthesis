@@ -1,0 +1,19 @@
+%% Copyright (c) 2017 Raphael Frey
+%% 
+
+\def\batchfile{alpenthesis.ins}
+\input docstrip.tex
+
+\preamble
+    Author: Raphael Frey <webmaster@alpenwasser.net>
+\endpreamble
+
+\keepsilent
+\askforoverwritefalse
+
+\generate{%
+    \file{example.tex}{\nopreamble\nopostamble\from{alpenthesis.dtx}{example}}%
+    \file{alpenthesis.cls}{\from{alpenthesis.dtx}{class}}%
+    \file{alpenthesis-de.tex}{\nopreamble\nopostamble\from{alpenthesis.dtx}{de}}%
+}
+\endbatchfile
