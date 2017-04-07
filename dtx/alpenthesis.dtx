@@ -48,7 +48,7 @@
 \fi
 \usepackage{xcolor-solarized}
 \usepackage[light,nott]{kpfonts}
-\usepackage[scaled=0.85]{DejaVuSansMono}
+\usepackage[scaled=0.8125]{DejaVuSansMono}
 \usepackage{hypdoc}
 % ------------------------------------------ HELPER MACROS %
 \newcommand*\pacname[1]{\textsf{#1}}
@@ -63,7 +63,7 @@
 %^^A >>>
 %
 %^^A ------------------------------------------------------------------------- %
-%^^A TITLE, ABSTRACT, ToC <<<
+%^^A GetFileInto, DoNotIndex <<<
 % \GetFileInfo{alpenthesis.dtx}
 % \DoNotIndex{\addtolength,\bfseries,\captiondelim,\captionnamefont}
 % \DoNotIndex{\captiontitlefont,\checkandfixthelayout,\color,\Large}
@@ -75,7 +75,10 @@
 % \DoNotIndex{\setulmarginsandblock,\sffamily,\small,\stockaiii}
 % \DoNotIndex{\stockwidth,\textsf,\texttt,\trimedge,\trimmarkscolor}
 % \DoNotIndex{\trimtop}
+%^^A>>>
 %
+%^^A ------------------------------------------------------------------------- %
+%^^A TITLE, ABSTRACT, ToC <<<
 % \author{Raphael Frey \\[1ex] \href{https://github.com/alpenwasser/}%
 %                                     {\nolinkurl{https://github.com/alpenwasser/}}}
 %
@@ -218,15 +221,20 @@
 % \label{sec:implementation}
 %
 % \StopEventually{\PrintIndex}
-%^^A ------------------------------------------------- BASE CLASS, PACKAGES %<<<
+%^^A -------------------------------------------------------- MEMOIR CONFIG %<<<
+%
 % \ifenglish
-%    \subsection{Base Class and Packages}
-%    \label{subsec:packages}
-%    English description of base class and packages.
+%    \subsection{Base Class: \memoir\ and Its Configuration}
+%    \label{subsec:memconfig}
+%    The underlyng  class is  \memoir, and  all options  passed to  the \athes\
+%    class are directly  passed on to \memoir\  via the |\LoadClassWithOptions|
+%    command.
 % \else
-%    \subsection{Basisklasse und Packages}
-%    \label{subsec:packages}
-%    Deutsche Beschreibung der Implementation.
+%    \subsection{Basisklasse:\memoir\ und ihre Konfiguration}
+%    \label{subsec:memconfig}
+%    Die  zugrundeliegende Klasse  ist \memoir. Alle  an \athes\  \"ubergebenen
+%    Optionen   werden   direkt   an   die   \memoir-Klasse   \"ubergeben   via
+%    |\LoadClassWithOptions|.
 % \fi
 %^^A Need the class guards to prevent the macro code from being included again
 %^^A in example.tex and the German .tex file
@@ -235,62 +243,14 @@
 % \fi
 %    \begin{macrocode}
 \LoadClassWithOptions{memoir}
-\RequirePackage[light,nott]{kpfonts}
-\RequirePackage[scaled=0.8125]{DejaVuSansMono}
-\RequirePackage{xcolor}
-\RequirePackage[utf8]{inputenc}
-\RequirePackage[T1]{fontenc}
-\RequirePackage[%
-    bookmarksnumbered=true,
-    colorlinks=true,
-    linkcolor=cyan!50!blue,
-    citecolor=violet,
-    urlcolor=purple]{hyperref}
-\RequirePackage[english]{babel}
-\RequirePackage{minted}
-\RequirePackage{tcolorbox}
-\RequirePackage{amsmath}
-\RequirePackage[separate-uncertainty=true]{siunitx}
-\RequirePackage{counttexruns}
-\RequirePackage{booktabs}
 %    \end{macrocode}
 % \iffalse
 %</class>
 % \fi
-%^^A >>>
-%^^A -------------------------------------------------------- HELPER MACROS %<<<
 % \ifenglish
-%   \subsection{Helper Macros}
-%   \label{subsec:helpermacros}
-%   English description of helper macros.
-% \else
-%   \subsection{Hilfs-Macros}
-%   \label{subsec:helpermacros}
-%   Deutsche Beschreibung der Hilfs-Macros.
-% \fi
-%
-% \iffalse
-%<*class>
-% \fi
-%    \begin{macrocode}
-\newcommand*\pacname[1]{\textsf{#1}}
-\newcommand*\code[1]{\texttt{#1}}
-%    \end{macrocode}
-% \iffalse
-%</class>
-% \fi
-%^^A >>>
-%^^A -------------------------------------------------------- MEMOIR CONFIG %<<<
-% \ifenglish
-%   \subsection{\memoir Configuration}
-%   \label{subsec:memconfig}
-%   English description of \memoir-specific configurations.
 %   \subsubsection{General Configuration} ^^A ----------------- General Config %
 %   \label{subsubsec:nemoir:general-config}
 % \else
-%   \subsection{\memoir Konfiguration}
-%   \label{subsec:memconfig}
-%   Deutsche Beschreibung von \memoir-spezifischen Konfigurationen.
 %   \subsubsection{Allgemeine Konfiguration}
 %   \label{subsubsec:nemoir:general-config}
 % \fi
@@ -338,19 +298,22 @@
 %</class>
 % \fi
 % \ifenglish
-%    \subsubsection{Sectional Title Fonts} ^^A --------------- Sec Title Fonts %
+%    \subsubsection{Sectional Title Fonts and Styles} ^^A ---- Sec Title Fonts %
 %    \label{subsubsec:title-fonts}
+%    Sets font styles and other stylistic attributes for headings.
 % \else
-%    \subsubsection{Schriftarten f\"ur Titel von Abschnitten}
+%    \subsubsection{Schriftarten und Stil f\"ur Titel von Abschnitten}
 %    \label{subsubsec:title-fonts}
+%    Definiert Schriftarten und andere Stil-Attribute f\"ur \"Uberschriften.
 % \fi
 % \iffalse
 %<*class>
 % \fi
 %    \begin{macrocode}
-\setsecheadstyle{\Large\bfseries\sffamily}
-\setsubsecheadstyle{\large\bfseries\sffamily}
-\setsubsubsecheadstyle{\bfseries\sffamily}
+\setsecheadstyle{\color{coltitle}\Large\bfseries\sffamily}
+\setsubsecheadstyle{\color{coltitle}\large\bfseries\sffamily}
+\setsubsubsecheadstyle{\color{coltitle}\bfseries\sffamily}
+\addtodef{\printchaptername}{\color{coltitle}}{}
 %    \end{macrocode}
 % \iffalse
 %</class>
@@ -392,10 +355,115 @@
 % \iffalse
 %</class>
 % \fi
+%^^A>>>
+%^^A ----------------------------------------------- GENERAL PACKAGE CONFIG %<<<
+% \ifenglish
+%    \subsection{General Configuration}
+%    \label{subsec:general-config}
+%    We choose  the \pacname{kpfonts}  Package for serif  and sans  serif fonts
+%    with the  |light| option,  and \pacname{DejaVuSansMono} as  our typewriter
+%    font. Also, we  ensure that we  can write our  source code files with UTF8
+%    characters and have T1 font encoding for our output.
+% \else
+%    \subsection{Allgemeine Konfiguration}
+%    \label{subsec:general-config}
+%    Wir  w\"ahlen  \pacname{kpfonts} als  unsere  Schriftart  f\"ur Serif  und
+%    Sans-Serif,  mit  der  |light|-Option,  und  \pacname{DejaVuSansMono}  als
+%    unsere  Monospace-Schriftart. Wir  stellen   ebenfalls  sicher,  dass  wir
+%    UTF8-Input in unserem  Quelltext haben k\"onnen und dass der  Output in T1
+%    codiert wird.
+% \fi
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\RequirePackage[light,nott]{kpfonts}
+\RequirePackage[scaled=0.8125]{DejaVuSansMono}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+%^^A>>>
+%^^A ----------------------------------------------- DOCUMENT COLOR PALETTE %<<<
+% \ifenglish
+%    \subsection{Document Color Palette}
+%    \label{subsec:colors}
+%    We  define the  following  colors  as our  document  colors  in a  central
+%    location.  This allows easy modification  of document colors while keeping
+%    the entire document consistent.
+% \else
+%    \subsection{Farbpalette des Dokuments}
+%    \label{subsec:colors}
+%    Wir  definieren  die  folgenden  Farben  f\"ur  unser  Dokument  an  einer
+%    zentralen Stelle.  Dies erlaubt es,  die Farbpalette des Dokuments einfach
+%    zu  modifizieren  und  dabei  die   Farben  \"uber  das  gesamte  Dokument
+%    konsistent zu behalten.
+% \fi
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\RequirePackage{xcolor}
+\globalcolorstrue
+\definecolor{coltitle}{HTML}{1155BB}
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+%^^A >>>
+%^^A ----------------------------------- OTHER PACKAGES WOTHOUT MUCH CONFIG %<<<
+% \ifenglish
+% \else
+% \fi
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\RequirePackage[%
+    bookmarksnumbered=true,
+    colorlinks=true,
+    linkcolor=cyan!50!blue,
+    citecolor=violet,
+    urlcolor=purple]{hyperref}
+\RequirePackage[english]{babel}
+\RequirePackage{minted}
+\RequirePackage{tcolorbox}
+\RequirePackage{amsmath}
+\RequirePackage[separate-uncertainty=true]{siunitx}
+\RequirePackage{counttexruns}
+\RequirePackage{booktabs}
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+%^^A >>>
+%^^A -------------------------------------------------------- HELPER MACROS %<<<
+% \ifenglish
+%   \subsection{Helper Macros}
+%   \label{subsec:helpermacros}
+%   English description of helper macros.
+% \else
+%   \subsection{Hilfs-Macros}
+%   \label{subsec:helpermacros}
+%   Deutsche Beschreibung der Hilfs-Macros.
+% \fi
+%
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\newcommand*\pacname[1]{\textsf{#1}}
+\newcommand*\code[1]{\texttt{#1}}
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+%^^A >>>
+%^^A >>>
 %
 % \Finale
-%^^A >>>
-%^^A >>>
 %
 %^^A ------------------------------------------------------------------------- %
 %^^A example <<<
