@@ -50,6 +50,9 @@
 \usepackage[light,nott]{kpfonts}
 \usepackage[scaled=0.8125]{DejaVuSansMono}
 \usepackage{hypdoc}
+\usepackage{tikz}
+\usepackage{alpencolors}
+\usepackage{booktabs}
 % ------------------------------------------ HELPER MACROS %
 \newcommand*\pacname[1]{\textsf{#1}}
 \newcommand*\code[1]{\texttt{#1}}
@@ -310,10 +313,10 @@
 %<*class>
 % \fi
 %    \begin{macrocode}
-\setsecheadstyle{\color{coltitle}\Large\bfseries\sffamily}
-\setsubsecheadstyle{\color{coltitle}\large\bfseries\sffamily}
-\setsubsubsecheadstyle{\color{coltitle}\bfseries\sffamily}
-\addtodef{\printchaptername}{\color{coltitle}}{}
+\setsecheadstyle{\color{sqB}\Large\bfseries\sffamily}
+\setsubsecheadstyle{\color{sqB}\large\bfseries\sffamily}
+\setsubsubsecheadstyle{\color{sqB}\bfseries\sffamily}
+\addtodef{\printchaptername}{\color{sqB}}{}
 %    \end{macrocode}
 % \iffalse
 %</class>
@@ -377,7 +380,7 @@
 %<*class>
 % \fi
 %    \begin{macrocode}
-\RequirePackage[light,nott]{kpfonts}
+\RequirePackage[rmx,nott]{kpfonts}
 \RequirePackage[scaled=0.8125]{DejaVuSansMono}
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[T1]{fontenc}
@@ -401,13 +404,113 @@
 %    zu  modifizieren  und  dabei  die   Farben  \"uber  das  gesamte  Dokument
 %    konsistent zu behalten.
 % \fi
+% \begin{center}
+%     \begin{tabular}{llllllll}
+%         \toprule
+%         \multicolumn{8}{l}{\textsc{Dark}} \\
+%         \rowtestcolor{da0} & \rowtestcolor{da1} & \rowtestcolor{da2} & \rowtestcolor{da3} \\
+%         \rowtestcolor{da4} \\
+%         \midrule
+%         \multicolumn{8}{l}{\textsc{Bright}} \\
+%         \rowtestcolor{br0} & \rowtestcolor{br1} \\
+%         \midrule
+%         \multicolumn{8}{l}{\textsc{Contrast}} \\
+%         \rowtestcolor{ct0} & \rowtestcolor{ct1} & \rowtestcolor{ct2} & \rowtestcolor{ct3} \\
+%         \rowtestcolor{ct4} & \rowtestcolor{ct5} & \rowtestcolor{ct6} \\
+%         \midrule
+%         \multicolumn{8}{l}{\textsc{Sequential}} \\
+%         \rowtestcolor{sq0} & \rowtestcolor{sq1} & \rowtestcolor{sq2} & \rowtestcolor{sq3} \\
+%         \rowtestcolor{sq4} & \rowtestcolor{sq5} & \rowtestcolor{sq6} & \rowtestcolor{sq7} \\
+%         \rowtestcolor{sq8} & \rowtestcolor{sq9} & \rowtestcolor{sqA} & \rowtestcolor{sqB} \\
+%         \rowtestcolor{sqC} \\
+%         \midrule
+%         \multicolumn{8}{l}{\textsc{Diverging}} \\
+%         \rowtestcolor{dv-7} & \rowtestcolor{dv-6} & \rowtestcolor{dv-5} & \rowtestcolor{dv-4} \\
+%         \rowtestcolor{dv-3} & \rowtestcolor{dv-2} & \rowtestcolor{dv-1} & \rowtestcolor{dv+0} \\
+%         \rowtestcolor{dv+1} & \rowtestcolor{dv+2} & \rowtestcolor{dv+3} & \rowtestcolor{dv+4} \\
+%         \rowtestcolor{dv+5} & \rowtestcolor{dv+6} & \rowtestcolor{dv+7} \\
+%         \midrule
+%         \multicolumn{8}{l}{\textsc{Qualitative}} \\
+%         \rowtestcolor{q0} & \rowtestcolor{q1} & \rowtestcolor{q2} & \rowtestcolor{q3} \\
+%         \rowtestcolor{q4} & \rowtestcolor{q5} & \rowtestcolor{q6} & \rowtestcolor{q7} \\
+%         \bottomrule
+%     \end{tabular}
+% \end{center}
 % \iffalse
-%<*class>
+%<*class|colors>
+%^^A We  extract the  color information into  a package for  use in  the class
+%^^A documentation.
+%<colors>\ProvidesPackage{alpencolors}[2017/04/08 v1.0 color palette for alpenthesis]
 % \fi
 %    \begin{macrocode}
 \RequirePackage{xcolor}
 \globalcolorstrue
-\definecolor{coltitle}{HTML}{1155BB}
+\definecolor{da0}{HTML}{002B36}
+\definecolor{da1}{HTML}{073642}
+\definecolor{da2}{HTML}{008080}
+\definecolor{da3}{HTML}{800080}
+\definecolor{da4}{HTML}{404040}
+\definecolor{ct0}{HTML}{CB4B16}
+\definecolor{ct1}{HTML}{DC322F}
+\definecolor{ct2}{HTML}{DC3682}
+\definecolor{ct3}{HTML}{268BD2}
+\definecolor{ct4}{HTML}{2AA198}
+\definecolor{ct5}{HTML}{B58900}
+\definecolor{ct6}{HTML}{859900}
+\definecolor{br0}{HTML}{EEE8D5}
+\definecolor{br1}{HTML}{FDF6E3}
+\definecolor{sq0}{HTML}{F7FBFF}
+\definecolor{sq1}{HTML}{EFF3FF}
+\definecolor{sq2}{HTML}{DECDF7}
+\definecolor{sq3}{HTML}{C6DBEF}
+\definecolor{sq4}{HTML}{BDD7E7}
+\definecolor{sq5}{HTML}{9ECAE1}
+\definecolor{sq6}{HTML}{6BAED6}
+\definecolor{sq7}{HTML}{4292C6}
+\definecolor{sq8}{HTML}{3182BD}
+\definecolor{sq9}{HTML}{2171B5}
+\definecolor{sqA}{HTML}{08519C}
+\definecolor{sqB}{HTML}{084594}
+\definecolor{sqC}{HTML}{08306B}
+\definecolor{dv-7}{HTML}{8E0152}
+\definecolor{dv-6}{HTML}{C51B7D}
+\definecolor{dv-5}{HTML}{D01C8B}
+\definecolor{dv-4}{HTML}{DE77AE}
+\definecolor{dv-3}{HTML}{E9A3C9}
+\definecolor{dv-2}{HTML}{F1B6DA}
+\definecolor{dv-1}{HTML}{FDE0EF}
+\definecolor{dv+0}{HTML}{F7F7F7}
+\definecolor{dv+1}{HTML}{D1E5F0}
+\definecolor{dv+2}{HTML}{92C5DE}
+\definecolor{dv+3}{HTML}{67A9CF}
+\definecolor{dv+4}{HTML}{4393C3}
+\definecolor{dv+5}{HTML}{0571B0}
+\definecolor{dv+6}{HTML}{2166AC}
+\definecolor{dv+7}{HTML}{053061}
+\definecolor{q0}{named}{ct3}
+\definecolor{q1}{named}{sqB}
+\definecolor{q2}{named}{ct2}
+\definecolor{q3}{named}{da3}
+\definecolor{q4}{HTML}{FEC44F}
+\definecolor{q5}{named}{ct0}
+\definecolor{q6}{HTML}{80EA82}
+\definecolor{q7}{HTML}{2E7D32}
+\newcommand*\testcolor[1]{\tikz \fill[#1] (0em,0ex) rectangle (2em,2ex);}
+\newcommand*\rowtestcolor[1]{#1 & \tikz \fill[#1] (0em,0ex) rectangle (2em,2ex);}
+%    \end{macrocode}
+% \iffalse
+%</class|colors>
+% \fi
+%^^A >>>
+%^^A -------------------------------------------------- TikZ, PGF, PGFPLOTS %<<<
+% \ifenglish
+% \else
+% \fi
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\RequirePackage{tikz}
 %    \end{macrocode}
 % \iffalse
 %</class>
@@ -456,6 +559,7 @@
 %    \begin{macrocode}
 \newcommand*\pacname[1]{\textsf{#1}}
 \newcommand*\code[1]{\texttt{#1}}
+\newcommand*\athes{\pacname{alpenthesis}}
 %    \end{macrocode}
 % \iffalse
 %</class>
@@ -488,15 +592,22 @@
 \tableofcontents*
 
 \mainmatter
-\chapter{First Chapter}
+\chapter{Showcase}
 
-\lipsum[1]
+This chapter presents a show case of the \athes\ document class configuration.
+This includes fonts, colors, tables, figures, headings etc.
 
-\section{A Section}
+\section{Fonts}
 
-\lipsum[2]
+The default  font family  is \pacname{kpfonts}  in 11\,pt  for both  roman and
+\textsf{sans serif  style}, and  \pacname{DejaVuSansMono} \texttt{is  used for
+for monospace text}, scaled at a factor of  0.8125 so that the x height is the
+same as the x height of the default roman font.
 
-\subsection{Some Subsection}
+\section{Floats and Captions}
+
+We put  this in  a \verb|\subsection|  and have some  padding text  around the
+floats courtesy of the \pacname{lipsum} package.
 
 \begin{table}
     \centering
@@ -531,11 +642,19 @@
     \end{tabular}
 \end{center}
 
+\section{Sectional Headings}
+
+This section illustrates the  style of \verb|\section|, \verb|\subsection| and
+\verb|\subsubsection|.
+
+\subsection{A Subsection}
+
+\lipsum[1]
+
 \subsubsection{A subsubsection}
 
-A \code{Code Snippet}
+\lipsum[2]
 
-A \pacname{package} name.
 
 %% ============================================================== END CONTENT %
 \end{document}

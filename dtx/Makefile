@@ -1,5 +1,6 @@
 CLASSNAME := alpenthesis
 EXAMPLE := example
+COLORPACKAGE := alpencolors
 
 default:
 	@latex $(CLASSNAME).ins
@@ -38,6 +39,7 @@ tidy:
 	@rm -f $(CLASSNAME)-de.*
 	@ if [ -f bak.$(CLASSNAME)-de.pdf ]; then mv bak.$(CLASSNAME)-de.pdf $(CLASSNAME)-de.pdf;fi
 	@rm -rf texput.log
+	@rm -f $(COLORPACKAGE).sty
 
 # Remove everything but .dtx and .ins:
 clean: tidy

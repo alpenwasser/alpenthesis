@@ -16,15 +16,22 @@
 \tableofcontents*
 
 \mainmatter
-\chapter{First Chapter}
+\chapter{Showcase}
 
-\lipsum[1]
+This chapter presents a show case of the \athes\ document class configuration.
+This includes fonts, colors, tables, figures, headings etc.
 
-\section{A Section}
+\section{Fonts}
 
-\lipsum[2]
+The default  font family  is \pacname{kpfonts}  in 11\,pt  for both  roman and
+\textsf{sans serif  style}, and  \pacname{DejaVuSansMono} \texttt{is  used for
+for monospace text}, scaled at a factor of  0.8125 so that the x height is the
+same as the x height of the default roman font.
 
-\subsection{Some Subsection}
+\section{Floats and Captions}
+
+We put  this in  a \verb|\subsection|  and have some  padding text  around the
+floats courtesy of the \pacname{lipsum} package.
 
 \begin{table}
     \centering
@@ -59,11 +66,18 @@
     \end{tabular}
 \end{center}
 
+\section{Sectional Headings}
+
+This section illustrates the  style of \verb|\section|, \verb|\subsection| and
+\verb|\subsubsection|.
+
+\subsection{A Subsection}
+
+\lipsum[1]
+
 \subsubsection{A subsubsection}
 
-A \code{Code Snippet}
-
-A \pacname{package} name.
+\lipsum[2]
 
 %% ============================================================== END CONTENT %
 \end{document}
