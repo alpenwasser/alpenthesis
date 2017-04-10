@@ -78,6 +78,23 @@
 % \DoNotIndex{\setulmarginsandblock,\sffamily,\small,\stockaiii}
 % \DoNotIndex{\stockwidth,\textsf,\texttt,\trimedge,\trimmarkscolor}
 % \DoNotIndex{\trimtop}
+% \DoNotIndex{\@chapapp,\addtodef,\afterchapskip,\afterchapternum}
+% \DoNotIndex{\athes,\beforechapskip,\begin,\end}
+% \DoNotIndex{\bottomscreen,\chapnamefont,\chapnumfont}
+% \DoNotIndex{\chapterheadstart,\chapternamenum,\chaptitlefont}
+% \DoNotIndex{\edgewidth,\fadingIndex,\fi,\fill,\flushright,\foreach}
+% \DoNotIndex{\globalcolorstrue,\height,\hspace,\HUGE,\includepdf}
+% \DoNotIndex{\input,\iterstop,\iterstopvert,\j,\k,\LARGE,\leftTransp}
+% \DoNotIndex{\MakeTextUppercase,\m,\makebox,\marginparsep,\marginparwidth}
+% \DoNotIndex{\maxElementNumber,\midchapskip,\n,\newif,\newlength,\nobreak}
+% \DoNotIndex{\numberOfHorizSides,\numberOfHorizElements,\offsetVert}
+% \DoNotIndex{\par,\pgfkeysgetvalue,\pgfmathcos,\pgfmathmod,\pgfmathresult}
+% \DoNotIndex{\pgfmathsetmacro,\pgfmathtruncatemacro,\pgfplotsset}
+% \DoNotIndex{\printchaptername,\printchapternonum,\printchapternum}
+% \DoNotIndex{\printchaptertitle,\randNumHoriz,\randNumVert,\resizebox}
+% \DoNotIndex{\rightTransp,\rowtestcolor,\rule,\side,\spinemargin}
+% \DoNotIndex{\textwidth,\thechapter,\thepage,\tikz,\tikzfading,\tikzset}
+% \DoNotIndex{\usepackage,\usepgfplotslibrary,\usetikzlibrary,\vskip,\vspace}
 %^^A>>>
 %
 %^^A ------------------------------------------------------------------------- %
@@ -171,10 +188,15 @@
 %
 %^^A ------------------------------------------------------------------------- %
 %^^A USER INTERFACE <<<
-% \section{User Interface}
-% \label{sec:user-interface}
+% \ifenglish
+%    \section{User Interface}
+%    \label{sec:user-interface}
+% \else
+%    \section{Benutzer-Interface}
+%    \label{sec:user-interface}
+% \fi
 %
-% |\documentclass\oarg{args}{alpenthesis}|
+% |\documentclass\oarg{args}{alpenthesis}|\vspace{1em}
 %
 % \ifenglish
 %    Loads  the  \athes\  class  with options  \meta{args}. Those  options  are
@@ -186,7 +208,7 @@
 %    off with the \memoir\ class itself as a base and build from there, relying
 %    on its excellent documentation.
 % \else
-%    L\"aedt    die    \athes-Klasse    mit   den    spezifizierten    Optionen
+%    L\"adt    die    \athes-Klasse    mit    den    spezifizierten    Optionen
 %    \meta{args}. Diese   Optionen   werden   direkt   an   die   unterliegende
 %    \memoir-Klasse  weitergegeben. Somit  k\"onnen   beinahe  alle  f\"ur  die
 %    \memoir-Klasse verf\"ugbaren Optionen  geladen werden. Man beachte jedoch,
@@ -216,16 +238,45 @@
 %    \memoir\ benutzt werden. |\showtrimson| schaltet sie wieder ein. Siehe die
 %    \memoir-Dokumentation.
 % \fi
+%
+% \DescribeMacro{\hextrue}
+% \DescribeMacro{\hexfalse}
+% \ifenglish
+%    In order to save time when compiling a document, the |\hexfalse| value can
+%    be set in the preamble. This leads to the hexagon grind being omitted from
+%    the chapter style.
+%
+%    Setting |\hextrue|  will enable the hexagons. This  lengthens compile time
+%    significantly.
+%
+%    The principle is similar to the  |draft| option which is available in many
+%    document classes and  packages. Personally I do not tend to  use that much
+%    though because of  all the usual things which come  with |draft|, which is
+%    why I decided to implement a separate command.
+% \else
+%    Um  Zeit  zu  sparen  beim   Kompilieren,  kann  man  |\hexfalse|  in  der
+%    Pre\"aambel setzen. Dies f\"uhrt dazu,  dass die Hexagons im Kapitel-Style
+%    nicht gedruckt werden.
+%
+%    Den  Wert   |\hextrue|  zu  setzen, aktiviert die  Hexagons. Dies
+%    verl\"angert die Kompilierzeit bedeutend.
+%
+%    Das  Prinzip  ist  \"ahnlich  wie  die  in  vielen  Packages  und  Klassen
+%    verf\"ugbare |draft|-Option. Da  ich diese  jedoch f\"ur  meinen Geschmack
+%    im  Normalfall  etwas  viele  unerw\"unschte Seiteneffekte  hat,  ist  ein
+%    unabh\"angiger Switch implementiert.
+% \fi
 %^^A >>>
 %
+% \StopEventually{\PrintIndex}
 %^^A ------------------------------------------------------------------------- %
 %^^A IMPLEMENTATION <<<
 % \section{Implementation}
 % \label{sec:implementation}
 %
-% \StopEventually{\PrintIndex}
 %^^A -------------------------------------------------------- MEMOIR CONFIG %<<<
 %
+%^^A Loading the memoir Class %-------------------------------------------- %<<<
 % \ifenglish
 %    \subsection{Base Class: \memoir\ and Its Configuration}
 %    \label{subsec:memconfig}
@@ -233,7 +284,7 @@
 %    class are directly  passed on to \memoir\  via the |\LoadClassWithOptions|
 %    command.
 % \else
-%    \subsection{Basisklasse:\memoir\ und ihre Konfiguration}
+%    \subsection{Basisklasse: \memoir\ und ihre Konfiguration}
 %    \label{subsec:memconfig}
 %    Die  zugrundeliegende Klasse  ist \memoir. Alle  an \athes\  \"ubergebenen
 %    Optionen   werden   direkt   an   die   \memoir-Klasse   \"ubergeben   via
@@ -250,8 +301,10 @@
 % \iffalse
 %</class>
 % \fi
+%^^A>>>
+%^^A General Config % ------------------------------------------------------ <<<
 % \ifenglish
-%   \subsubsection{General Configuration} ^^A ----------------- General Config %
+%   \subsubsection{General Configuration}
 %   \label{subsubsec:nemoir:general-config}
 % \else
 %   \subsubsection{Allgemeine Konfiguration}
@@ -269,6 +322,8 @@
 % \iffalse
 %</class>
 % \fi
+%^^A>>>
+%^^A Page Layout %---------------------------------------------------------- <<<
 % \ifenglish
 %     \subsubsection{Page Layout} ^^A ---------------------------- Page Layout %
 %     \label{subsubsec:page-layout}
@@ -300,6 +355,8 @@
 % \iffalse
 %</class>
 % \fi
+%^^A>>>
+%^^A Sectional Title Formatting %------------------------------------------- <<<
 % \ifenglish
 %    \subsubsection{Sectional Title Fonts and Styles} ^^A ---- Sec Title Fonts %
 %    \label{subsubsec:title-fonts}
@@ -321,8 +378,10 @@
 % \iffalse
 %</class>
 % \fi
+%^^A>>>
+%^^A Headers and Footers % ------------------------------------------------- <<<
 % \ifenglish
-%   \subsubsection{Headers and Footers} ^^A -------------- Headers and Footers %
+%   \subsubsection{Headers and Footers}
 %   \label{subsubsec:headers-footers}
 % \else
 %   \subsubsection{Kopf- und Fusszeilen}
@@ -337,8 +396,10 @@
 % \iffalse
 %</class>
 % \fi
+%^^A>>>
+%^^A Captions % ------------------------------------------------------------ <<<
 % \ifenglish
-%   \subsubsection{Captions} ^^A ------------------------------------ Captions %
+%   \subsubsection{Captions}
 %   \label{subsubsec:captions}
 % \else
 %   \subsubsection{Legenden}
@@ -358,6 +419,220 @@
 % \iffalse
 %</class>
 % \fi
+%^^A>>>
+%^^A Chapter Styles % ------------------------------------------------------ <<<
+% \ifenglish
+%   \subsubsection{Chapter Style}
+%   \label{subsubsec:chapterstyle}
+% \else
+%   \subsubsection{Kapitel-Stil}
+%   \label{subsubsec:chapterstyle}
+% \fi
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\newif\ifhex
+\newcommand\setupfadings{%
+    \pgfmathsetmacro{\numberOfHorizSides}{12}%
+    \pgfmathtruncatemacro\numberOfHorizElements{%
+        round(\numberOfHorizSides * 5 / 4)}
+    \pgfmathsetmacro{\maxElementNumber}{\numberOfHorizSides - 1}%
+    \pgfmathsetmacro{\side}{0.5\paperwidth/\maxElementNumber}%
+    \pgfmathcos{30}%
+    \pgfmathsetmacro{\height}{\pgfmathresult * \side}%
+    \foreach \j in {0,...,\maxElementNumber}{%
+        \pgfmathsetmacro{\leftTransp} 
+            {100 * \j / \numberOfHorizSides}%
+        \pgfmathsetmacro{\rightTransp}
+            {100 * (\j+1) / \numberOfHorizSides}%
+        \tikzfading[%
+            name=hexfade \j,
+            right color=transparent!\rightTransp,
+            left color=transparent!\leftTransp]%
+    }%
+}
+\newcommand\hexagons{%
+    \setupfadings
+    \tikzset{external/export next=false}%
+    \begin{tikzpicture}[remember picture,overlay,x=1pt,y=1pt]
+        \pgfmathtruncatemacro\iterstop
+            {floor(\numberOfHorizElements / 2)}
+        \pgfmathtruncatemacro\iterstopvert
+            {floor(\numberOfHorizElements / 3 )}
+        \foreach \n in {0,...,\iterstopvert} {%
+            \foreach \m in {0,...,\iterstop} {%
+                \pgfmathtruncatemacro\k{round(\m + 1)}
+                \fill[br0,draw=br1,path fading=hexfade \k]
+                    ($(current page.north west) +
+                        (1.5 * \side + 3 * \m * \side,
+                            + 0.866025 * \side - \n * 1.732051 * \side)$)
+                    -- ++(   0:\side)
+                    -- ++( -60:\side)
+                    -- ++(-120:\side)
+                    -- ++(-180:\side)
+                    -- ++(-240:\side) -- cycle;
+                \fill[br0,draw=br1,path fading=hexfade \m]
+                    ($(current page.north west) +
+                        (0 * \side + 3 * \m * \side,
+                            -\n * 1.732051 * \side)$)
+                    -- ++(   0:\side)
+                    -- ++( -60:\side)
+                    -- ++(-120:\side)
+                    -- ++(-180:\side)
+                    -- ++(-240:\side) -- cycle;
+            }%
+        }%
+    \end{tikzpicture}%
+}
+\newcommand\chapnumhexagons{%
+    \setupfadings
+    \tikzset{external/export next=false}
+    \begin{tikzpicture}[remember picture,overlay,x=1pt,y=1pt]
+        \foreach \n in {1,...,\thechapter} {%
+            \pgfkeysgetvalue{/chapter \thechapter/hexagon \n/x}
+                {\randNumHoriz}
+            \pgfkeysgetvalue{/chapter \thechapter/hexagon \n/y}
+                {\randNumVert}
+            \pgfmathmod{\randNumHoriz}{2}
+            \pgfmathtruncatemacro\fadingIndex{floor(\randNumHoriz/2)}
+            \pgfmathsetmacro\offsetVert{\pgfmathresult}
+            \fill[dv-7,draw=br1,path fading=hexfade \fadingIndex]
+                ($(current page.north west) + 
+                    (1.5 * \randNumHoriz * \side,
+                        - 0.866025 * \offsetVert * \side 
+                        - \randNumVert * 1.732051 * \side)$)
+                -- ++(   0:\side)
+                -- ++( -60:\side)
+                -- ++(-120:\side)
+                -- ++(-180:\side)
+                -- ++(-240:\side) -- cycle;
+        }%
+    \end{tikzpicture}%
+}
+\newcommand\appendixnumhexagons{%
+    \setupfadings
+    \tikzset{external/export next=false}
+    \begin{tikzpicture}[remember picture,overlay,x=1pt,y=1pt]
+        \foreach \n in {A,...,\thechapter} {%
+            \pgfkeysgetvalue{/appendix \thechapter/hexagon \n/x}
+                {\randNumHoriz}
+            \pgfkeysgetvalue{/appendix \thechapter/hexagon \n/y}
+                {\randNumVert}
+            \pgfmathmod{\randNumHoriz}{2}
+            \pgfmathtruncatemacro\fadingIndex{floor(\randNumHoriz / 2)}
+            \pgfmathsetmacro\offsetVert{\pgfmathresult}
+            \fill[ct4,draw=br1,path fading=hexfade \fadingIndex]
+                ($(current page.north west) + 
+                    (1.5 * \randNumHoriz * \side,
+                        - 0.866025 * \offsetVert * \side 
+                        - \randNumVert * 1.732051 * \side)$)
+                -- ++(   0:\side)
+                -- ++( -60:\side)
+                -- ++(-120:\side)
+                -- ++(-180:\side)
+                -- ++(-240:\side) -- cycle;
+        }%
+    \end{tikzpicture}%
+}
+\newcommand\bottomscreen{%
+    \setupfadings
+    \tikzset{external/export next=false}%
+    \begin{tikzpicture}[remember picture,overlay,x=1pt,y=1pt]
+        \fill[white,path fading=north]%
+            ($(current page.north west) - (0pt, 10.5 * \side)$)
+            rectangle
+            ($(current page.north east) - (0pt,2 * \side)$);%
+    \end{tikzpicture}%
+}
+\newlength{\edgewidth}
+\makechapterstyle{alpenthesis}{%
+    % Lengths
+    \setlength{\afterchapskip}{40pt}%
+    \renewcommand*{\chapterheadstart}
+        {\ifhex\hexagons\fi\vspace*{40pt}}%
+    \renewcommand*{\afterchapternum}
+        {\par\nobreak\vskip 25pt}%
+    \setlength{\beforechapskip}{18mm}%
+    \setlength{\midchapskip}{\paperwidth}%
+    \addtolength{\midchapskip}{-\textwidth}%
+    \addtolength{\midchapskip}{-\spinemargin}%
+    % Fonts
+    \renewcommand*{\chapnamefont}
+        {\sffamily\LARGE\flushright}%
+    \renewcommand*{\chapnumfont}
+        {\sffamily\HUGE}%
+    \renewcommand*{\chaptitlefont}
+        {\sffamily\HUGE\flushright}%
+    % Output:
+    \renewcommand*\printchaptertitle{\chaptitlefont}%
+    \renewcommand*{\printchaptername}{%
+        \ifhex\chapnumhexagons\fi%
+        \bottomscreen%
+        \chapnamefont\MakeTextUppercase{\@chapapp}%
+    }%
+    \renewcommand*\printchapternonum{\bottomscreen}%
+    % What comes between chaptername and the number:
+    \renewcommand*{\chapternamenum}{}%
+    % Print chapter number etc.
+    \renewcommand*{\printchapternum}{%
+        \setlength{\edgewidth}{\marginparwidth}%
+        \addtolength{\edgewidth}{\marginparsep}%
+        \makebox[0pt][l]{%
+            \hspace{.8em}%
+            \resizebox{!}{\beforechapskip}
+                {\chapnumfont\thechapter}%
+            \hspace{.8em}%
+            %\rule{\midchapskip}{\beforechapskip}%
+        }%
+   }%
+   \makeoddfoot{plain}{}{}{\thepage}}%
+\makechapterstyle{alpenappendix}{%
+    % Lengths
+    \setlength{\afterchapskip}{40pt}%
+    \renewcommand*{\chapterheadstart}
+        {\ifhex\hexagons\fi\vspace*{40pt}}%
+    \renewcommand*{\afterchapternum}
+        {\par\nobreak\vskip 25pt}%
+    \setlength{\beforechapskip}{18mm}%
+    \setlength{\midchapskip}{\paperwidth}%
+    \addtolength{\midchapskip}{-\textwidth}%
+    \addtolength{\midchapskip}{-\spinemargin}%
+    % Fonts
+    \renewcommand*{\chapnamefont}
+        {\sffamily\LARGE\flushright}%
+    \renewcommand*{\chapnumfont}
+        {\sffamily\HUGE}%
+    \renewcommand*{\chaptitlefont}
+        {\sffamily\HUGE\flushright}%
+    % Output:
+    \renewcommand*\printchaptertitle{\chaptitlefont}%
+    \renewcommand*{\printchaptername}{%
+        \ifhex\appendixnumhexagons\fi%
+        \bottomscreen%
+        \chapnamefont\MakeTextUppercase{\@chapapp}%
+    }
+    \renewcommand*\printchapternonum{\bottomscreen}%
+    % What comes between chaptername and the number:
+    \renewcommand*{\chapternamenum}{}%
+    % Print chapter number etc.
+    \renewcommand*{\printchapternum}{%
+        \setlength{\edgewidth}{\marginparwidth}%
+        \addtolength{\edgewidth}{\marginparsep}%
+        \makebox[0pt][l]{%
+            \hspace{.8em}%
+            \resizebox{!}{\beforechapskip}
+                {\chapnumfont \thechapter}%
+            \hspace{.8em}%
+            %\rule{\midchapskip}{\beforechapskip}%
+        }%
+   }%
+   \makeoddfoot{plain}{}{}{\thepage}}%
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+%^^A>>>
 %^^A>>>
 %^^A ----------------------------------------------- GENERAL PACKAGE CONFIG %<<<
 % \ifenglish
@@ -412,7 +687,7 @@
 %         \rowtestcolor{da4} \\
 %         \midrule
 %         \multicolumn{8}{l}{\textsc{Bright}} \\
-%         \rowtestcolor{br0} & \rowtestcolor{br1} \\
+%         \rowtestcolor{br0} & \rowtestcolor{br1} & \rowtestcolor{br2} \\
 %         \midrule
 %         \multicolumn{8}{l}{\textsc{Contrast}} \\
 %         \rowtestcolor{ct0} & \rowtestcolor{ct1} & \rowtestcolor{ct2} & \rowtestcolor{ct3} \\
@@ -457,8 +732,9 @@
 \definecolor{ct4}{HTML}{2AA198}
 \definecolor{ct5}{HTML}{B58900}
 \definecolor{ct6}{HTML}{859900}
-\definecolor{br0}{HTML}{EEE8D5}
-\definecolor{br1}{HTML}{FDF6E3}
+\definecolor{br0}{HTML}{BEB9AA}
+\definecolor{br1}{HTML}{EEE8D5}
+\definecolor{br2}{HTML}{FDF6E3}
 \definecolor{sq0}{HTML}{F7FBFF}
 \definecolor{sq1}{HTML}{EFF3FF}
 \definecolor{sq2}{HTML}{DECDF7}
@@ -511,6 +787,12 @@
 % \fi
 %    \begin{macrocode}
 \RequirePackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{fadings}
+\RequirePackage{pgfplots}
+\pgfplotsset{compat=1.14}
+\usepgfplotslibrary{external}
+\tikzexternalize[prefix=cache/,optimize command away=\includepdf]
 %    \end{macrocode}
 % \iffalse
 %</class>
@@ -560,6 +842,7 @@
 \newcommand*\pacname[1]{\textsf{#1}}
 \newcommand*\code[1]{\texttt{#1}}
 \newcommand*\athes{\pacname{alpenthesis}}
+\input{randInts.tex}
 %    \end{macrocode}
 % \iffalse
 %</class>
@@ -576,12 +859,14 @@
 \documentclass[a4paper,11pt,oneside,showtrims]{alpenthesis}
 %\aiiistock
 \usepackage{lipsum}
+\hextrue
 
 %% ================================================================= SET TITLE %
 \title{My Thesis}
 \author{Raphael Frey \\[1ex]\href{https://github.com/alpenwasser/}
                                  {\nolinkurl{https://github.com/alpenwasser/}}}
 
+\chapterstyle{alpenthesis}
 %% ============================================================== END PREAMBLE %
 \begin{document}
 %% ============================================================= BEGIN CONTENT %
@@ -655,6 +940,16 @@ This section illustrates the  style of \verb|\section|, \verb|\subsection| and
 
 \lipsum[2]
 
+\appendix\chapterstyle{alpenappendix}
+\chapter{An Appendix Chapter}
+\lipsum[1-3]
+
+\chapter{Another Appendix Chapter}
+\lipsum[4-6]
+
+\backmatter
+\chapter{A Backmatter Chapter}
+\lipsum[7-9]
 
 %% ============================================================== END CONTENT %
 \end{document}

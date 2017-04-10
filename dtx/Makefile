@@ -13,6 +13,9 @@ default:
 	@cp $(CLASSNAME).cls ../
 	@cp $(EXAMPLE).tex ../
 
+example:
+	@pdflatex -shell-escape $(EXAMPLE)
+
 # Preserve PDF documents, template and class file.
 # This is what we might want to hand to an end user.
 tidy:
