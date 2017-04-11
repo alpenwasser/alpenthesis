@@ -221,6 +221,8 @@
 % \fi
 %
 % \DescribeMacro{\aiiistock}
+% \DescribeMacro{\showtrimson}
+% \DescribeMacro{\showtrimsoff}
 % \ifenglish
 %    Sets the  stock size to  A3 paper, keeping the  trimmed paper size  at A4,
 %    vertically and  horizontally centered. Prints trim  marks for the  A4 page
@@ -424,9 +426,11 @@
 % \ifenglish
 %   \subsubsection{Chapter Style}
 %   \label{subsubsec:chapterstyle}
+%   First, we set up the fadings for each hexagon column.
 % \else
 %   \subsubsection{Kapitel-Stil}
 %   \label{subsubsec:chapterstyle}
+%   Zuerst werden die Fadings f\"ur jede Hexagon-Spalte definiert.
 % \fi
 % \iffalse
 %<*class>
@@ -452,6 +456,19 @@
             left color=transparent!\leftTransp]%
     }%
 }
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \ifenglish
+% Print Hexagons: regular chapters
+% \else
+% Hexagons drucken f\"ur normale Kapitel.
+% \fi
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
 \newcommand\hexagons{%
     \setupfadings
     \tikzset{external/export next=false}%
@@ -807,11 +824,15 @@
 % \fi
 %    \begin{macrocode}
 \RequirePackage[%
+    pdfauthor=alpenwasser,
+    pdfsubject={LaTeX document design},
+    pdftitle={alpenwasser's thesis},
     bookmarksnumbered=true,
+    pdfkeywords={LaTeX,design,alpenwasser,thesis,class,hexagons},
     colorlinks=true,
-    linkcolor=cyan!50!blue,
-    citecolor=violet,
-    urlcolor=purple]{hyperref}
+    linkcolor=sqB,
+    citecolor=ct4,
+    urlcolor=dv-6]{hyperref}
 \RequirePackage[english]{babel}
 \RequirePackage{minted}
 \RequirePackage{tcolorbox}
@@ -927,6 +948,14 @@ floats courtesy of the \pacname{lipsum} package.
     \end{tabular}
 \end{center}
 
+This sentence refers to Table~\ref{tab:outside}.
+
+This is a citation \cite{testitem}.
+
+\href{https://hyperlink.com}{This is a hyperlink hiding behind text.}
+
+\href{https://hyperlink.com}{\nolinkurl{https://hyperlink.com}}
+
 \section{Sectional Headings}
 
 This section illustrates the  style of \verb|\section|, \verb|\subsection| and
@@ -951,6 +980,10 @@ This section illustrates the  style of \verb|\section|, \verb|\subsection| and
 \chapter{A Backmatter Chapter}
 \lipsum[7-9]
 
+\begin{thebibliography}{1}
+    \bibitem{testitem}
+        An Author, ``A Title``, 1979.
+\end{thebibliography}
 %% ============================================================== END CONTENT %
 \end{document}
 %</example>

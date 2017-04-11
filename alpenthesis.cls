@@ -294,11 +294,15 @@
 \usepgfplotslibrary{external}
 \tikzexternalize[prefix=cache/,optimize command away=\includepdf]
 \RequirePackage[%
+    pdfauthor=alpenwasser,
+    pdfsubject={LaTeX document design},
+    pdftitle={alpenwasser's thesis},
     bookmarksnumbered=true,
+    pdfkeywords={LaTeX,design,alpenwasser,thesis,class,hexagons},
     colorlinks=true,
-    linkcolor=cyan!50!blue,
-    citecolor=violet,
-    urlcolor=purple]{hyperref}
+    linkcolor=sqB,
+    citecolor=ct4,
+    urlcolor=dv-6]{hyperref}
 \RequirePackage[english]{babel}
 \RequirePackage{minted}
 \RequirePackage{tcolorbox}

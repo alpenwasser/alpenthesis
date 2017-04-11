@@ -38,6 +38,7 @@ tidy:
 	@rm -f $(EXAMPLE).log
 	@rm -f $(EXAMPLE).out
 	@rm -f $(EXAMPLE).toc
+	@rm -f $(EXAMPLE).auxlock
 	@ if [ -f $(CLASSNAME)-de.pdf ];then cp $(CLASSNAME)-de.pdf bak.$(CLASSNAME)-de.pdf;fi
 	@rm -f $(CLASSNAME)-de.*
 	@ if [ -f bak.$(CLASSNAME)-de.pdf ]; then mv bak.$(CLASSNAME)-de.pdf $(CLASSNAME)-de.pdf;fi

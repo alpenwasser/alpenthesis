@@ -68,6 +68,14 @@ floats courtesy of the \pacname{lipsum} package.
     \end{tabular}
 \end{center}
 
+This sentence refers to Table~\ref{tab:outside}.
+
+This is a citation \cite{testitem}.
+
+\href{https://hyperlink.com}{This is a hyperlink hiding behind text.}
+
+\href{https://hyperlink.com}{\nolinkurl{https://hyperlink.com}}
+
 \section{Sectional Headings}
 
 This section illustrates the  style of \verb|\section|, \verb|\subsection| and
@@ -92,5 +100,9 @@ This section illustrates the  style of \verb|\section|, \verb|\subsection| and
 \chapter{A Backmatter Chapter}
 \lipsum[7-9]
 
+\begin{thebibliography}{1}
+    \bibitem{testitem}
+        An Author, ``A Title``, 1979.
+\end{thebibliography}
 %% ============================================================== END CONTENT %
 \end{document}
