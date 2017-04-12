@@ -94,6 +94,35 @@ This section illustrates the  style of \verb|\section|, \verb|\subsection| and
 \lipsum[1-3]
 
 \chapter{Another Appendix Chapter}
+
+\tikzset{external/export next=false}%
+\begin{tcblisting}{%
+        title=This Is a Code Listing,
+        minted language=tex,
+        }
+    \begin{tabular}{ll}
+        a & a \\
+        a & a \\
+    \end{tabular}
+\end{tcblisting}
+
+\tikzset{external/export next=false}%
+\begin{tcolorbox}[title=test]
+    \lipsum[2]
+\end{tcolorbox}
+
+\tikzset{external/export next=false}%
+\begin{tcolorbox}
+    \lipsum[2]
+\end{tcolorbox}
+
+\chapter{Another Appendix Chapter}
+\lipsum[4-6]
+
+\chapter{Another Appendix Chapter}
+\lipsum[4-6]
+
+\chapter{Another Appendix Chapter}
 \lipsum[4-6]
 
 \backmatter

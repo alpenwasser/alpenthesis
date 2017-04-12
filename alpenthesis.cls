@@ -149,6 +149,7 @@
     % Lengths
     \setlength{\afterchapskip}{40pt}%
     \renewcommand*{\chapterheadstart}
+        %{\vspace*{40pt}}%
         {\ifhex\hexagons\fi\vspace*{40pt}}%
     \renewcommand*{\afterchapternum}
         {\par\nobreak\vskip 25pt}%
@@ -190,6 +191,7 @@
     % Lengths
     \setlength{\afterchapskip}{40pt}%
     \renewcommand*{\chapterheadstart}
+        %{\vspace*{40pt}}%
         {\ifhex\hexagons\fi\vspace*{40pt}}%
     \renewcommand*{\afterchapternum}
         {\par\nobreak\vskip 25pt}%
@@ -293,6 +295,65 @@
 \pgfplotsset{compat=1.14}
 \usepgfplotslibrary{external}
 \tikzexternalize[prefix=cache/,optimize command away=\includepdf]
+\RequirePackage{tcolorbox}
+\tcbuselibrary{minted}
+\tcbuselibrary{skins}
+\tcbset{%
+    colback=br2,
+    coltitle=br2,
+    colframe=da1,
+    fonttitle=\sffamily,
+    minted options={autogobble},
+    enhanced,
+    frame code={
+        \draw[very thick]
+               ([xshift=-3mm,yshift=+1mm]frame.north east)
+            -- ([xshift=+0mm,yshift=-2mm]frame.north east)
+            -- ([xshift=+0mm,yshift=+2mm]frame.south east)
+            -- ([xshift=-3mm,yshift=-1mm]frame.south east)
+            -- ([xshift=+3mm,yshift=-1mm]frame.south west)
+            -- ([xshift=-0mm,yshift=+2mm]frame.south west)
+            -- ([xshift=-0mm,yshift=-2mm]frame.north west)
+            -- ([xshift=+3mm,yshift=+1mm]frame.north west)
+            -- cycle;
+    },
+    interior titled code={%
+        \path[tcb fill interior]
+               ([xshift=-2.7mm,yshift=+1.3mm]interior.north east)
+            -- ([xshift=+0.3mm,yshift=-1.7mm]interior.north east)
+            -- ([xshift=+0.3mm,yshift=+1.7mm]interior.south east)
+            -- ([xshift=-2.7mm,yshift=-1.3mm]interior.south east)
+            -- ([xshift=+2.7mm,yshift=-1.3mm]interior.south west)
+            -- ([xshift=-0.3mm,yshift=+1.7mm]interior.south west)
+            -- ([xshift=-0.3mm,yshift=-1.7mm]interior.north west)
+            -- ([xshift=+2.7mm,yshift=+1.3mm]interior.north west)
+            -- cycle;
+    },
+    interior code={%
+        \path[tcb fill interior]
+               ([xshift=-2.7mm,yshift=+1.3mm]interior.north east)
+            -- ([xshift=+0.3mm,yshift=-1.7mm]interior.north east)
+            -- ([xshift=+0.3mm,yshift=+1.7mm]interior.south east)
+            -- ([xshift=-2.7mm,yshift=-1.3mm]interior.south east)
+            -- ([xshift=+2.7mm,yshift=-1.3mm]interior.south west)
+            -- ([xshift=-0.3mm,yshift=+1.7mm]interior.south west)
+            -- ([xshift=-0.3mm,yshift=-1.7mm]interior.north west)
+            -- ([xshift=+2.7mm,yshift=+1.3mm]interior.north west)
+            -- cycle;
+    },
+    title code={%
+        \path[tcb fill frame]
+               ([xshift=-3mm,yshift=+1mm]frame.north east)
+            -- ([xshift=+0mm,yshift=-2mm]frame.north east)
+            -- ([xshift=+0.3mm,yshift=-2mm]interior.north east)
+            -- ([xshift=-3mm,yshift=+1mm]interior.north east)
+            -- ([xshift=+3mm,yshift=+1mm]interior.north west)
+            -- ([xshift=-0.3mm,yshift=-2mm]interior.north west)
+            -- ([xshift=-0mm,yshift=-2mm]frame.north west)
+            -- ([xshift=+3mm,yshift=+1mm]frame.north west)
+            -- cycle;
+    }
+}
 \RequirePackage[%
     pdfauthor=alpenwasser,
     pdfsubject={LaTeX document design},
