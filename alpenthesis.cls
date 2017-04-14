@@ -306,6 +306,95 @@
         }%
    }%
    \makeoddfoot{plain}{}{}{\thepage}}%
+\newenvironment{hextitlingpage}{%
+    \begin{titlingpage}
+        \ifhex
+            \tikzset{external/export next=false}%
+            \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
+            %\begin{tikzpicture}[transform canvas={scale=0.6,xshift=-1cm,yshift=-1cm},remember picture,overlay,x=1cm,y=1cm]
+                \path[clip]
+                    (current page.north west)
+                    rectangle
+                    (current page.south east);
+
+                \pgfmathsetmacro\numberOfHorizSides{17}
+                \pgfmathtruncatemacro\numberOfHorizElements{17}
+                \pgfmathsetmacro\maxElementNumber{\numberOfHorizSides - 1}
+
+                \dimendef\referenceWidth=0
+                \pgfmathsetlength\referenceWidth{\paperwidth * 2.54 / 72}
+                \pgfmathsetmacro\side{0.5\referenceWidth/\maxElementNumber}
+
+                \dimendef\referenceHeight=0
+                \pgfmathsetlength\referenceHeight{\paperheight * 2.54 / 72}
+
+                \pgfmathcos{30}
+                \pgfmathsetmacro\height{\pgfmathresult * \side}
+
+                \pgfmathtruncatemacro\iterstophoriz
+                    {floor(\numberOfHorizElements / 2)}
+                \pgfmathtruncatemacro\iterstopvert{20}
+
+                \pgfmathsetmacro\side{0.5\referenceWidth/\maxElementNumber}
+
+                \foreach \n in {0,...,\iterstopvert} {%
+                    \foreach \m in {1,...,\iterstophoriz} {%
+                        \pgfmathtruncatemacro\k{round(\m + 1)}
+                        \fill[br1,draw=br2]
+                            ($(current page.north west) +
+                                (1.5 * \side + 3 * \m * \side,
+                                    + 0.866025 * \side - \n * 1.732051 * \side)$)
+                            -- ++(   0:\side)
+                            -- ++( -60:\side)
+                            -- ++(-120:\side)
+                            -- ++(-180:\side)
+                            -- ++(-240:\side) -- cycle;
+                        \fill[br1,draw=br2]
+                            ($(current page.north west) +
+                                (0 * \side + 3 * \m * \side,
+                                    -\n * 1.732051 * \side)$)
+                            -- ++(   0:\side)
+                            -- ++( -60:\side)
+                            -- ++(-120:\side)
+                            -- ++(-180:\side)
+                            -- ++(-240:\side) -- cycle;
+                    }%
+                    % Contrast Stripe
+                    % First column
+                    \fill[dv-7,draw=dv-6]
+                        ($(current page.north west) +
+                            (1.5 * \side + 3 * 0 * \side,
+                                + 0.866025 * \side - \n * 1.732051 * \side)$)
+                        -- ++(   0:\side)
+                        -- ++( -60:\side)
+                        -- ++(-120:\side)
+                        -- ++(-180:\side)
+                        -- ++(-240:\side) -- cycle;
+                    % Second column
+                    \fill[dv-7,draw=dv-6]
+                        ($(current page.north west) +
+                            (0 * \side + 3 * 0 \side,
+                                -\n * 1.732051 * \side)$)
+                        -- ++(   0:\side)
+                        -- ++( -60:\side)
+                        -- ++(-120:\side)
+                        -- ++(-180:\side)
+                        -- ++(-240:\side) -- cycle;
+                    % Third column
+                    \fill[dv-7,draw=dv-6]
+                        ($(current page.north west) +
+                            (0 * \side + 3 * 0 * \side,
+                                -\n * 1.732051 * \side)$)
+                        -- ++(   0:\side)
+                        -- ++( -60:\side)
+                        -- ++(-120:\side)
+                        -- ++(-180:\side)
+                        -- ++(-240:\side) -- cycle;
+                }%
+            \end{tikzpicture}%
+        \fi
+    }
+    {\end{titlingpage}}
 \RequirePackage[rmx,nott]{kpfonts}
 \RequirePackage[scaled=0.8125]{DejaVuSansMono}
 \RequirePackage[utf8]{inputenc}
