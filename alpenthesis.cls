@@ -33,18 +33,14 @@
 \newfixedcaption{\tabcaption}{table}
 \newif\ifhex
 \newif\ifpaper
-\newcommand\setupfadings{%
+\newcommand\alpth@setupfadings{%
     \pgfmathsetmacro{\numberOfHorizSides}{12}%
     \pgfmathtruncatemacro\numberOfHorizElements{%
         round(\numberOfHorizSides * 5 / 4)}
     \pgfmathsetmacro{\maxElementNumber}{\numberOfHorizSides - 1}%
-
     \dimendef\referenceWidth=0
     \pgfmathsetlength{\referenceWidth}{\paperwidth * 2.54 / 72}%
     \pgfmathsetmacro{\side}{0.5\referenceWidth/\maxElementNumber}%
-
-    %\pgfmathsetmacro{\side}{0.5\paperwidth/\maxElementNumber}%
-
     \pgfmathcos{30}%
     \pgfmathsetmacro{\height}{\pgfmathresult * \side}%
     \ifpaper
@@ -84,8 +80,8 @@
         }%
     \fi
 }
-\newcommand\hexagons{%
-    \setupfadings
+\newcommand\alpth@hexagons{%
+    \alpth@setupfadings
     \tikzset{external/export next=false}%
     \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
     %\begin{tikzpicture}[transform canvas={scale=0.6,xshift=-1cm,yshift=-1cm},remember picture,overlay,x=1cm,y=1cm]
@@ -100,7 +96,6 @@
                 rectangle
                 ($(current page.east) + (-0pt,0pt)$);
         \fi
-
         \pgfmathtruncatemacro\iterstop
             {floor(\numberOfHorizElements / 2)}
         \pgfmathtruncatemacro\iterstopvert
@@ -138,8 +133,8 @@
         }%
     \end{tikzpicture}%
 }
-\newcommand\chapnumhexagons{%
-    \setupfadings
+\newcommand\alpth@chapnumhexagons{%
+    \alpth@setupfadings
     \tikzset{external/export next=false}
     \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
     %\begin{tikzpicture}[transform canvas={scale=0.6,xshift=-1cm,yshift=-1cm},remember picture,overlay,x=1cm,y=1cm]
@@ -173,8 +168,8 @@
         }%
     \end{tikzpicture}%
 }
-\newcommand\appendixnumhexagons{%
-    \setupfadings
+\newcommand\alpth@appnumhexagons{%
+    \alpth@setupfadings
     \tikzset{external/export next=false}
     %\begin{tikzpicture}[transform canvas={scale=0.6,xshift=-1cm,yshift=-1cm},remember picture,overlay,x=1cm,y=1cm]
     \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
@@ -208,8 +203,8 @@
         }%
     \end{tikzpicture}%
 }
-\newcommand\bottomscreen{%
-    \setupfadings
+\newcommand\alpth@bottomscreen{%
+    \alpth@setupfadings
     \tikzset{external/export next=false}%
     \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
     %\begin{tikzpicture}[transform canvas={scale=0.6,xshift=-1cm,yshift=-1cm},remember picture,overlay,x=1cm,y=1cm]
@@ -232,7 +227,7 @@
     \setlength{\afterchapskip}{40pt}%
     \renewcommand*{\chapterheadstart}
         %{\vspace*{40pt}}%
-        {\ifhex\hexagons\fi\vspace*{40pt}}%
+        {\ifhex\alpth@hexagons\fi\vspace*{40pt}}%
     \renewcommand*{\afterchapternum}
         {\par\nobreak\vskip 25pt}%
     \setlength{\beforechapskip}{18mm}%
@@ -249,11 +244,11 @@
     % Output:
     \renewcommand*\printchaptertitle{\chaptitlefont}%
     \renewcommand*{\printchaptername}{%
-        \ifhex\chapnumhexagons\fi%
-        \bottomscreen%
+        \ifhex\alpth@chapnumhexagons\fi%
+        \alpth@bottomscreen%
         \chapnamefont\MakeTextUppercase{\@chapapp}%
     }%
-    \renewcommand*\printchapternonum{\bottomscreen}%
+    \renewcommand*\printchapternonum{\alpth@bottomscreen}%
     % What comes between chaptername and the number:
     \renewcommand*{\chapternamenum}{}%
     % Print chapter number etc.
@@ -274,7 +269,7 @@
     \setlength{\afterchapskip}{40pt}%
     \renewcommand*{\chapterheadstart}
         %{\vspace*{40pt}}%
-        {\ifhex\hexagons\fi\vspace*{40pt}}%
+        {\ifhex\alpth@hexagons\fi\vspace*{40pt}}%
     \renewcommand*{\afterchapternum}
         {\par\nobreak\vskip 25pt}%
     \setlength{\beforechapskip}{18mm}%
@@ -291,11 +286,11 @@
     % Output:
     \renewcommand*\printchaptertitle{\chaptitlefont}%
     \renewcommand*{\printchaptername}{%
-        \ifhex\appendixnumhexagons\fi%
-        \bottomscreen%
+        \ifhex\alpth@appnumhexagons\fi%
+        \alpth@bottomscreen%
         \chapnamefont\MakeTextUppercase{\@chapapp}%
     }
-    \renewcommand*\printchapternonum{\bottomscreen}%
+    \renewcommand*\printchapternonum{\alpth@bottomscreen}%
     % What comes between chaptername and the number:
     \renewcommand*{\chapternamenum}{}%
     % Print chapter number etc.

@@ -53,6 +53,7 @@
 \usepackage{tikz}
 \usepackage{alpencolors}
 \usepackage{booktabs}
+\usepackage{minted}
 % ------------------------------------------ HELPER MACROS %
 \newcommand*\pacname[1]{\textsf{#1}}
 \newcommand*\code[1]{\texttt{#1}}
@@ -80,7 +81,7 @@
 % \DoNotIndex{\trimtop}
 % \DoNotIndex{\@chapapp,\addtodef,\afterchapskip,\afterchapternum}
 % \DoNotIndex{\athes,\beforechapskip,\begin,\end}
-% \DoNotIndex{\bottomscreen,\chapnamefont,\chapnumfont}
+% \DoNotIndex{\alpth@bottomscreen,\chapnamefont,\chapnumfont}
 % \DoNotIndex{\chapterheadstart,\chapternamenum,\chaptitlefont}
 % \DoNotIndex{\edgewidth,\fadingIndex,\fi,\fill,\flushright,\foreach}
 % \DoNotIndex{\globalcolorstrue,\height,\hspace,\HUGE,\includepdf}
@@ -423,35 +424,113 @@
 % \fi
 %^^A>>>
 %^^A Chapter Styles % ------------------------------------------------------ <<<
+% \color{black}
 % \ifenglish
 %   \subsubsection{Chapter Style}
 %   \label{subsubsec:chapterstyle}
-%   First, we set up the fadings for each hexagon column.
+%    The chapters are styled with grid of hexagons whose color is faded towards
+%    the right sight of the page and towards the bottom. There are two versions
+%    of  this  mechanisms: One for  printing,  activated  via the  |\papertrue|
+%    switch, and  one for  the electronic document  version, activated  via the
+%    |\paperfalse| switch (or no switch at all).
+%
+%    The  reason for  the two  implementation is  that the  electronic  version
+%    uses  fadings  and   transparency,  which  can  cause   issues  with  some
+%    printers\footnotemark.  Therefore,  instead of fadings, the  print version
+%    uses  hexagons which  have slightly  differing colors, but each  hexagon's
+%    color is  uniform. This does  not look  quite as nice  on the  screen, but
+%    printing results have been satisfactory for  me so far, though obviously I
+%    would prefer the faded version to just work. Your mileage may vary.
+%
+%    \footnotetext{%
+%        I have had a  Canon printer do a hard reset while  trying to print the
+%        faded version from a USB  stick plugged into the  printer. Our Kyocera
+%        printer simply  printed a black bar  instead of hexagons when  I tried
+%        doing the same.}
+%
+%    First, we define the two booleans  for enabling and disabling the hexagons
+%    and the print version, respectively:
 % \else
 %   \subsubsection{Kapitel-Stil}
 %   \label{subsubsec:chapterstyle}
-%   Zuerst werden die Fadings f\"ur jede Hexagon-Spalte definiert.
+%    Die  Kapitel  werden  mit  einem  Gitter  von  Hexagons  dekoriert,  deren
+%    Farbe  gegen rechts  und gegen  unten  verblasst in  Richtung weiss  (bzw.
+%    transparent). Es gibt  zwei Verianten  dieses Mechanismus: Eine  f\"ur die
+%    elektronische  Version,  welche  die   Standardeinstellung  ist  oder  mit
+%    |\paperfalse| explizit aktiviert  werden kann, und eine  Version f\"ur den
+%    Druck, welche mit |\papertrue| aktiviert wird.
+%
+%    Der  Grund   f\"ur  die   zwei  unterschiedlichen   Implementationen  ist,
+%    dass   Drucker    h\"aufig   Probleme   mit   Transparenz    und   Fadings
+%    haben\footnotemark. Die   Druckversion   benutzt   daher   statt   Fadings
+%    unterschiedliche  Farben f\"ur  die Hexagons,  wobei jedoch  jedes Hexagon
+%    eine  uniforme Farbe  hat. Dies  sieht  nicht ganz  so  nett  aus auf  dem
+%    Bildschirm,  aber  Druckresultate  waren   bisher  ganz  gut,  obwohl  ich
+%    es  nat\"urlich  bevorzugen  w\"urde,  wenn  die  Fading-Variante  einfach
+%    funktionieren w\"urde. Your mileage may vary.
+%
+%    \footnotetext{%
+%        Ich habe  bei einem Canon-Drucker  erlebt, dass er einen  harten Reset
+%        machte,  als ich  versuchte, das  Dokument mit  Transparenz von  einem
+%        USB-Stick  zu drucken,  der direkt  am Drucker  eingesteckt war. Unser
+%        Kyocera-Drucker  druckte  statt  der   Hexagons  einach  einen  dicken
+%        schwarzen Balken beim selben Versuch.}
+%
+%    Zuerst  definieren  wir  die  beiden Booleans  f\"ur  das  Aktivieren  der
+%    Hexagons und der Druckversion:
 % \fi
+% \color{sqB}
 % \iffalse
 %<*class>
 % \fi
 %    \begin{macrocode}
 \newif\ifhex
 \newif\ifpaper
-\newcommand\setupfadings{%
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \color{black}
+% \ifenglish
+%    The |\alpth@setupfadings| command first calculates the number of hexagons in the
+%    horizontal direction and how large one hexagon must be:
+% \else
+%    Das  |\alpth@setupfadings|-Macro berechnet  zuerst  die Anzahl  der Hexagons  in
+%    horizontaler Richtung, und wie gross ein Hexagon sein darf:
+% \fi
+% \color{sqB}
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\newcommand\alpth@setupfadings{%
     \pgfmathsetmacro{\numberOfHorizSides}{12}%
     \pgfmathtruncatemacro\numberOfHorizElements{%
         round(\numberOfHorizSides * 5 / 4)}
     \pgfmathsetmacro{\maxElementNumber}{\numberOfHorizSides - 1}%
-
     \dimendef\referenceWidth=0
     \pgfmathsetlength{\referenceWidth}{\paperwidth * 2.54 / 72}%
     \pgfmathsetmacro{\side}{0.5\referenceWidth/\maxElementNumber}%
-
-    %\pgfmathsetmacro{\side}{0.5\paperwidth/\maxElementNumber}%
-
     \pgfmathcos{30}%
     \pgfmathsetmacro{\height}{\pgfmathresult * \side}%
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \color{black}
+% \ifenglish
+%    If the print version is to be generated, a uniform color for each hexagon,
+%    depending on its horizontal and vertical position, is calculated:
+% \else
+%    Falls  die Druckversion  erstellt werden  soll, wird  eine uniforme  Farbe
+%    f\"ur  jedes Hexagon,  abh\"angig von  seiner horizontalen  und vertikalen
+%    Position, generiert:
+% \fi
+% \color{sqB}
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
     \ifpaper
         \pgfmathtruncatemacro\iterstopvert
             {floor(\numberOfHorizElements / 2.5 )}
@@ -476,6 +555,43 @@
             \pgfmathsetmacro\appNumeric{\appNumeric + 1}
             \colorlet{appcol\j}{white!\mix!ct4}%
         }%
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \color{black}
+% \ifenglish
+%    For the  electronic version,  fadings are used  instead. Unfortunately, we
+%    cannot simply have one global fading  which applies to all hexagons (since
+%    each hexagon is  a single path)\footnotemark, so one  fading is calculated
+%    for each  hexagon based  on its  horizontal position. The  vertical fading
+%    effect is later achieved by  overlaying a white-to-transparent screen from
+%    the grid's bottom edge. Maybe one day I'll figure out how to combine these
+%    into one single and nice step.
+%
+%    \footnotetext{%
+%        Or more accurately: I  have not been able to find  a way to accomplish
+%        this.}
+% \else
+%    F\"ur die elektronische Version werden stattdessen Fadings benutzt. Leider
+%    kann  nicht  einfach   ein  globales  Fading  definiert   und  \"uber  das
+%    gesamte  Gitter  gelegt  werden  (da   jedes  einzelne  Hexagon  ein  Pfad
+%    ist)\footnotemark, deshalb  wird f\"ur jedes Hexagon  ein Fading bestimmt,
+%    abh\"angig  von   der  horizontalen  Position  im   Gitter. Der  vertikale
+%    Fading-Effekt  wird  mit   einem  weiss-zu-transparenten  Fading  erzeugt,
+%    welches dem gesamten Gitter  von unten \"uberlagert wird. Vielleicht finde
+%    ich  eines  Tages eine  clevere  Variante,  die  beiden Effekte  in  einen
+%    einzelnen, eleganten Schritt zu kombinieren.
+%
+%    \footnotetext{%
+%        Oder genauer  gesagt: Ich habe  bisher nicht herausgefunden,  wie dies
+%        m\"oglich w\"are.}
+% \fi
+% \color{sqB}
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
     \else
         \foreach \j in {0,...,\maxElementNumber}{%
             \pgfmathsetmacro{\leftTransp} 
@@ -493,20 +609,39 @@
 % \iffalse
 %</class>
 % \fi
+% \color{black}
 % \ifenglish
-% Print Hexagons: regular chapters
+%    The  |\alpth@hexagons|  command prints  the  background  hexagon grid  for
+%    numbered chapters, appendix chapters and unnumbered chapters.
 % \else
-% Hexagons drucken f\"ur normale Kapitel.
+%    Der  |\alpth@hexagons|-Befehl druckt  das  Hintergrundgitter mit  Hexagons
+%    f\"ur numerierte und unnumerierte Kapitel sowie Kapitel im Appendix.
 % \fi
+% \color{sqB}
 % \iffalse
 %<*class>
 % \fi
 %    \begin{macrocode}
-\newcommand\hexagons{%
-    \setupfadings
+\newcommand\alpth@hexagons{%
+    \alpth@setupfadings
     \tikzset{external/export next=false}%
     \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
     %\begin{tikzpicture}[transform canvas={scale=0.6,xshift=-1cm,yshift=-1cm},remember picture,overlay,x=1cm,y=1cm]
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \color{black}
+% \ifenglish
+%    Remove anything that is outside the page.
+% \else
+%    Allen Inhalt entfernen, der ausserhalb der Seite liegt.
+% \fi
+% \color{sqB}
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
         \ifpaper
             \path[clip] 
                 ($(current page.north west) + (0pt,-0pt)$)
@@ -518,7 +653,21 @@
                 rectangle 
                 ($(current page.east) + (-0pt,0pt)$);
         \fi
-
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \color{black}
+% \ifenglish
+%    Determine the number of horizontal and vertical hexagons.
+% \else
+%    Die Anzahl Hexagons in horizontaler und vertikaler Richtung bestimmen.
+% \fi
+% \color{sqB}
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
         \pgfmathtruncatemacro\iterstop
             {floor(\numberOfHorizElements / 2)}
         \pgfmathtruncatemacro\iterstopvert
@@ -526,6 +675,23 @@
         \foreach \n in {0,...,\iterstopvert} {%
             \foreach \m in {0,...,\iterstop} {%
                 \pgfmathtruncatemacro\k{round(\m + 1)}
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \color{black}
+% \ifenglish
+%    In the horizontal direction, the rows of hexagons are offset by half a hexagon's
+%    height. Therefore, in each loop iteration, we print a pair of offset hexagons.
+% \else
+%    In horizontaler Richtung sind die Hexagons um eine halbe H\"ohe versetzt. Daher
+%    werden in jeder Loop-Iteration zwei versetzte Hexagons gedruckt.
+% \fi
+% \color{sqB}
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
                 \ifpaper
                     \fill[hex-\k-\n,draw=hexframecol-\k-\n]
                 \else
@@ -556,8 +722,28 @@
         }%
     \end{tikzpicture}%
 }
-\newcommand\chapnumhexagons{%
-    \setupfadings
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \color{black}
+% \ifenglish
+%    The |\alpth@chapnumhexagons| command prints a number of hexagon colored in
+%    a  contrast  color. The number  of  hexagons  corresponds to  the  current
+%    chapter  number. This command  is  therefore not  executed for  unnumbered
+%    chapters.
+% \else
+%    Der    |\alpth@chapnumhexagons|-Befehl    druckt   Hexagons    in    einer
+%    Kontrastfarbe, deren Anzahl  der aktuellen Kapitelnummer entspricht. F\"ur
+%    unnumerierte Kapitel wird dieser Befehl nat\"urlich nicht ausgef\"uhrt.
+% \fi
+% \color{sqB}
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\newcommand\alpth@chapnumhexagons{%
+    \alpth@setupfadings
     \tikzset{external/export next=false}
     \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
     %\begin{tikzpicture}[transform canvas={scale=0.6,xshift=-1cm,yshift=-1cm},remember picture,overlay,x=1cm,y=1cm]
@@ -591,8 +777,28 @@
         }%
     \end{tikzpicture}%
 }
-\newcommand\appendixnumhexagons{%
-    \setupfadings
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \color{black}
+% \ifenglish
+%    The |\alpth@chapnumhexagons| command does the same thing for the appendix,
+%    but  with a  different color. Also,  the iteration  loop must  be adjusted
+%    because appendix chapters are numbered with letters.
+% \else
+%    Der |\alpth@chapnumhexagons|-Befehl macht das  Gleiche f\"ur den Appendix,
+%    jedoch  mit einer  anderen Farbe. Ebenfalls  muss die  |\foreach|-Schleife
+%    angepasst  werden, da  Kapitel  im Appendix  mit  Buchstaben statt  Zahlen
+%    nummeriert sind.
+% \fi
+% \color{sqB}
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\newcommand\alpth@appnumhexagons{%
+    \alpth@setupfadings
     \tikzset{external/export next=false}
     %\begin{tikzpicture}[transform canvas={scale=0.6,xshift=-1cm,yshift=-1cm},remember picture,overlay,x=1cm,y=1cm]
     \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
@@ -626,8 +832,47 @@
         }%
     \end{tikzpicture}%
 }
-\newcommand\bottomscreen{%
-    \setupfadings
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \color{black}
+% \ifenglish
+%    |\alpth@bottomscreen|  creates   a  screen  which  fades   from  white  to
+%    transparent from below to top and  is overlaid on the hexagon grid's lower
+%    edge. This results in the hexagon grid  being faded both towards the right
+%    and towards the bottom.
+%
+%    This is not very elegant in my  humble opinion, but all attempts to remove
+%    this command  and create  an angled  fading (which,  according to  the PGF
+%    manual, should actually be possible) have failed so far.
+%
+%    In the  case of the  paper version, the  command simply clips  the hexagon
+%    grid at  its lower edge. No bottom  screen is needed in  that case because
+%    the hexagon colors already take the bidirectionality into account.
+% \else
+%    |\alpth@bottomscreen| erzeugt  einen Schirm, der von  weiss zu transparent
+%    faded von  unten nach oben,  und am  unteren Ende \"uber  das Hexagon-Grid
+%    gelegt wird. Dies erzeugt den Effekt  eines Hexagon-Grids, welches in zwei
+%    Richtungen (nach rechts und nach unten) gefaded wird.
+%
+%    Es  ist   nicht  wirklich  ein   sehr  eleganter  Mechanismus   in  meinen
+%    Augen. Allerdings bin  ich an  allen Versuchen,  diese Bidirektionalit\"at
+%    direkt  in  den  Fadings  der Hexagons  zu  ber\"ucksichtigen,  kl\"aglich
+%    gescheitert  (eigentlich  sollte  das  Erzeugen  von  gewinkelten  Fadings
+%    gem\"ass PGF-Manual m\"oglich sein).
+%
+%    Bei der Papierversion schneidet dieser  Befehl einfach das Hexagon-Grid am
+%    unteren Ende ab. Da die Bidirektionalit\"at der Farben in dem Fall bereits
+%    in den Hexagon-Farben ber\"ucksichtigt wird, ist nicht mehr erforderlich.
+% \fi
+% \color{sqB}
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\newcommand\alpth@bottomscreen{%
+    \alpth@setupfadings
     \tikzset{external/export next=false}%
     \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
     %\begin{tikzpicture}[transform canvas={scale=0.6,xshift=-1cm,yshift=-1cm},remember picture,overlay,x=1cm,y=1cm]
@@ -644,13 +889,30 @@
         \fi
     \end{tikzpicture}%
 }
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \color{black}
+% \ifenglish
+%    The actual  |chapterstyle| code  is loosely  based on  the \emph{veelo}
+%    chapterstyle from the \pacname{memoir} class.
+% \else
+%    Der    eigentliche    |chapterstyle|-Code    basiert    lose    auf    dem
+%    \emph{veelo}-Stil aus der \pacname{memoir}-Klasse.
+% \fi
+% \color{sqB}
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
 \newlength{\edgewidth}
 \makechapterstyle{alpenthesis}{%
     % Lengths
     \setlength{\afterchapskip}{40pt}%
     \renewcommand*{\chapterheadstart}
         %{\vspace*{40pt}}%
-        {\ifhex\hexagons\fi\vspace*{40pt}}%
+        {\ifhex\alpth@hexagons\fi\vspace*{40pt}}%
     \renewcommand*{\afterchapternum}
         {\par\nobreak\vskip 25pt}%
     \setlength{\beforechapskip}{18mm}%
@@ -667,11 +929,11 @@
     % Output:
     \renewcommand*\printchaptertitle{\chaptitlefont}%
     \renewcommand*{\printchaptername}{%
-        \ifhex\chapnumhexagons\fi%
-        \bottomscreen%
+        \ifhex\alpth@chapnumhexagons\fi%
+        \alpth@bottomscreen%
         \chapnamefont\MakeTextUppercase{\@chapapp}%
     }%
-    \renewcommand*\printchapternonum{\bottomscreen}%
+    \renewcommand*\printchapternonum{\alpth@bottomscreen}%
     % What comes between chaptername and the number:
     \renewcommand*{\chapternamenum}{}%
     % Print chapter number etc.
@@ -687,12 +949,29 @@
         }%
    }%
    \makeoddfoot{plain}{}{}{\thepage}}%
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \color{black}
+% \ifenglish
+%   The appendix  needs its own  style. It's mostly identical, except  for the
+%   numbering hexagons.
+% \else
+%   Der Anhang erh\"alt seinen eigenen Stil. Beinahe identisch mit dem normalen
+%   Stil, mit der \"andering f\"ur die Nummerierungs-Hexagons.
+% \fi
+% \color{sqB}
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
 \makechapterstyle{alpenappendix}{%
     % Lengths
     \setlength{\afterchapskip}{40pt}%
     \renewcommand*{\chapterheadstart}
         %{\vspace*{40pt}}%
-        {\ifhex\hexagons\fi\vspace*{40pt}}%
+        {\ifhex\alpth@hexagons\fi\vspace*{40pt}}%
     \renewcommand*{\afterchapternum}
         {\par\nobreak\vskip 25pt}%
     \setlength{\beforechapskip}{18mm}%
@@ -709,11 +988,11 @@
     % Output:
     \renewcommand*\printchaptertitle{\chaptitlefont}%
     \renewcommand*{\printchaptername}{%
-        \ifhex\appendixnumhexagons\fi%
-        \bottomscreen%
+        \ifhex\alpth@appnumhexagons\fi%
+        \alpth@bottomscreen%
         \chapnamefont\MakeTextUppercase{\@chapapp}%
     }
-    \renewcommand*\printchapternonum{\bottomscreen}%
+    \renewcommand*\printchapternonum{\alpth@bottomscreen}%
     % What comes between chaptername and the number:
     \renewcommand*{\chapternamenum}{}%
     % Print chapter number etc.
@@ -733,6 +1012,7 @@
 % \iffalse
 %</class>
 % \fi
+% \color{black}
 %^^A>>>
 %^^A>>>
 %^^A ----------------------------------------------- GENERAL PACKAGE CONFIG %<<<
@@ -1036,8 +1316,8 @@
 \documentclass[a4paper,11pt,oneside,showtrims]{alpenthesis}
 %\aiiistock
 \usepackage{lipsum}
-\hextrue
-\papertrue
+\hexfalse
+\paperfalse
 
 %% ================================================================= SET TITLE %
 \title{My Thesis}
