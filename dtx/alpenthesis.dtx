@@ -1458,7 +1458,40 @@
 \begin{document}
 %% ============================================================= BEGIN CONTENT %
 \begin{hextitlingpage}
-    \hfill{Author Name}
+    \tikzset{external/export next=false}%
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[anchor=north east,yshift=-5mm,xshift=-10mm]
+            at (current page.north east)
+            {\includegraphics[height=10mm]{logo-top.pdf}};
+    \end{tikzpicture}
+    \tikzset{external/export next=false}%
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[anchor=south east,yshift=+5mm,xshift=-10mm]
+            at (current page.south east)
+            {\includegraphics[height=16mm]{logo-bottom.pdf}};
+    \end{tikzpicture}
+    \flushright\sffamily
+
+    \vspace{3ex}
+    \Huge\bfseries{A Mostly Appropriate Title}\\[1ex]
+    \Large\mdseries{Thesis}\\[3ex]
+
+    \normalsize\mdseries 
+
+    alpenwasser\\
+    team partner\\[3ex]
+
+    Supervisor\\
+    Expert\\
+
+    \vfill
+
+    \includegraphics[width=120mm]{titlepic.jpg}
+
+    \vfill
+
+    \today\\
+    Version 1.0.0
 \end{hextitlingpage}
 \frontmatter
 \tableofcontents*
