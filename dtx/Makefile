@@ -1,6 +1,7 @@
 CLASSNAME := alpenthesis
 EXAMPLE := example
 COLORPACKAGE := alpencolors
+TIKZCACHE := cache
 
 default:
 	@latex $(CLASSNAME).ins
@@ -9,6 +10,7 @@ default:
 	@mv $(CLASSNAME).pdf $(CLASSNAME)-en.pdf
 	@pdflatex -shell-escape $(CLASSNAME)-de.tex
 	@makeindex -s gind.ist -o $(CLASSNAME)-de.ind $(CLASSNAME)-de.idx
+	@mkdir -p $(TIKZCACHE)
 	@pdflatex -shell-escape $(EXAMPLE)
 	@cp $(CLASSNAME).cls ../
 	@cp $(EXAMPLE).tex ../
@@ -50,4 +52,5 @@ clean: tidy
 	@rm -f $(CLASSNAME)-en.pdf
 	@rm -f $(CLASSNAME)-de.pdf
 	@rm -f $(CLASSNAME).cls
+	@rm -rf $(TIKZCACHE)
 	@rm -f $(EXAMPLE).*

@@ -32,29 +32,68 @@
 \newfixedcaption{\figcaption}{figure}
 \newfixedcaption{\tabcaption}{table}
 \newif\ifhex
+\newif\ifpaper
 \newcommand\setupfadings{%
     \pgfmathsetmacro{\numberOfHorizSides}{12}%
     \pgfmathtruncatemacro\numberOfHorizElements{%
         round(\numberOfHorizSides * 5 / 4)}
     \pgfmathsetmacro{\maxElementNumber}{\numberOfHorizSides - 1}%
-    \pgfmathsetmacro{\side}{0.5\paperwidth/\maxElementNumber}%
+
+    \dimendef\referenceWidth=0
+    \pgfmathsetlength{\referenceWidth}{\paperwidth * 2.54 / 72}%
+    \pgfmathsetmacro{\side}{0.5\referenceWidth/\maxElementNumber}%
+
+    %\pgfmathsetmacro{\side}{0.5\paperwidth/\maxElementNumber}%
+
     \pgfmathcos{30}%
     \pgfmathsetmacro{\height}{\pgfmathresult * \side}%
-    \foreach \j in {0,...,\maxElementNumber}{%
-        \pgfmathsetmacro{\leftTransp}
-            {100 * \j / \numberOfHorizSides}%
-        \pgfmathsetmacro{\rightTransp}
-            {100 * (\j+1) / \numberOfHorizSides}%
-        \tikzfading[%
-            name=hexfade \j,
-            right color=transparent!\rightTransp,
-            left color=transparent!\leftTransp]%
-    }%
+    \ifpaper
+        \pgfmathtruncatemacro\iterstopvert
+            {floor(\numberOfHorizElements / 2.5 )}
+        \foreach \k in {0,...,\iterstopvert} {%
+            \foreach \j in {0,...,\maxElementNumber}{%
+                \pgfmathsetmacro{\mix}
+                    {100 * \j / \numberOfHorizElements}%
+                \pgfmathsetmacro{\mixvert}
+                    {100 * \k / \iterstopvert}%
+                \colorlet{hex-\j}{white!\mix!br0}%
+                \colorlet{hex-\j-\k}{white!\mixvert!hex-\j}%
+                \colorlet{hexframecol-\j}{white!\mix!br2}%
+                \colorlet{hexframecol-\j-\k}{white!\mixvert!hexframecol-\j}%
+                \colorlet{chapcol\j}{white!\mix!dv-7}%
+                \colorlet{appcol\j}{white!\mix!ct4}%
+            }%
+        }%
+    \else
+        \foreach \j in {0,...,\maxElementNumber}{%
+            \pgfmathsetmacro{\leftTransp}
+                {100 * \j / \numberOfHorizSides}%
+            \pgfmathsetmacro{\rightTransp}
+                {100 * (\j+1) / \numberOfHorizSides}%
+            \tikzfading[%
+                name=hexfade \j,
+                right color=transparent!\rightTransp,
+                left color=transparent!\leftTransp]%
+        }%
+    \fi
 }
 \newcommand\hexagons{%
     \setupfadings
     \tikzset{external/export next=false}%
-    \begin{tikzpicture}[remember picture,overlay,x=1pt,y=1pt]
+    \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
+    %\begin{tikzpicture}[transform canvas={scale=0.6,xshift=-1cm,yshift=-1cm},remember picture,overlay,x=1cm,y=1cm]
+        \ifpaper
+            \path[clip]
+                ($(current page.north west) + (0pt,-0pt)$)
+                rectangle
+                ($(current page.north east) + (-0pt,-11 * \height)$);
+        \else
+            \path[clip]
+                ($(current page.north west) + (0pt,-0pt)$)
+                rectangle
+                ($(current page.east) + (-0pt,0pt)$);
+        \fi
+
         \pgfmathtruncatemacro\iterstop
             {floor(\numberOfHorizElements / 2)}
         \pgfmathtruncatemacro\iterstopvert
@@ -62,7 +101,11 @@
         \foreach \n in {0,...,\iterstopvert} {%
             \foreach \m in {0,...,\iterstop} {%
                 \pgfmathtruncatemacro\k{round(\m + 1)}
-                \fill[br0,draw=br1,path fading=hexfade \k]
+                \ifpaper
+                    \fill[hex-\k-\n,draw=hexframecol-\k-\n]
+                \else
+                    \fill[br0,draw=br1,path fading=hexfade \k]
+                \fi
                     ($(current page.north west) +
                         (1.5 * \side + 3 * \m * \side,
                             + 0.866025 * \side - \n * 1.732051 * \side)$)
@@ -71,7 +114,11 @@
                     -- ++(-120:\side)
                     -- ++(-180:\side)
                     -- ++(-240:\side) -- cycle;
-                \fill[br0,draw=br1,path fading=hexfade \m]
+                \ifpaper
+                    \fill[hex-\k-\n,draw=hexframecol-\k-\n]
+                \else
+                    \fill[br0,draw=br1,path fading=hexfade \m]
+                \fi
                     ($(current page.north west) +
                         (0 * \side + 3 * \m * \side,
                             -\n * 1.732051 * \side)$)
@@ -87,7 +134,13 @@
 \newcommand\chapnumhexagons{%
     \setupfadings
     \tikzset{external/export next=false}
-    \begin{tikzpicture}[remember picture,overlay,x=1pt,y=1pt]
+    \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
+    %\begin{tikzpicture}[transform canvas={scale=0.6,xshift=-1cm,yshift=-1cm},remember picture,overlay,x=1cm,y=1cm]
+        \path[clip]
+            ($(current page.north west) + (0pt,-0pt)$)
+            rectangle
+            ($(current page.east) + (-0pt,0pt)$);
+
         \foreach \n in {1,...,\thechapter} {%
             \pgfkeysgetvalue{/chapter \thechapter/hexagon \n/x}
                 {\randNumHoriz}
@@ -96,7 +149,11 @@
             \pgfmathmod{\randNumHoriz}{2}
             \pgfmathtruncatemacro\fadingIndex{floor(\randNumHoriz/2)}
             \pgfmathsetmacro\offsetVert{\pgfmathresult}
-            \fill[dv-7,draw=br1,path fading=hexfade \fadingIndex]
+            \ifpaper
+                \fill[chapcol\n,draw=br1]
+            \else
+                \fill[dv-7,draw=br1,path fading=hexfade \fadingIndex]
+            \fi
                 ($(current page.north west) +
                     (1.5 * \randNumHoriz * \side,
                         - 0.866025 * \offsetVert * \side
@@ -112,7 +169,13 @@
 \newcommand\appendixnumhexagons{%
     \setupfadings
     \tikzset{external/export next=false}
-    \begin{tikzpicture}[remember picture,overlay,x=1pt,y=1pt]
+    %\begin{tikzpicture}[transform canvas={scale=0.6,xshift=-1cm,yshift=-1cm},remember picture,overlay,x=1cm,y=1cm]
+    \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
+        \path[clip]
+            ($(current page.north west) + (0pt,-0pt)$)
+            rectangle
+            ($(current page.east) + (-0pt,0pt)$);
+
         \foreach \n in {A,...,\thechapter} {%
             \pgfkeysgetvalue{/appendix \thechapter/hexagon \n/x}
                 {\randNumHoriz}
@@ -121,7 +184,11 @@
             \pgfmathmod{\randNumHoriz}{2}
             \pgfmathtruncatemacro\fadingIndex{floor(\randNumHoriz / 2)}
             \pgfmathsetmacro\offsetVert{\pgfmathresult}
-            \fill[ct4,draw=br1,path fading=hexfade \fadingIndex]
+            \ifpaper
+                \fill[appcol\n,draw=br1]
+            \else
+                \fill[ct4,draw=br1,path fading=hexfade \fadingIndex]
+            \fi
                 ($(current page.north west) +
                     (1.5 * \randNumHoriz * \side,
                         - 0.866025 * \offsetVert * \side
@@ -137,11 +204,19 @@
 \newcommand\bottomscreen{%
     \setupfadings
     \tikzset{external/export next=false}%
-    \begin{tikzpicture}[remember picture,overlay,x=1pt,y=1pt]
-        \fill[white,path fading=north]%
-            ($(current page.north west) - (0pt, 10.5 * \side)$)
+    \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
+    %\begin{tikzpicture}[transform canvas={scale=0.6,xshift=-1cm,yshift=-1cm},remember picture,overlay,x=1cm,y=1cm]
+        \path[clip]
+            ($(current page.north west) + (0pt,-0pt)$)
             rectangle
-            ($(current page.north east) - (0pt,2 * \side)$);%
+            ($(current page.east) + (-0pt,0pt)$);
+
+        \ifpaper\else
+            \fill[white,path fading=north]%
+                ($(current page.north west) - (0pt, 10.5 * \side)$)
+                rectangle
+                ($(current page.north east) - (0pt,2 * \side)$);%
+        \fi
     \end{tikzpicture}%
 }
 \newlength{\edgewidth}
