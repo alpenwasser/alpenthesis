@@ -64,6 +64,13 @@
                 \colorlet{appcol\j}{white!\mix!ct4}%
             }%
         }%
+        \pgfmathsetmacro\appNumeric{1}
+        \foreach \j in {A,...,Z} {%
+            \pgfmathsetmacro{\mix}
+                {100 * \appNumeric / \numberOfHorizElements}%
+            \pgfmathsetmacro\appNumeric{\appNumeric + 1}
+            \colorlet{appcol\j}{white!\mix!ct4}%
+        }%
     \else
         \foreach \j in {0,...,\maxElementNumber}{%
             \pgfmathsetmacro{\leftTransp}
