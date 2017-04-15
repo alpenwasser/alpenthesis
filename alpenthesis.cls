@@ -317,80 +317,143 @@
                     rectangle
                     (current page.south east);
 
-                \pgfmathsetmacro\numberOfHorizSides{17}
-                \pgfmathtruncatemacro\numberOfHorizElements{17}
-                \pgfmathsetmacro\maxElementNumber{\numberOfHorizSides - 1}
-
-                \dimendef\referenceWidth=0
-                \pgfmathsetlength\referenceWidth{\paperwidth * 2.54 / 72}
-                \pgfmathsetmacro\side{0.5\referenceWidth/\maxElementNumber}
-
-                \dimendef\referenceHeight=0
-                \pgfmathsetlength\referenceHeight{\paperheight * 2.54 / 72}
+                \pgfmathsetmacro\alpth@paperwidth{21}
+                \pgfmathsetmacro\alpth@paperheight{29.7}
+                \pgfmathsetmacro\alpth@numberOfSidesHorizontally{17}
+                \pgfmathsetmacro\alpth@side{\alpth@paperwidth / \alpth@numberOfSidesHorizontally}
+                \pgfmathtruncatemacro\alpth@totCols{0.5 * \alpth@numberOfSidesHorizontally}
 
                 \pgfmathcos{30}
-                \pgfmathsetmacro\height{\pgfmathresult * \side}
+                \pgfmathsetmacro\alpth@height{\pgfmathresult * \alpth@side};
+                \pgfmathtruncatemacro\alpth@numberOfHeightsVertically{\alpth@paperheight / \alpth@height}
+                \pgfmathtruncatemacro\alpth@totRows{0.5 * \alpth@numberOfHeightsVertically + 1}
 
-                \pgfmathtruncatemacro\iterstophoriz
-                    {floor(\numberOfHorizElements / 2)}
-                \pgfmathtruncatemacro\iterstopvert{20}
-
-                \pgfmathsetmacro\side{0.5\referenceWidth/\maxElementNumber}
-
-                \foreach \n in {0,...,\iterstopvert} {%
-                    \foreach \m in {1,...,\iterstophoriz} {%
-                        \pgfmathtruncatemacro\k{round(\m + 1)}
-                        \fill[br1,draw=br2]
-                            ($(current page.north west) +
-                                (1.5 * \side + 3 * \m * \side,
-                                    + 0.866025 * \side - \n * 1.732051 * \side)$)
-                            -- ++(   0:\side)
-                            -- ++( -60:\side)
-                            -- ++(-120:\side)
-                            -- ++(-180:\side)
-                            -- ++(-240:\side) -- cycle;
-                        \fill[br1,draw=br2]
-                            ($(current page.north west) +
-                                (0 * \side + 3 * \m * \side,
-                                    -\n * 1.732051 * \side)$)
-                            -- ++(   0:\side)
-                            -- ++( -60:\side)
-                            -- ++(-120:\side)
-                            -- ++(-180:\side)
-                            -- ++(-240:\side) -- cycle;
-                    }%
-                    % Contrast Stripe
+                \foreach \row in {0,...,\alpth@totRows} {%
+                    \foreach \col in {0,...,\alpth@totCols} {%
+                        \fill[br2,draw=br1]
+                            ($
+                                (current page.north west)
+                                +
+                                (\col * 3 * \alpth@side,-\row * 2 * \alpth@height)
+                            $)
+                            -- ++(   0:\alpth@side)
+                            -- ++( -60:\alpth@side)
+                            -- ++(-120:\alpth@side)
+                            -- ++(-180:\alpth@side)
+                            -- ++(-240:\alpth@side) -- cycle;
+                        \fill[br2,draw=br1]
+                            ($
+                                (current page.north west)
+                                +
+                                (
+                                    1.5 * \alpth@side + \col * 3 * \alpth@side,
+                                    \alpth@height - \row * 2 * \alpth@height
+                                )
+                            $)
+                            -- ++(   0:\alpth@side)
+                            -- ++( -60:\alpth@side)
+                            -- ++(-120:\alpth@side)
+                            -- ++(-180:\alpth@side)
+                            -- ++(-240:\alpth@side) -- cycle;
+                    }
                     % First column
                     \fill[dv-7,draw=dv-6]
-                        ($(current page.north west) +
-                            (1.5 * \side + 3 * 0 * \side,
-                                + 0.866025 * \side - \n * 1.732051 * \side)$)
-                        -- ++(   0:\side)
-                        -- ++( -60:\side)
-                        -- ++(-120:\side)
-                        -- ++(-180:\side)
-                        -- ++(-240:\side) -- cycle;
+                        ($
+                            (current page.north west)
+                            +
+                            (
+                                0,
+                                - \row * 2 * \alpth@height
+                            )
+                        $)
+                        -- ++(   0:\alpth@side)
+                        -- ++( -60:\alpth@side)
+                        -- ++(-120:\alpth@side)
+                        -- ++(-180:\alpth@side)
+                        -- ++(-240:\alpth@side) -- cycle;
                     % Second column
                     \fill[dv-7,draw=dv-6]
-                        ($(current page.north west) +
-                            (0 * \side + 3 * 0 \side,
-                                -\n * 1.732051 * \side)$)
-                        -- ++(   0:\side)
-                        -- ++( -60:\side)
-                        -- ++(-120:\side)
-                        -- ++(-180:\side)
-                        -- ++(-240:\side) -- cycle;
+                        ($
+                            (current page.north west)
+                            +
+                            (
+                                1.5 * \alpth@side,
+                                \alpth@height - \row * 2 * \alpth@height
+                            )
+                        $)
+                        -- ++(   0:\alpth@side)
+                        -- ++( -60:\alpth@side)
+                        -- ++(-120:\alpth@side)
+                        -- ++(-180:\alpth@side)
+                        -- ++(-240:\alpth@side) -- cycle;
                     % Third column
                     \fill[dv-7,draw=dv-6]
-                        ($(current page.north west) +
-                            (0 * \side + 3 * 0 * \side,
-                                -\n * 1.732051 * \side)$)
-                        -- ++(   0:\side)
-                        -- ++( -60:\side)
-                        -- ++(-120:\side)
-                        -- ++(-180:\side)
-                        -- ++(-240:\side) -- cycle;
-                }%
+                        ($
+                            (current page.north west)
+                            +
+                            (
+                                3 * \alpth@side,
+                                - \row * 2 * \alpth@height
+                            )
+                        $)
+                        -- ++(   0:\alpth@side)
+                        -- ++( -60:\alpth@side)
+                        -- ++(-120:\alpth@side)
+                        -- ++(-180:\alpth@side)
+                        -- ++(-240:\alpth@side) -- cycle;
+                }
+
+                \path[clip,draw]
+                    ($
+                        (current page.north west)
+                        +
+                        (4.5 * \alpth@side,-11 * \alpth@height)
+                    $)
+                            -- ++(   0:\alpth@side)
+                            -- ++( -60:\alpth@side)
+                            -- ++(   0:\alpth@side)
+                            -- ++( +60:\alpth@side)
+                            -- ++(   0:\alpth@side)
+                            -- ++( -60:\alpth@side)
+                            -- ++(   0:\alpth@side)
+                            -- ++( +60:\alpth@side)
+                            -- ++(   0:\alpth@side)
+                            -- ++( -60:\alpth@side)
+                            -- ++(   0:\alpth@side)
+                            -- ++( +60:\alpth@side)
+                            -- ++(   0:\alpth@side)
+                            -- ++( -60:\alpth@side)
+                            -- ++(-120:\alpth@side)
+                            -- ++( -60:\alpth@side)
+                            -- ++(-120:\alpth@side)
+                            -- ++( -60:\alpth@side)
+                            -- ++(-120:\alpth@side)
+                            -- ++( -60:\alpth@side)
+                            -- ++(-120:\alpth@side)
+                            -- ++(-180:\alpth@side)
+                            -- ++(-240:\alpth@side)
+                            -- ++(-180:\alpth@side)
+                            -- ++(-120:\alpth@side)
+                            -- ++(-180:\alpth@side)
+                            -- ++(-240:\alpth@side)
+                            -- ++(-180:\alpth@side)
+                            -- ++(-120:\alpth@side)
+                            -- ++(-180:\alpth@side)
+                            -- ++(-240:\alpth@side)
+                            -- ++(-180:\alpth@side)
+                            -- ++(-120:\alpth@side)
+                            -- ++(-180:\alpth@side)
+                            -- ++(-240:\alpth@side)
+                            -- ++( +60:\alpth@side)
+                            -- ++(-240:\alpth@side)
+                            -- ++( +60:\alpth@side)
+                            -- ++(-240:\alpth@side)
+                            -- ++( +60:\alpth@side)
+                            -- ++(-240:\alpth@side)
+                            -- ++( +60:\alpth@side) -- cycle;
+
+                \node[xshift=12mm,yshift=-10mm] at (current page.center) {\includegraphics[width=140mm]{titlepic.jpg}};
+
             \end{tikzpicture}%
         \fi
     }
