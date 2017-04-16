@@ -47,7 +47,8 @@
         \pgfmathtruncatemacro\iterstopvert
             {floor(\numberOfHorizElements / 2.5 )}
         \foreach \k in {0,...,\iterstopvert} {%
-            \foreach \j in {0,...,\maxElementNumber}{%
+            %\foreach \j in {0,...,\maxElementNumber}{% TODO: Fix
+            \foreach \j in {0,...,14}{%
                 \pgfmathsetmacro{\mix}
                     {100 * \j / \numberOfHorizElements}%
                 \pgfmathsetmacro{\mixvert}
@@ -56,16 +57,11 @@
                 \colorlet{hex-\j-\k}{white!\mixvert!hex-\j}%
                 \colorlet{hexframecol-\j}{white!\mix!br2}%
                 \colorlet{hexframecol-\j-\k}{white!\mixvert!hexframecol-\j}%
-                \colorlet{chapcol\j}{white!\mix!dv-7}%
-                \colorlet{appcol\j}{white!\mix!ct4}%
+                \colorlet{chapcol-\j}{dv-4!\mix!dv-7}%
+                \colorlet{chapcol-\j-\k}{dv-2!\mixvert!chapcol-\j}%
+                \colorlet{appcol-\j}{ct4!\mix!da2}%
+                \colorlet{appcol-\j-\k}{white!\mixvert!appcol-\j}%
             }%
-        }%
-        \pgfmathsetmacro\appNumeric{1}
-        \foreach \j in {A,...,Z} {%
-            \pgfmathsetmacro{\mix}
-                {100 * \appNumeric / \numberOfHorizElements}%
-            \pgfmathsetmacro\appNumeric{\appNumeric + 1}
-            \colorlet{appcol\j}{white!\mix!ct4}%
         }%
     \else
         \foreach \j in {0,...,\maxElementNumber}{%
@@ -152,7 +148,7 @@
             \pgfmathtruncatemacro\fadingIndex{floor(\randNumHoriz/2)}
             \pgfmathsetmacro\offsetVert{\pgfmathresult}
             \ifpaper
-                \fill[chapcol\n,draw=br1]
+                \fill[fill=chapcol-\randNumHoriz-\randNumVert,draw=br1]
             \else
                 \fill[dv-7,draw=br1,path fading=hexfade \fadingIndex]
             \fi
@@ -187,7 +183,7 @@
             \pgfmathtruncatemacro\fadingIndex{floor(\randNumHoriz / 2)}
             \pgfmathsetmacro\offsetVert{\pgfmathresult}
             \ifpaper
-                \fill[appcol\n,draw=br1]
+                \fill[fill=appcol-\randNumHoriz-\randNumVert,draw=br1]
             \else
                 \fill[ct4,draw=br1,path fading=hexfade \fadingIndex]
             \fi
@@ -356,101 +352,68 @@
                             -- ++(-180:\alpth@side)
                             -- ++(-240:\alpth@side) -- cycle;
                     }
-                    % First column
-                    \fill[dv-7,draw=dv-6]
-                        ($
-                            (current page.north west)
-                            +
-                            (
-                                0,
-                                - \row * 2 * \alpth@height
-                            )
-                        $)
-                        -- ++(   0:\alpth@side)
-                        -- ++( -60:\alpth@side)
-                        -- ++(-120:\alpth@side)
-                        -- ++(-180:\alpth@side)
-                        -- ++(-240:\alpth@side) -- cycle;
-                    % Second column
-                    \fill[dv-7,draw=dv-6]
-                        ($
-                            (current page.north west)
-                            +
-                            (
-                                1.5 * \alpth@side,
-                                \alpth@height - \row * 2 * \alpth@height
-                            )
-                        $)
-                        -- ++(   0:\alpth@side)
-                        -- ++( -60:\alpth@side)
-                        -- ++(-120:\alpth@side)
-                        -- ++(-180:\alpth@side)
-                        -- ++(-240:\alpth@side) -- cycle;
-                    % Third column
-                    \fill[dv-7,draw=dv-6]
-                        ($
-                            (current page.north west)
-                            +
-                            (
-                                3 * \alpth@side,
-                                - \row * 2 * \alpth@height
-                            )
-                        $)
-                        -- ++(   0:\alpth@side)
-                        -- ++( -60:\alpth@side)
-                        -- ++(-120:\alpth@side)
-                        -- ++(-180:\alpth@side)
-                        -- ++(-240:\alpth@side) -- cycle;
                 }
-
-                \path[clip,draw]
-                    ($
+                % Create vertical contrast bar on left side.
+                % Make scope for clipping.
+                \begin{scope}
+                    \path[clip]
                         (current page.north west)
-                        +
-                        (4.5 * \alpth@side,-11 * \alpth@height)
-                    $)
-                            -- ++(   0:\alpth@side)
-                            -- ++( -60:\alpth@side)
-                            -- ++(   0:\alpth@side)
-                            -- ++( +60:\alpth@side)
-                            -- ++(   0:\alpth@side)
-                            -- ++( -60:\alpth@side)
-                            -- ++(   0:\alpth@side)
-                            -- ++( +60:\alpth@side)
-                            -- ++(   0:\alpth@side)
-                            -- ++( -60:\alpth@side)
-                            -- ++(   0:\alpth@side)
-                            -- ++( +60:\alpth@side)
+                        rectangle
+                        ($(current page.south west) + (3.5 * \alpth@side,0)$);
+
+                    \foreach \row in {0,...,\alpth@totRows} {%
+                        % First column
+                        \fill[dv-7,draw=dv-5]
+                            ($
+                                (current page.north west)
+                                +
+                                (
+                                    0,
+                                    - \row * 2 * \alpth@height
+                                )
+                            $)
                             -- ++(   0:\alpth@side)
                             -- ++( -60:\alpth@side)
                             -- ++(-120:\alpth@side)
+                            -- ++(-180:\alpth@side)
+                            -- ++(-240:\alpth@side) -- cycle;
+                        % Second column
+                        \fill[dv-7,draw=dv-5]
+                            ($
+                                (current page.north west)
+                                +
+                                (
+                                    1.5 * \alpth@side,
+                                    \alpth@height - \row * 2 * \alpth@height
+                                )
+                            $)
+                            -- ++(   0:\alpth@side)
                             -- ++( -60:\alpth@side)
                             -- ++(-120:\alpth@side)
+                            -- ++(-180:\alpth@side)
+                            -- ++(-240:\alpth@side) -- cycle;
+                        % Third column
+                        \fill[dv-7,draw=dv-5]
+                            ($
+                                (current page.north west)
+                                +
+                                (
+                                    3 * \alpth@side,
+                                    - \row * 2 * \alpth@height
+                                )
+                            $)
+                            -- ++(   0:\alpth@side)
                             -- ++( -60:\alpth@side)
                             -- ++(-120:\alpth@side)
-                            -- ++( -60:\alpth@side)
-                            -- ++(-120:\alpth@side)
                             -- ++(-180:\alpth@side)
-                            -- ++(-240:\alpth@side)
-                            -- ++(-180:\alpth@side)
-                            -- ++(-120:\alpth@side)
-                            -- ++(-180:\alpth@side)
-                            -- ++(-240:\alpth@side)
-                            -- ++(-180:\alpth@side)
-                            -- ++(-120:\alpth@side)
-                            -- ++(-180:\alpth@side)
-                            -- ++(-240:\alpth@side)
-                            -- ++(-180:\alpth@side)
-                            -- ++(-120:\alpth@side)
-                            -- ++(-180:\alpth@side)
-                            -- ++(-240:\alpth@side)
-                            -- ++( +60:\alpth@side)
-                            -- ++(-240:\alpth@side)
-                            -- ++( +60:\alpth@side)
-                            -- ++(-240:\alpth@side)
-                            -- ++( +60:\alpth@side)
-                            -- ++(-240:\alpth@side)
-                            -- ++( +60:\alpth@side) -- cycle;
+                            -- ++(-240:\alpth@side) -- cycle;
+                    }
+                \end{scope}
+
+                \path[clip]
+                    ($(current page.north west) + (3.5 * \alpth@side,0)$)
+                    rectangle
+                    ($(current page.south east) - (3 * \alpth@side,0)$);
 
                 \node[xshift=12mm,yshift=-10mm] at (current page.center) {\includegraphics[width=140mm]{titlepic.jpg}};
 
