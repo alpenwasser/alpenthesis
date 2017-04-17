@@ -19,7 +19,7 @@
 %
 %
 %^^A ------------------------------------------------------------------------- %
-%^^A DRIVER, PROVIDESCLASS ETC. <<<
+%^^A                                              DRIVER, PROVIDESCLASS ETC. <<<
 % \iffalse
 %<*driver>
 \ProvidesFile{alpenthesis.dtx}
@@ -67,7 +67,7 @@
 %^^A >>>
 %
 %^^A ------------------------------------------------------------------------- %
-%^^A GetFileInto, DoNotIndex <<<
+%^^A                                                 GetFileInto, DoNotIndex <<<
 % \GetFileInfo{alpenthesis.dtx}
 % \DoNotIndex{\addtolength,\bfseries,\captiondelim,\captionnamefont}
 % \DoNotIndex{\captiontitlefont,\checkandfixthelayout,\color,\Large}
@@ -92,14 +92,14 @@
 % \DoNotIndex{\par,\pgfkeysgetvalue,\pgfmathcos,\pgfmathmod,\pgfmathresult}
 % \DoNotIndex{\pgfmathsetmacro,\pgfmathtruncatemacro,\pgfplotsset}
 % \DoNotIndex{\printchaptername,\printchapternonum,\printchapternum}
-% \DoNotIndex{\printchaptertitle,\randNumHoriz,\randNumVert,\resizebox}
+% \DoNotIndex{\printchaptertitle,\x,\y,\resizebox}
 % \DoNotIndex{\rightTransp,\rowtestcolor,\rule,\side,\spinemargin}
 % \DoNotIndex{\textwidth,\thechapter,\thepage,\tikz,\tikzfading,\tikzset}
 % \DoNotIndex{\usepackage,\usepgfplotslibrary,\usetikzlibrary,\vskip,\vspace}
 %^^A>>>
 %
 %^^A ------------------------------------------------------------------------- %
-%^^A TITLE, ABSTRACT, ToC <<<
+%^^A                                                    TITLE, ABSTRACT, ToC <<<
 % \author{Raphael Frey \\[1ex] \href{https://github.com/alpenwasser/}%
 %                                     {\nolinkurl{https://github.com/alpenwasser/}}}
 %
@@ -159,7 +159,7 @@
 %^^A >>>
 %
 %^^A ------------------------------------------------------------------------- %
-%^^A INSTALLATION <<<
+%^^A                                                            INSTALLATION <<<
 % \section{Installation}
 % \label{sec:installation}
 %
@@ -188,7 +188,7 @@
 %^^A >>>
 %
 %^^A ------------------------------------------------------------------------- %
-%^^A USER INTERFACE <<<
+%^^A                                                          USER INTERFACE <<<
 % \ifenglish
 %    \section{User Interface}
 %    \label{sec:user-interface}
@@ -272,25 +272,28 @@
 %
 % \StopEventually{\PrintIndex}
 %^^A ------------------------------------------------------------------------- %
-%^^A IMPLEMENTATION <<<
+%^^A                                                          IMPLEMENTATION <<<
 % \section{Implementation}
 % \label{sec:implementation}
 %
-%^^A -------------------------------------------------------- MEMOIR CONFIG %<<<
-%
-%^^A Loading the memoir Class %-------------------------------------------- %<<<
+%^^A ---------------------------------------------- Loading the memoir Class <<<
 % \ifenglish
-%    \subsection{Base Class: \memoir\ and Its Configuration}
-%    \label{subsec:memconfig}
+%    \subsection{Loading the Base Class (\memoir)}
+%    \label{subsec:memload}
 %    The underlyng  class is  \memoir, and  all options  passed to  the \athes\
 %    class are directly  passed on to \memoir\  via the |\LoadClassWithOptions|
 %    command.
+%
+%    Additionally, the two hexagon configuration switches are defined.
 % \else
-%    \subsection{Basisklasse: \memoir\ und ihre Konfiguration}
-%    \label{subsec:memconfig}
+%    \subsection{Laden der Basisklasse (\memoir)}
+%    \label{subsec:memload}
 %    Die  zugrundeliegende Klasse  ist \memoir. Alle  an \athes\  \"ubergebenen
 %    Optionen   werden   direkt   an   die   \memoir-Klasse   \"ubergeben   via
 %    |\LoadClassWithOptions|.
+%
+%    Im Weiteren werden  die beiden Konfigurations-Booloeans f\"ur die Hexagons
+%    hier definiert.
 % \fi
 % \color{sqB}
 %^^A Need the class guards to prevent the macro code from being included again
@@ -300,200 +303,6 @@
 % \fi
 %    \begin{macrocode}
 \LoadClassWithOptions{memoir}
-%    \end{macrocode}
-% \iffalse
-%</class>
-% \fi
-% \color{black}
-%^^A>>>
-%^^A General Config % ------------------------------------------------------ <<<
-% \ifenglish
-%   \subsubsection{General Configuration}
-%   \label{subsubsec:nemoir:general-config}
-% \else
-%   \subsubsection{Allgemeine Konfiguration}
-%   \label{subsubsec:nemoir:general-config}
-% \fi
-% \color{sqB}
-% \iffalse
-%<*class>
-% \fi
-%    \begin{macrocode}
-\maxsecnumdepth{subsubsection}
-\maxtocdepth{subsubsection}
-\chapterstyle{veelo}
-%    \end{macrocode}
-% \iffalse
-%</class>
-% \fi
-% \color{black}
-%^^A>>>
-%^^A Page Layout %---------------------------------------------------------- <<<
-% \ifenglish
-%     \subsubsection{Page Layout} ^^A ---------------------------- Page Layout %
-%     \label{subsubsec:page-layout}
-% \else
-%     \subsubsection{Seiten-Layout}
-%     \label{subsubsec:page-layout}
-% \fi
-% \color{sqB}
-% \iffalse
-%<*class>
-% \fi
-%    \begin{macrocode}
-\newcommand\aiiistock{%
-    \stockaiii
-    \settrimmedsize{297mm}{210mm}{*}
-    \setlength{\trimtop}{\stockheight}
-    \addtolength{\trimtop}{-\paperheight}
-    \setlength{\trimedge}{\stockwidth}
-    \addtolength{\trimedge}{-\paperwidth}
-    \settrims{0.5\trimtop}{0.5\trimedge}
-    \renewcommand*{\trimmarkscolor}{\color{red}}
-    \showtrimson
-    \checkandfixthelayout
-}
-\showtrimsoff
-\setlrmarginsandblock{0.142857111\paperwidth}{0.190476190\paperwidth}{*}
-\setulmarginsandblock{0.111111111\paperheight}{*}{1.5}%
-\checkandfixthelayout
-%    \end{macrocode}
-% \iffalse
-%</class>
-% \fi
-% \color{black}
-%^^A>>>
-%^^A Sectional Title Formatting %------------------------------------------- <<<
-% \ifenglish
-%    \subsubsection{Sectional Title Fonts and Styles} ^^A ---- Sec Title Fonts %
-%    \label{subsubsec:title-fonts}
-%    Sets font styles and other stylistic attributes for headings.
-% \else
-%    \subsubsection{Schriftarten und Stil f\"ur Titel von Abschnitten}
-%    \label{subsubsec:title-fonts}
-%    Definiert Schriftarten und andere Stil-Attribute f\"ur \"Uberschriften.
-% \fi
-% \color{sqB}
-% \iffalse
-%<*class>
-% \fi
-%    \begin{macrocode}
-\setsecheadstyle{\color{sqB}\Large\bfseries\sffamily}
-\setsubsecheadstyle{\color{sqB}\large\bfseries\sffamily}
-\setsubsubsecheadstyle{\color{sqB}\bfseries\sffamily}
-\addtodef{\printchaptername}{\color{sqB}}{}
-%    \end{macrocode}
-% \iffalse
-%</class>
-% \fi
-% \color{black}
-%^^A>>>
-%^^A Headers and Footers % ------------------------------------------------- <<<
-% \ifenglish
-%   \subsubsection{Headers and Footers}
-%   \label{subsubsec:headers-footers}
-% \else
-%   \subsubsection{Kopf- und Fusszeilen}
-%   \label{subsubsec:headers-footers}
-% \fi
-% \color{sqB}
-% \iffalse
-%<*class>
-% \fi
-%    \begin{macrocode}
-\pagestyle{headings}
-%    \end{macrocode}
-% \iffalse
-%</class>
-% \fi
-% \color{black}
-%^^A>>>
-%^^A Captions % ------------------------------------------------------------ <<<
-% \ifenglish
-%   \subsubsection{Captions}
-%   \label{subsubsec:captions}
-% \else
-%   \subsubsection{Legenden}
-%   \label{subsubsec:captions}
-% \fi
-% \color{sqB}
-% \iffalse
-%<*class>
-% \fi
-%    \begin{macrocode}
-\captionnamefont{\bfseries\small}
-\captiontitlefont{\small}
-\captiondelim{: }
-% Captions for use outside of floats
-\newfixedcaption{\figcaption}{figure}
-\newfixedcaption{\tabcaption}{table}
-%    \end{macrocode}
-% \iffalse
-%</class>
-% \fi
-% \color{black}
-%^^A>>>
-%^^A Chapter Styles % ------------------------------------------------------ <<<
-% \color{black}
-% \ifenglish
-%   \subsubsection{Chapter Style}
-%   \label{subsubsec:chapterstyle}
-%    The chapters are styled with grid of hexagons whose color is faded towards
-%    the right sight of the page and towards the bottom. There are two versions
-%    of  this  mechanisms: One for  printing,  activated  via the  |\papertrue|
-%    switch, and  one for  the electronic document  version, activated  via the
-%    |\paperfalse| switch (or no switch at all).
-%
-%    The  reason for  the two  implementation is  that the  electronic  version
-%    uses  fadings  and   transparency,  which  can  cause   issues  with  some
-%    printers\footnotemark.  Therefore,  instead of fadings, the  print version
-%    uses  hexagons which  have slightly  differing colors, but each  hexagon's
-%    color is  uniform. This does  not look  quite as nice  on the  screen, but
-%    printing results have been satisfactory for  me so far, though obviously I
-%    would prefer the faded version to just work. Your mileage may vary.
-%
-%    \footnotetext{%
-%        I have had a  Canon printer do a hard reset while  trying to print the
-%        faded version from a USB  stick plugged into the  printer. Our Kyocera
-%        printer simply  printed a black bar  instead of hexagons when  I tried
-%        doing the same.}
-%
-%    First, we define the two booleans  for enabling and disabling the hexagons
-%    and the print version, respectively:
-% \else
-%   \subsubsection{Kapitel-Stil}
-%   \label{subsubsec:chapterstyle}
-%    Die  Kapitel  werden  mit  einem  Gitter  von  Hexagons  dekoriert,  deren
-%    Farbe  gegen rechts  und gegen  unten  verblasst in  Richtung weiss  (bzw.
-%    transparent). Es gibt  zwei Verianten  dieses Mechanismus: Eine  f\"ur die
-%    elektronische  Version,  welche  die   Standardeinstellung  ist  oder  mit
-%    |\paperfalse| explizit aktiviert  werden kann, und eine  Version f\"ur den
-%    Druck, welche mit |\papertrue| aktiviert wird.
-%
-%    Der  Grund   f\"ur  die   zwei  unterschiedlichen   Implementationen  ist,
-%    dass   Drucker    h\"aufig   Probleme   mit   Transparenz    und   Fadings
-%    haben\footnotemark. Die   Druckversion   benutzt   daher   statt   Fadings
-%    unterschiedliche  Farben f\"ur  die Hexagons,  wobei jedoch  jedes Hexagon
-%    eine  uniforme Farbe  hat. Dies  sieht  nicht ganz  so  nett  aus auf  dem
-%    Bildschirm,  aber  Druckresultate  waren   bisher  ganz  gut,  obwohl  ich
-%    es  nat\"urlich  bevorzugen  w\"urde,  wenn  die  Fading-Variante  einfach
-%    funktionieren w\"urde. Your mileage may vary.
-%
-%    \footnotetext{%
-%        Ich habe  bei einem Canon-Drucker  erlebt, dass er einen  harten Reset
-%        machte,  als ich  versuchte, das  Dokument mit  Transparenz von  einem
-%        USB-Stick  zu drucken,  der direkt  am Drucker  eingesteckt war. Unser
-%        Kyocera-Drucker  druckte  statt  der   Hexagons  einach  einen  dicken
-%        schwarzen Balken beim selben Versuch.}
-%
-%    Zuerst  definieren  wir  die  beiden Booleans  f\"ur  das  Aktivieren  der
-%    Hexagons und der Druckversion:
-% \fi
-% \color{sqB}
-% \iffalse
-%<*class>
-% \fi
-%    \begin{macrocode}
 \newif\ifhex
 \newif\ifpaper
 %    \end{macrocode}
@@ -501,28 +310,219 @@
 %</class>
 % \fi
 % \color{black}
+%^^A>>>
+%^^A ---------------------------------------------- Fonts, inputenc, fontenc <<<
 % \ifenglish
-%    The |\alpth@setupfadings| command first calculates the number of hexagons in the
-%    horizontal direction and how large one hexagon must be:
+%    \subsection{General Configuration}
+%    \label{subsec:general-config}
+%    We choose  the \pacname{kpfonts}  Package for serif  and sans  serif fonts
+%    with the  |light| option,  and \pacname{DejaVuSansMono} as  our typewriter
+%    font. Also, we  ensure that we  can write our  source code files with UTF8
+%    characters and have T1 font encoding for our output.
 % \else
-%    Das  |\alpth@setupfadings|-Macro berechnet  zuerst  die Anzahl  der Hexagons  in
-%    horizontaler Richtung, und wie gross ein Hexagon sein darf:
+%    \subsection{Allgemeine Konfiguration}
+%    \label{subsec:general-config}
+%    Wir  w\"ahlen  \pacname{kpfonts} als  unsere  Schriftart  f\"ur Serif  und
+%    Sans-Serif,  mit  der  |light|-Option,  und  \pacname{DejaVuSansMono}  als
+%    unsere  Monospace-Schriftart. Wir  stellen   ebenfalls  sicher,  dass  wir
+%    UTF8-Input in unserem  Quelltext haben k\"onnen und dass der  Output in T1
+%    codiert wird.
 % \fi
 % \color{sqB}
 % \iffalse
 %<*class>
 % \fi
 %    \begin{macrocode}
-\newcommand\alpth@setupfadings{%
-    \pgfmathsetmacro{\numberOfHorizSides}{12}%
-    \pgfmathtruncatemacro\numberOfHorizElements{%
-        round(\numberOfHorizSides * 5 / 4)}
-    \pgfmathsetmacro{\maxElementNumber}{\numberOfHorizSides - 1}%
-    \dimendef\referenceWidth=0
-    \pgfmathsetlength{\referenceWidth}{\paperwidth * 2.54 / 72}%
-    \pgfmathsetmacro{\side}{0.5\referenceWidth/\maxElementNumber}%
-    \pgfmathcos{30}%
-    \pgfmathsetmacro{\height}{\pgfmathresult * \side}%
+\RequirePackage[rmx,nott,intlimits,sumlimits]{kpfonts}
+\RequirePackage[scaled=0.8125]{DejaVuSansMono}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \color{black}
+%^^A>>>
+%^^A ----------------------------------------------- DOCUMENT COLOR PALETTE %<<<
+% \ifenglish
+%    \subsection{Document Color Palette}
+%    \label{subsec:colors}
+%    We  define the  following  colors  as our  document  colors  in a  central
+%    location.  This allows easy modification  of document colors while keeping
+%    the entire document consistent.
+% \else
+%    \subsection{Farbpalette des Dokuments}
+%    \label{subsec:colors}
+%    Wir  definieren  die  folgenden  Farben  f\"ur  unser  Dokument  an  einer
+%    zentralen Stelle.  Dies erlaubt es,  die Farbpalette des Dokuments einfach
+%    zu  modifizieren  und  dabei  die   Farben  \"uber  das  gesamte  Dokument
+%    konsistent zu behalten.
+% \fi
+% \begin{center}
+%     \begin{tabular}{llllllll}
+%         \toprule
+%         \multicolumn{8}{l}{\textsc{Dark}} \\
+%         \rowtestcolor{da0} & \rowtestcolor{da1} & \rowtestcolor{da2} & \rowtestcolor{da3} \\
+%         \rowtestcolor{da4} \\
+%         \midrule
+%         \multicolumn{8}{l}{\textsc{Bright}} \\
+%         \rowtestcolor{br0} & \rowtestcolor{br1} & \rowtestcolor{br2} \\
+%         \midrule
+%         \multicolumn{8}{l}{\textsc{Contrast}} \\
+%         \rowtestcolor{ct0} & \rowtestcolor{ct1} & \rowtestcolor{ct2} & \rowtestcolor{ct3} \\
+%         \rowtestcolor{ct4} & \rowtestcolor{ct5} & \rowtestcolor{ct6} \\
+%         \midrule
+%         \multicolumn{8}{l}{\textsc{Sequential}} \\
+%         \rowtestcolor{sq0} & \rowtestcolor{sq1} & \rowtestcolor{sq2} & \rowtestcolor{sq3} \\
+%         \rowtestcolor{sq4} & \rowtestcolor{sq5} & \rowtestcolor{sq6} & \rowtestcolor{sq7} \\
+%         \rowtestcolor{sq8} & \rowtestcolor{sq9} & \rowtestcolor{sqA} & \rowtestcolor{sqB} \\
+%         \rowtestcolor{sqC} \\
+%         \midrule
+%         \multicolumn{8}{l}{\textsc{Diverging}} \\
+%         \rowtestcolor{dv-7} & \rowtestcolor{dv-6} & \rowtestcolor{dv-5} & \rowtestcolor{dv-4} \\
+%         \rowtestcolor{dv-3} & \rowtestcolor{dv-2} & \rowtestcolor{dv-1} & \rowtestcolor{dv+0} \\
+%         \rowtestcolor{dv+1} & \rowtestcolor{dv+2} & \rowtestcolor{dv+3} & \rowtestcolor{dv+4} \\
+%         \rowtestcolor{dv+5} & \rowtestcolor{dv+6} & \rowtestcolor{dv+7} \\
+%         \midrule
+%         \multicolumn{8}{l}{\textsc{Qualitative}} \\
+%         \rowtestcolor{q0} & \rowtestcolor{q1} & \rowtestcolor{q2} & \rowtestcolor{q3} \\
+%         \rowtestcolor{q4} & \rowtestcolor{q5} & \rowtestcolor{q6} & \rowtestcolor{q7} \\
+%         \bottomrule
+%     \end{tabular}
+% \end{center}
+% \color{sqB}
+% \iffalse
+%<*class|colors>
+%^^A We  extract the  color information into  a package for  use in  the class
+%^^A documentation.
+%<colors>\ProvidesPackage{alpencolors}[2017/04/08 v1.0 color palette for alpenthesis]
+% \fi
+%    \begin{macrocode}
+\RequirePackage{xcolor}
+\globalcolorstrue
+\definecolor{da0}{HTML}{002B36}
+\definecolor{da1}{HTML}{073642}
+\definecolor{da2}{HTML}{008080}
+\definecolor{da3}{HTML}{800080}
+\definecolor{da4}{HTML}{404040}
+\definecolor{ct0}{HTML}{CB4B16}
+\definecolor{ct1}{HTML}{DC322F}
+\definecolor{ct2}{HTML}{DC3682}
+\definecolor{ct3}{HTML}{268BD2}
+\definecolor{ct4}{HTML}{2AA198}
+\definecolor{ct5}{HTML}{B58900}
+\definecolor{ct6}{HTML}{859900}
+\definecolor{br0}{HTML}{BEB9AA}
+\definecolor{br1}{HTML}{EEE8D5}
+\definecolor{br2}{HTML}{FDF6E3}
+\definecolor{sq0}{HTML}{F7FBFF}
+\definecolor{sq1}{HTML}{EFF3FF}
+\definecolor{sq2}{HTML}{DECDF7}
+\definecolor{sq3}{HTML}{C6DBEF}
+\definecolor{sq4}{HTML}{BDD7E7}
+\definecolor{sq5}{HTML}{9ECAE1}
+\definecolor{sq6}{HTML}{6BAED6}
+\definecolor{sq7}{HTML}{4292C6}
+\definecolor{sq8}{HTML}{3182BD}
+\definecolor{sq9}{HTML}{2171B5}
+\definecolor{sqA}{HTML}{08519C}
+\definecolor{sqB}{HTML}{084594}
+\definecolor{sqC}{HTML}{08306B}
+\definecolor{dv-7}{HTML}{8E0152}
+\definecolor{dv-6}{HTML}{C51B7D}
+\definecolor{dv-5}{HTML}{D01C8B}
+\definecolor{dv-4}{HTML}{DE77AE}
+\definecolor{dv-3}{HTML}{E9A3C9}
+\definecolor{dv-2}{HTML}{F1B6DA}
+\definecolor{dv-1}{HTML}{FDE0EF}
+\definecolor{dv+0}{HTML}{F7F7F7}
+\definecolor{dv+1}{HTML}{D1E5F0}
+\definecolor{dv+2}{HTML}{92C5DE}
+\definecolor{dv+3}{HTML}{67A9CF}
+\definecolor{dv+4}{HTML}{4393C3}
+\definecolor{dv+5}{HTML}{0571B0}
+\definecolor{dv+6}{HTML}{2166AC}
+\definecolor{dv+7}{HTML}{053061}
+\definecolor{q0}{named}{ct3}
+\definecolor{q1}{named}{sqB}
+\definecolor{q2}{named}{ct2}
+\definecolor{q3}{named}{da3}
+\definecolor{q4}{HTML}{FEC44F}
+\definecolor{q5}{named}{ct0}
+\definecolor{q6}{HTML}{80EA82}
+\definecolor{q7}{HTML}{2E7D32}
+\newcommand*\testcolor[1]{\tikz \fill[#1] (0em,0ex) rectangle (2em,2ex);}
+\newcommand*\rowtestcolor[1]{#1 & \tikz \fill[#1] (0em,0ex) rectangle (2em,2ex);}
+%    \end{macrocode}
+% \iffalse
+%</class|colors>
+% \fi
+% \color{black}
+%^^A >>>
+%^^A -------------------------------------------------- TikZ, PGF, PGFPLOTS %<<<
+% \ifenglish
+%    \subsection{Ti\emph{k}Z, \textsc{pgfplots}}
+%    \label{subsec:tikz-pgfplots}
+% \else
+%    \subsection{Ti\emph{k}Z, \textsc{pgfplots}}
+%    \label{subsec:tikz-pgfplots}
+% \fi
+% \color{sqB}
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\RequirePackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{fadings}
+\RequirePackage{pgfplots}
+\pgfplotsset{compat=1.14}
+\usepgfplotslibrary{external}
+\tikzexternalize[prefix=cache/,optimize command away=\includepdf]
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \color{black}
+%^^A >>>
+%^^A ------------------------------------------------- HEXAGON CALCULATIONS %<<<
+% \ifenglish
+%    \subsection{Hexagon Calculations}
+%    \label{subsec:hexagon-calcs}
+%    In this section,  the various required calculations for  the hexagon grids
+%    are made. The basis is the number  of hexagons sides (not hexagons!) which
+%    are to fit into one page width. Going  from there, the height of a hexagon
+%    as well as the number of rows and columns are calculated.
+% \else
+%    \subsection{Berechnungen f\"ur Hexagons}
+%    \label{subsec:hexagon-calcs}
+%    An  dieser   Stelle  werden   diverse  Berechnungen  f\"ur   die  Hexagons
+%    ausgef\"uhrt.  Grundlage ist die  Anzahl Hexagon-Seitenl\"angen (nicht die
+%    Anzahl  Hexagons!), welche  in eine  Seitenbreite passt. Darauf  basierend
+%    werden die halbe H\"ohe eines Hexagons sowie die Anzahl Spalten und Zeilen
+%    berechnet.
+% \fi
+% \color{sqB}
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\pgfmathsetmacro\alpth@paperwidth{21}
+\pgfmathsetmacro\alpth@paperheight{29.7}
+\pgfmathsetmacro\alpth@numberOfSidesHorizontally{22}
+\pgfmathsetmacro\alpth@side
+    {\alpth@paperwidth / \alpth@numberOfSidesHorizontally}
+\pgfmathtruncatemacro\alpth@totCols
+    {0.666667 * \alpth@numberOfSidesHorizontally + 1}
+\pgfmathcos{30}
+\pgfmathsetmacro\alpth@height
+    {\pgfmathresult * \alpth@side}
+\pgfmathtruncatemacro\alpth@numberOfHeightsVertically
+    {\alpth@paperheight / \alpth@height}
+\pgfmathtruncatemacro\alpth@totRows
+    {0.5 * \alpth@numberOfHeightsVertically + 1}
+\pgfmathtruncatemacro\alpth@totRowsChap
+    {0.1333 * \alpth@numberOfHeightsVertically + 1}
 %    \end{macrocode}
 % \iffalse
 %</class>
@@ -541,24 +541,24 @@
 %<*class>
 % \fi
 %    \begin{macrocode}
+\AtBeginDocument{%
     \ifpaper
-        \pgfmathtruncatemacro\iterstopvert
-            {floor(\numberOfHorizElements / 2.5 )}
-        \foreach \k in {0,...,\iterstopvert} {%
-            %\foreach \j in {0,...,\maxElementNumber}{% TODO: Fix
-            \foreach \j in {0,...,14}{%
-                \pgfmathsetmacro{\mix}
-                    {100 * \j / \numberOfHorizElements}%
-                \pgfmathsetmacro{\mixvert}
-                    {100 * \k / \iterstopvert}%
-                \colorlet{hex-\j}{white!\mix!br0}%
-                \colorlet{hex-\j-\k}{white!\mixvert!hex-\j}%
-                \colorlet{hexframecol-\j}{white!\mix!br2}%
-                \colorlet{hexframecol-\j-\k}{white!\mixvert!hexframecol-\j}%
-                \colorlet{chapcol-\j}{dv-4!\mix!dv-7}%
-                \colorlet{chapcol-\j-\k}{dv-2!\mixvert!chapcol-\j}%
-                \colorlet{appcol-\j}{ct4!\mix!da2}%
-                \colorlet{appcol-\j-\k}{white!\mixvert!appcol-\j}%
+        \foreach \y in {0,...,\alpth@totRowsChap} {%
+            \foreach \x in {0,...,\alpth@totCols}{%
+                \pgfmathsetmacro\mix
+                    {100 * \x / \alpth@totCols}%
+                \pgfmathsetmacro\mixvert
+                    {100 * \y / \alpth@totRowsChap}%
+                \colorlet{hex-\x}{white!\mix!br0}%
+                \colorlet{hex-\x-\y}{white!\mixvert!hex-\x}%
+                \colorlet{hexframecol-\x}{white!\mix!br2}%
+                \colorlet{hexframecol-\x-\y}
+                    {white!\mixvert!hexframecol-\x}%
+                \colorlet{chapcol-\x}{dv-4!\mix!dv-7}%
+                \colorlet{chapcol-\x-\y}
+                    {dv-2!\mixvert!chapcol-\x}%
+                \colorlet{appcol-\x}{ct4!\mix!da2}%
+                \colorlet{appcol-\x-\y}{white!\mixvert!appcol-\x}%
             }%
         }%
 %    \end{macrocode}
@@ -599,13 +599,13 @@
 % \fi
 %    \begin{macrocode}
     \else
-        \foreach \j in {0,...,\maxElementNumber}{%
-            \pgfmathsetmacro{\leftTransp} 
-                {100 * \j / \numberOfHorizSides}%
-            \pgfmathsetmacro{\rightTransp}
-                {100 * (\j+1) / \numberOfHorizSides}%
+        \foreach \x in {0,...,\alpth@totCols}{%
+            \pgfmathsetmacro\leftTransp 
+                {100 *  \x    / \alpth@totCols}%
+            \pgfmathsetmacro\rightTransp
+                {100 * (\x+1) / \alpth@totCols}%
             \tikzfading[%
-                name=hexfade \j,
+                name=hexfade \x,
                 right color=transparent!\rightTransp,
                 left color=transparent!\leftTransp]%
         }%
@@ -616,10 +616,312 @@
 %</class>
 % \fi
 % \color{black}
+%^^A>>>
+%^^A ------------------------------------------------------------ tcolorbox %<<<
 % \ifenglish
+%    \subsection{\pacname{tcolorbox}}
+%    \label{subsec:tcolorbox}
+%
+%    Keeping with the theme of angled things, we define an octagon shape
+%    as the surrounding shape for \pacname{tcolorbox}.
+% \else
+%    \subsection{\pacname{tcolorbox}}
+%    \label{subsec:tcolorbox}
+%
+%    Um zum allgemeinen Thema der gewinkelten Dinge zu passen, wird ein Oktagon
+%    als Form f\"ur den Rahmen der \pacname{tcolorbox}-Elemente definiert.
+% \fi
+% \color{sqB}
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\RequirePackage{tcolorbox}
+\tcbuselibrary{minted}
+\tcbuselibrary{skins}
+\tcbset{%
+    colback=br2,
+    coltitle=br2,
+    colframe=da1,
+    fonttitle=\sffamily,
+    minted options={autogobble},
+    enhanced,
+    frame code={
+        \draw[very thick]
+               ([xshift=-3mm,yshift=+1mm]frame.north east)
+            -- ([xshift=+0mm,yshift=-2mm]frame.north east)
+            -- ([xshift=+0mm,yshift=+2mm]frame.south east)
+            -- ([xshift=-3mm,yshift=-1mm]frame.south east)
+            -- ([xshift=+3mm,yshift=-1mm]frame.south west)
+            -- ([xshift=-0mm,yshift=+2mm]frame.south west)
+            -- ([xshift=-0mm,yshift=-2mm]frame.north west)
+            -- ([xshift=+3mm,yshift=+1mm]frame.north west)
+            -- cycle;
+    },
+    interior titled code={%
+        \path[tcb fill interior]
+               ([xshift=-2.7mm,yshift=+1.3mm]interior.north east)
+            -- ([xshift=+0.3mm,yshift=-1.7mm]interior.north east)
+            -- ([xshift=+0.3mm,yshift=+1.7mm]interior.south east)
+            -- ([xshift=-2.7mm,yshift=-1.3mm]interior.south east)
+            -- ([xshift=+2.7mm,yshift=-1.3mm]interior.south west)
+            -- ([xshift=-0.3mm,yshift=+1.7mm]interior.south west)
+            -- ([xshift=-0.3mm,yshift=-1.7mm]interior.north west)
+            -- ([xshift=+2.7mm,yshift=+1.3mm]interior.north west)
+            -- cycle;
+    },
+    interior code={%
+        \path[tcb fill interior]
+               ([xshift=-2.7mm,yshift=+1.3mm]interior.north east)
+            -- ([xshift=+0.3mm,yshift=-1.7mm]interior.north east)
+            -- ([xshift=+0.3mm,yshift=+1.7mm]interior.south east)
+            -- ([xshift=-2.7mm,yshift=-1.3mm]interior.south east)
+            -- ([xshift=+2.7mm,yshift=-1.3mm]interior.south west)
+            -- ([xshift=-0.3mm,yshift=+1.7mm]interior.south west)
+            -- ([xshift=-0.3mm,yshift=-1.7mm]interior.north west)
+            -- ([xshift=+2.7mm,yshift=+1.3mm]interior.north west)
+            -- cycle;
+    },
+    title code={%
+        \path[tcb fill frame]
+               ([xshift=-3mm,yshift=+1mm]frame.north east)
+            -- ([xshift=+0mm,yshift=-2mm]frame.north east)
+            -- ([xshift=+0.3mm,yshift=-2mm]interior.north east)
+            -- ([xshift=-3mm,yshift=+1mm]interior.north east)
+            -- ([xshift=+3mm,yshift=+1mm]interior.north west)
+            -- ([xshift=-0.3mm,yshift=-2mm]interior.north west)
+            -- ([xshift=-0mm,yshift=-2mm]frame.north west)
+            -- ([xshift=+3mm,yshift=+1mm]frame.north west)
+            -- cycle;
+    }
+}
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \color{black}
+%^^A >>>
+%^^A ----------------------------------- OTHER PACKAGES WOTHOUT MUCH CONFIG %<<<
+% \ifenglish
+%    \subsection{Other Packages}
+%    \label{subsec:other-packages}
+% \else
+%    \subsection{Andere Packages}
+%    \label{subsec:other-packages}
+% \fi
+% \color{sqB}
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\RequirePackage[%
+    pdfauthor=alpenwasser,
+    pdfsubject={LaTeX document design},
+    pdftitle={alpenwasser's thesis},
+    bookmarksnumbered=true,
+    pdfkeywords={LaTeX,design,alpenwasser,thesis,class,hexagons},
+    colorlinks=true,
+    linkcolor=sqB,
+    citecolor=ct4,
+    urlcolor=dv-6]{hyperref}
+\RequirePackage[english]{babel}
+\RequirePackage{amsmath}
+\RequirePackage[separate-uncertainty=true]{siunitx}
+\RequirePackage{counttexruns}
+\RequirePackage{booktabs}
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \color{black}
+%^^A >>>
+%
+%^^A --------------------------------------------------------- MEMOIR CONFIG <<<
+%
+%^^A -------------------------------------------------------- General Config <<<
+% \ifenglish
+%   \subsection{\memoir\ Configuration}
+%   \label{subsec:memconfig}
+%   \subsubsection{General Configuration}
+%   \label{subsubsec:memoir:general-config}
+% \else
+%   \subsection{\memoir-Konfiguration}
+%   \label{subsec:memconfig}
+%   \subsubsection{Allgemeine Konfiguration}
+%   \label{subsubsec:memoir:general-config}
+% \fi
+% \color{sqB}
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\maxsecnumdepth{subsubsection}
+\maxtocdepth{subsubsection}
+\chapterstyle{veelo}
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \color{black}
+%^^A>>>
+%^^A ----------------------------------------------------------- Page Layout <<<
+% \ifenglish
+%     \subsubsection{Page Layout}
+%     \label{subsubsec:page-layout}
+% \else
+%     \subsubsection{Seiten-Layout}
+%     \label{subsubsec:page-layout}
+% \fi
+% \color{sqB}
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\newcommand\aiiistock{%
+    \stockaiii
+    \settrimmedsize{297mm}{210mm}{*}
+    \setlength{\trimtop}{\stockheight}
+    \addtolength{\trimtop}{-\paperheight}
+    \setlength{\trimedge}{\stockwidth}
+    \addtolength{\trimedge}{-\paperwidth}
+    \settrims{0.5\trimtop}{0.5\trimedge}
+    \renewcommand*{\trimmarkscolor}{\color{red}}
+    \showtrimson
+    \checkandfixthelayout
+}
+\showtrimsoff
+\setlrmarginsandblock{0.142857111\paperwidth}{0.190476190\paperwidth}{*}
+\setulmarginsandblock{0.111111111\paperheight}{*}{1.5}%
+\checkandfixthelayout
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \color{black}
+%^^A>>>
+%^^A -------------------------------------------- Sectional Title Formatting <<<
+% \ifenglish
+%    \subsubsection{Sectional Title Fonts and Styles} ^^A ---- Sec Title Fonts %
+%    \label{subsubsec:title-fonts}
+%    Sets font styles and other stylistic attributes for headings.
+% \else
+%    \subsubsection{Schriftarten und Stil f\"ur Titel von Abschnitten}
+%    \label{subsubsec:title-fonts}
+%    Definiert Schriftarten und andere Stil-Attribute f\"ur \"Uberschriften.
+% \fi
+% \color{sqB}
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\setsecheadstyle{\color{sqB}\Large\bfseries\sffamily}
+\setsubsecheadstyle{\color{sqB}\large\bfseries\sffamily}
+\setsubsubsecheadstyle{\color{sqB}\bfseries\sffamily}
+\addtodef{\printchaptername}{\color{sqB}}{}
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \color{black}
+%^^A>>>
+%^^A --------------------------------------------------- Headers and Footers <<<
+% \ifenglish
+%   \subsubsection{Headers and Footers}
+%   \label{subsubsec:headers-footers}
+% \else
+%   \subsubsection{Kopf- und Fusszeilen}
+%   \label{subsubsec:headers-footers}
+% \fi
+% \color{sqB}
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\pagestyle{headings}
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \color{black}
+%^^A>>>
+%^^A -------------------------------------------------------------- Captions <<<
+% \ifenglish
+%   \subsubsection{Captions}
+%   \label{subsubsec:captions}
+% \else
+%   \subsubsection{Legenden}
+%   \label{subsubsec:captions}
+% \fi
+% \color{sqB}
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\captionnamefont{\bfseries\small}
+\captiontitlefont{\small}
+\captiondelim{: }
+% Captions for use outside of floats
+\newfixedcaption{\figcaption}{figure}
+\newfixedcaption{\tabcaption}{table}
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \color{black}
+%^^A>>>
+%^^A -------------------------------------------------------- Chapter Styles <<<
+% \color{black}
+% \ifenglish
+%   \subsubsection{Chapter Style}
+%   \label{subsubsec:chapterstyle}
+%    The chapters are styled with grid of hexagons whose color is faded towards
+%    the right sight of the page and towards the bottom. There are two versions
+%    of  this  mechanisms: One for  printing,  activated  via the  |\papertrue|
+%    switch, and  one for  the electronic document  version, activated  via the
+%    |\paperfalse| switch (or no switch at all).
+%
+%    The  reason for  the two  implementation is  that the  electronic  version
+%    uses  fadings  and   transparency,  which  can  cause   issues  with  some
+%    printers\footnotemark.  Therefore,  instead of fadings, the  print version
+%    uses  hexagons which  have slightly  differing colors, but each  hexagon's
+%    color is  uniform. This does  not look  quite as nice  on the  screen, but
+%    printing results have been satisfactory for  me so far, though obviously I
+%    would prefer the faded version to just work. Your mileage may vary.
+%
+%    \footnotetext{%
+%        I have had a  Canon printer do a hard reset while  trying to print the
+%        faded version from a USB  stick plugged into the  printer. Our Kyocera
+%        printer simply  printed a black bar  instead of hexagons when  I tried
+%        doing the same.}
+%
 %    The  |\alpth@hexagons|  command prints  the  background  hexagon grid  for
 %    numbered chapters, appendix chapters and unnumbered chapters.
 % \else
+%   \subsubsection{Kapitel-Stil}
+%   \label{subsubsec:chapterstyle}
+%    Die  Kapitel  werden  mit  einem  Gitter  von  Hexagons  dekoriert,  deren
+%    Farbe  gegen rechts  und gegen  unten  verblasst in  Richtung weiss  (bzw.
+%    transparent). Es gibt  zwei Verianten  dieses Mechanismus: Eine  f\"ur die
+%    elektronische  Version,  welche  die   Standardeinstellung  ist  oder  mit
+%    |\paperfalse| explizit aktiviert  werden kann, und eine  Version f\"ur den
+%    Druck, welche mit |\papertrue| aktiviert wird.
+%
+%    Der  Grund   f\"ur  die   zwei  unterschiedlichen   Implementationen  ist,
+%    dass   Drucker    h\"aufig   Probleme   mit   Transparenz    und   Fadings
+%    haben\footnotemark. Die   Druckversion   benutzt   daher   statt   Fadings
+%    unterschiedliche  Farben f\"ur  die Hexagons,  wobei jedoch  jedes Hexagon
+%    eine  uniforme Farbe  hat. Dies  sieht  nicht ganz  so  nett  aus auf  dem
+%    Bildschirm,  aber  Druckresultate  waren   bisher  ganz  gut,  obwohl  ich
+%    es  nat\"urlich  bevorzugen  w\"urde,  wenn  die  Fading-Variante  einfach
+%    funktionieren w\"urde. Your mileage may vary.
+%
+%    \footnotetext{%
+%        Ich habe  bei einem Canon-Drucker  erlebt, dass er einen  harten Reset
+%        machte,  als ich  versuchte, das  Dokument mit  Transparenz von  einem
+%        USB-Stick  zu drucken,  der direkt  am Drucker  eingesteckt war. Unser
+%        Kyocera-Drucker  druckte  statt  der   Hexagons  einach  einen  dicken
+%        schwarzen Balken beim selben Versuch.}
+%
 %    Der  |\alpth@hexagons|-Befehl druckt  das  Hintergrundgitter mit  Hexagons
 %    f\"ur numerierte und unnumerierte Kapitel sowie Kapitel im Appendix.
 % \fi
@@ -629,10 +931,8 @@
 % \fi
 %    \begin{macrocode}
 \newcommand\alpth@hexagons{%
-    \alpth@setupfadings
     \tikzset{external/export next=false}%
     \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
-    %\begin{tikzpicture}[transform canvas={scale=0.6,xshift=-1cm,yshift=-1cm},remember picture,overlay,x=1cm,y=1cm]
 %    \end{macrocode}
 % \iffalse
 %</class>
@@ -650,14 +950,14 @@
 %    \begin{macrocode}
         \ifpaper
             \path[clip] 
-                ($(current page.north west) + (0pt,-0pt)$)
+                (current page.north west)
                 rectangle 
-                ($(current page.north east) + (-0pt,-11 * \height)$);
+                ($(current page.north east) + (-0pt,-11 * \alpth@height)$);
         \else
             \path[clip] 
-                ($(current page.north west) + (0pt,-0pt)$)
+                (current page.north west)
                 rectangle 
-                ($(current page.east) + (-0pt,0pt)$);
+                (current page.east);
         \fi
 %    \end{macrocode}
 % \iffalse
@@ -665,65 +965,48 @@
 % \fi
 % \color{black}
 % \ifenglish
-%    Determine the number of horizontal and vertical hexagons.
+%    The outer loop iterates over the  rows, while the inner loop iterates over
+%    the columns. Because the hexagons are offset by one |\alpth@height| in the
+%    vertical direction between  even and odd columns, we must  for each column
+%    determine if it is an even or odd one, and then offset it, or not.
+%    
+%    Also,  depending   on  whether   we're  in   |\papertrue|  mode   or  not,
+%    we   either  use   the   fadings   or  uniform   colors   as  defined   in
+%    Section~\ref{subsec:hexagon-calcs}.
 % \else
-%    Die Anzahl Hexagons in horizontaler und vertikaler Richtung bestimmen.
+%    Die  \"aussere   Schleife  iteriert  \"uber  die   Zeilen,  w\"ahrend  die
+%    innere Schleife  \"uber die  Spalten iteriert. Weil  die Hexagons  um eine
+%    |\@alpth@height| versetzt sind, abh\"angig davon,  ob sie in einer geraden
+%    oder ungeraden Spalte sind, muss f\"ur jede Spalte bestimmt werden, ob sie
+%    gerade oder ungerade ist, um sie dann entsprechend zu versetzen, oder eben
+%    nicht.
+%
+%    Im  Weiteren  werden,  abh\"angig   davon  ob  wir  im  |\papertrue|-Modus
+%    sind oder  nicht, die in  Abschnitt~\ref{subsec:hexagon-calcs} definierten
+%    Fadings oder Farben benutzt.
 % \fi
 % \color{sqB}
 % \iffalse
 %<*class>
 % \fi
 %    \begin{macrocode}
-        \pgfmathtruncatemacro\iterstop
-            {floor(\numberOfHorizElements / 2)}
-        \pgfmathtruncatemacro\iterstopvert
-            {floor(\numberOfHorizElements / 3 )}
-        \foreach \n in {0,...,\iterstopvert} {%
-            \foreach \m in {0,...,\iterstop} {%
-                \pgfmathtruncatemacro\k{round(\m + 1)}
-%    \end{macrocode}
-% \iffalse
-%</class>
-% \fi
-% \color{black}
-% \ifenglish
-%    In the horizontal direction, the rows of hexagons are offset by half a hexagon's
-%    height. Therefore, in each loop iteration, we print a pair of offset hexagons.
-% \else
-%    In horizontaler Richtung sind die Hexagons um eine halbe H\"ohe versetzt. Daher
-%    werden in jeder Loop-Iteration zwei versetzte Hexagons gedruckt.
-% \fi
-% \color{sqB}
-% \iffalse
-%<*class>
-% \fi
-%    \begin{macrocode}
+        \foreach \y in {0,...,\alpth@totRowsChap} {%
+            \foreach \x in {0,...,\alpth@totCols} {%
+                % Find out if we're in an odd or even column
+                \pgfmathsetmacro\alpth@isodd{mod(\x,2)}
                 \ifpaper
-                    \fill[hex-\k-\n,draw=hexframecol-\k-\n]
+                    \fill[fill=hex-\x-\y,draw=hexframecol-\x-\y]
                 \else
-                    \fill[br0,draw=br1,path fading=hexfade \k]
+                    \fill[br0,draw=br1,path fading=hexfade \x]
                 \fi
                     ($(current page.north west) +
-                        (1.5 * \side + 3 * \m * \side,
-                            + 0.866025 * \side - \n * 1.732051 * \side)$)
-                    -- ++(   0:\side)
-                    -- ++( -60:\side)
-                    -- ++(-120:\side)
-                    -- ++(-180:\side)
-                    -- ++(-240:\side) -- cycle;
-                \ifpaper
-                    \fill[hex-\k-\n,draw=hexframecol-\k-\n]
-                \else
-                    \fill[br0,draw=br1,path fading=hexfade \m]
-                \fi
-                    ($(current page.north west) +
-                        (0 * \side + 3 * \m * \side,
-                            -\n * 1.732051 * \side)$)
-                    -- ++(   0:\side)
-                    -- ++( -60:\side)
-                    -- ++(-120:\side)
-                    -- ++(-180:\side)
-                    -- ++(-240:\side) -- cycle;
+                        (1.5 * \x * \alpth@side,
+                         \alpth@isodd * \alpth@height - \y * 2 * \alpth@height)$)
+                    -- ++(   0:\alpth@side)
+                    -- ++( -60:\alpth@side)
+                    -- ++(-120:\alpth@side)
+                    -- ++(-180:\alpth@side)
+                    -- ++(-240:\alpth@side) -- cycle;
             }%
         }%
     \end{tikzpicture}%
@@ -738,10 +1021,17 @@
 %    a  contrast  color. The number  of  hexagons  corresponds to  the  current
 %    chapter  number. This command  is  therefore not  executed for  unnumbered
 %    chapters.
+%
+%    The  mechanism for  the offset  based  on even  or odd  column numbers  is
+%    identical to the one used in the background hexagon grid.
 % \else
 %    Der    |\alpth@chapnumhexagons|-Befehl    druckt   Hexagons    in    einer
 %    Kontrastfarbe, deren Anzahl  der aktuellen Kapitelnummer entspricht. F\"ur
 %    unnumerierte Kapitel wird dieser Befehl nat\"urlich nicht ausgef\"uhrt.
+%
+%    Der  Mechanismus  zur Bestimmung  der  Versetzung  abh\"angig von  gerader
+%    respektive ungerader  Spalten-Nummer ist identisch zu  demjenigen, welcher
+%    f\"ur das Hintergrund-Grid verwendet wird.
 % \fi
 % \color{sqB}
 % \iffalse
@@ -749,37 +1039,31 @@
 % \fi
 %    \begin{macrocode}
 \newcommand\alpth@chapnumhexagons{%
-    \alpth@setupfadings
     \tikzset{external/export next=false}
     \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
-    %\begin{tikzpicture}[transform canvas={scale=0.6,xshift=-1cm,yshift=-1cm},remember picture,overlay,x=1cm,y=1cm]
         \path[clip] 
             ($(current page.north west) + (0pt,-0pt)$)
             rectangle
             ($(current page.east) + (-0pt,0pt)$);
 
         \foreach \n in {1,...,\thechapter} {%
-            \pgfkeysgetvalue{/chapter \thechapter/hexagon \n/x}
-                {\randNumHoriz}
-            \pgfkeysgetvalue{/chapter \thechapter/hexagon \n/y}
-                {\randNumVert}
-            \pgfmathmod{\randNumHoriz}{2}
-            \pgfmathtruncatemacro\fadingIndex{floor(\randNumHoriz/2)}
-            \pgfmathsetmacro\offsetVert{\pgfmathresult}
+            \pgfkeysgetvalue{/chapter \thechapter/hexagon \n/x}{\x}
+            \pgfkeysgetvalue{/chapter \thechapter/hexagon \n/y}{\y}
+            % Find out if we're in an odd or even column
+            \pgfmathsetmacro\alpth@isodd{mod(\x,2)}
             \ifpaper
-                \fill[fill=chapcol-\randNumHoriz-\randNumVert,draw=br1]
+                \fill[fill=chapcol-\x-\y,draw=br1]
             \else
-                \fill[dv-7,draw=br1,path fading=hexfade \fadingIndex]
+                \fill[fill=dv-7,draw=br1,path fading=hexfade \x]
             \fi
-                ($(current page.north west) + 
-                    (1.5 * \randNumHoriz * \side,
-                        - 0.866025 * \offsetVert * \side 
-                        - \randNumVert * 1.732051 * \side)$)
-                -- ++(   0:\side)
-                -- ++( -60:\side)
-                -- ++(-120:\side)
-                -- ++(-180:\side)
-                -- ++(-240:\side) -- cycle;
+                ($(current page.north west) +
+                    (1.5 * \x * \alpth@side,
+                     \alpth@isodd * \alpth@height - \y * 2 * \alpth@height)$)
+                -- ++(   0:\alpth@side)
+                -- ++( -60:\alpth@side)
+                -- ++(-120:\alpth@side)
+                -- ++(-180:\alpth@side)
+                -- ++(-240:\alpth@side) -- cycle;
         }%
     \end{tikzpicture}%
 }
@@ -804,9 +1088,7 @@
 % \fi
 %    \begin{macrocode}
 \newcommand\alpth@appnumhexagons{%
-    \alpth@setupfadings
     \tikzset{external/export next=false}
-    %\begin{tikzpicture}[transform canvas={scale=0.6,xshift=-1cm,yshift=-1cm},remember picture,overlay,x=1cm,y=1cm]
     \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
         \path[clip] 
             ($(current page.north west) + (0pt,-0pt)$)
@@ -814,27 +1096,23 @@
             ($(current page.east) + (-0pt,0pt)$);
 
         \foreach \n in {A,...,\thechapter} {%
-            \pgfkeysgetvalue{/appendix \thechapter/hexagon \n/x}
-                {\randNumHoriz}
-            \pgfkeysgetvalue{/appendix \thechapter/hexagon \n/y}
-                {\randNumVert}
-            \pgfmathmod{\randNumHoriz}{2}
-            \pgfmathtruncatemacro\fadingIndex{floor(\randNumHoriz / 2)}
-            \pgfmathsetmacro\offsetVert{\pgfmathresult}
+            \pgfkeysgetvalue{/appendix \thechapter/hexagon \n/x}{\x}
+            \pgfkeysgetvalue{/appendix \thechapter/hexagon \n/y}{\y}
+            % Find out if we're in an odd or even column
+            \pgfmathsetmacro\alpth@isodd{mod(\x,2)}
             \ifpaper
-                \fill[fill=appcol-\randNumHoriz-\randNumVert,draw=br1]
+                \fill[fill=appcol-\x-\y,draw=br1]
             \else
-                \fill[ct4,draw=br1,path fading=hexfade \fadingIndex]
+                \fill[ct4,draw=br1,path fading=hexfade \x]
             \fi
-                ($(current page.north west) + 
-                    (1.5 * \randNumHoriz * \side,
-                        - 0.866025 * \offsetVert * \side 
-                        - \randNumVert * 1.732051 * \side)$)
-                -- ++(   0:\side)
-                -- ++( -60:\side)
-                -- ++(-120:\side)
-                -- ++(-180:\side)
-                -- ++(-240:\side) -- cycle;
+                ($(current page.north west) +
+                    (1.5 * \x * \alpth@side,
+                     \alpth@isodd * \alpth@height - \y * 2 * \alpth@height)$)
+                -- ++(   0:\alpth@side)
+                -- ++( -60:\alpth@side)
+                -- ++(-120:\alpth@side)
+                -- ++(-180:\alpth@side)
+                -- ++(-240:\alpth@side) -- cycle;
         }%
     \end{tikzpicture}%
 }
@@ -878,20 +1156,18 @@
 % \fi
 %    \begin{macrocode}
 \newcommand\alpth@bottomscreen{%
-    \alpth@setupfadings
     \tikzset{external/export next=false}%
     \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
-    %\begin{tikzpicture}[transform canvas={scale=0.6,xshift=-1cm,yshift=-1cm},remember picture,overlay,x=1cm,y=1cm]
         \path[clip] 
-            ($(current page.north west) + (0pt,-0pt)$)
+            (current page.north west)
             rectangle
-            ($(current page.east) + (-0pt,0pt)$);
+            (current page.east);
     
         \ifpaper\else
             \fill[white,path fading=north]%
-                ($(current page.north west) - (0pt, 10.5 * \side)$)
+                ($(current page.north west) - (0pt, 10.5 * \alpth@side)$)
                 rectangle
-                ($(current page.north east) - (0pt,2 * \side)$);%
+                ($(current page.north east) - (0pt,2 * \alpth@side)$);%
         \fi
     \end{tikzpicture}%
 }
@@ -1020,7 +1296,7 @@
 % \fi
 % \color{black}
 %^^A>>>
-%^^A Title Page: Background Hexagons --------------------------------------- <<<
+%^^A --------------------------------------- Title Page: Background Hexagons <<<
 % \ifenglish
 %   \subsubsection{Custom Title Page}
 %   \label{subsubsec:titlepage}
@@ -1038,22 +1314,10 @@
         \ifhex
             \tikzset{external/export next=false}%
             \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
-            %\begin{tikzpicture}[transform canvas={scale=0.6,xshift=-1cm,yshift=-1cm},remember picture,overlay,x=1cm,y=1cm]
                 \path[clip] 
                     (current page.north west)
                     rectangle 
                     (current page.south east);
-
-                \pgfmathsetmacro\alpth@paperwidth{21}
-                \pgfmathsetmacro\alpth@paperheight{29.7}
-                \pgfmathsetmacro\alpth@numberOfSidesHorizontally{17}
-                \pgfmathsetmacro\alpth@side{\alpth@paperwidth / \alpth@numberOfSidesHorizontally}
-                \pgfmathtruncatemacro\alpth@totCols{0.5 * \alpth@numberOfSidesHorizontally}
-
-                \pgfmathcos{30}
-                \pgfmathsetmacro\alpth@height{\pgfmathresult * \alpth@side};
-                \pgfmathtruncatemacro\alpth@numberOfHeightsVertically{\alpth@paperheight / \alpth@height}
-                \pgfmathtruncatemacro\alpth@totRows{0.5 * \alpth@numberOfHeightsVertically + 1}
 
                 \foreach \row in {0,...,\alpth@totRows} {%
                     \foreach \col in {0,...,\alpth@totCols} {%
@@ -1146,7 +1410,8 @@
                     rectangle
                     ($(current page.south east) - (3 * \alpth@side,0)$);
 
-                \node[xshift=12mm,yshift=-10mm] at (current page.center) {\includegraphics[width=140mm]{titlepic.jpg}};
+                \node[xshift=12mm,yshift=-10mm] at (current page.center) 
+                    {\includegraphics[width=140mm]{titlepic.jpg}};
 
             \end{tikzpicture}%
         \fi
@@ -1159,282 +1424,6 @@
 % \color{black}
 %^^A>>>
 %^^A>>>
-%^^A ----------------------------------------------- GENERAL PACKAGE CONFIG %<<<
-% \ifenglish
-%    \subsection{General Configuration}
-%    \label{subsec:general-config}
-%    We choose  the \pacname{kpfonts}  Package for serif  and sans  serif fonts
-%    with the  |light| option,  and \pacname{DejaVuSansMono} as  our typewriter
-%    font. Also, we  ensure that we  can write our  source code files with UTF8
-%    characters and have T1 font encoding for our output.
-% \else
-%    \subsection{Allgemeine Konfiguration}
-%    \label{subsec:general-config}
-%    Wir  w\"ahlen  \pacname{kpfonts} als  unsere  Schriftart  f\"ur Serif  und
-%    Sans-Serif,  mit  der  |light|-Option,  und  \pacname{DejaVuSansMono}  als
-%    unsere  Monospace-Schriftart. Wir  stellen   ebenfalls  sicher,  dass  wir
-%    UTF8-Input in unserem  Quelltext haben k\"onnen und dass der  Output in T1
-%    codiert wird.
-% \fi
-% \color{sqB}
-% \iffalse
-%<*class>
-% \fi
-%    \begin{macrocode}
-\RequirePackage[rmx,nott]{kpfonts}
-\RequirePackage[scaled=0.8125]{DejaVuSansMono}
-\RequirePackage[utf8]{inputenc}
-\RequirePackage[T1]{fontenc}
-%    \end{macrocode}
-% \iffalse
-%</class>
-% \fi
-% \color{black}
-%^^A>>>
-%^^A ----------------------------------------------- DOCUMENT COLOR PALETTE %<<<
-% \ifenglish
-%    \subsection{Document Color Palette}
-%    \label{subsec:colors}
-%    We  define the  following  colors  as our  document  colors  in a  central
-%    location.  This allows easy modification  of document colors while keeping
-%    the entire document consistent.
-% \else
-%    \subsection{Farbpalette des Dokuments}
-%    \label{subsec:colors}
-%    Wir  definieren  die  folgenden  Farben  f\"ur  unser  Dokument  an  einer
-%    zentralen Stelle.  Dies erlaubt es,  die Farbpalette des Dokuments einfach
-%    zu  modifizieren  und  dabei  die   Farben  \"uber  das  gesamte  Dokument
-%    konsistent zu behalten.
-% \fi
-% \begin{center}
-%     \begin{tabular}{llllllll}
-%         \toprule
-%         \multicolumn{8}{l}{\textsc{Dark}} \\
-%         \rowtestcolor{da0} & \rowtestcolor{da1} & \rowtestcolor{da2} & \rowtestcolor{da3} \\
-%         \rowtestcolor{da4} \\
-%         \midrule
-%         \multicolumn{8}{l}{\textsc{Bright}} \\
-%         \rowtestcolor{br0} & \rowtestcolor{br1} & \rowtestcolor{br2} \\
-%         \midrule
-%         \multicolumn{8}{l}{\textsc{Contrast}} \\
-%         \rowtestcolor{ct0} & \rowtestcolor{ct1} & \rowtestcolor{ct2} & \rowtestcolor{ct3} \\
-%         \rowtestcolor{ct4} & \rowtestcolor{ct5} & \rowtestcolor{ct6} \\
-%         \midrule
-%         \multicolumn{8}{l}{\textsc{Sequential}} \\
-%         \rowtestcolor{sq0} & \rowtestcolor{sq1} & \rowtestcolor{sq2} & \rowtestcolor{sq3} \\
-%         \rowtestcolor{sq4} & \rowtestcolor{sq5} & \rowtestcolor{sq6} & \rowtestcolor{sq7} \\
-%         \rowtestcolor{sq8} & \rowtestcolor{sq9} & \rowtestcolor{sqA} & \rowtestcolor{sqB} \\
-%         \rowtestcolor{sqC} \\
-%         \midrule
-%         \multicolumn{8}{l}{\textsc{Diverging}} \\
-%         \rowtestcolor{dv-7} & \rowtestcolor{dv-6} & \rowtestcolor{dv-5} & \rowtestcolor{dv-4} \\
-%         \rowtestcolor{dv-3} & \rowtestcolor{dv-2} & \rowtestcolor{dv-1} & \rowtestcolor{dv+0} \\
-%         \rowtestcolor{dv+1} & \rowtestcolor{dv+2} & \rowtestcolor{dv+3} & \rowtestcolor{dv+4} \\
-%         \rowtestcolor{dv+5} & \rowtestcolor{dv+6} & \rowtestcolor{dv+7} \\
-%         \midrule
-%         \multicolumn{8}{l}{\textsc{Qualitative}} \\
-%         \rowtestcolor{q0} & \rowtestcolor{q1} & \rowtestcolor{q2} & \rowtestcolor{q3} \\
-%         \rowtestcolor{q4} & \rowtestcolor{q5} & \rowtestcolor{q6} & \rowtestcolor{q7} \\
-%         \bottomrule
-%     \end{tabular}
-% \end{center}
-% \color{sqB}
-% \iffalse
-%<*class|colors>
-%^^A We  extract the  color information into  a package for  use in  the class
-%^^A documentation.
-%<colors>\ProvidesPackage{alpencolors}[2017/04/08 v1.0 color palette for alpenthesis]
-% \fi
-%    \begin{macrocode}
-\RequirePackage{xcolor}
-\globalcolorstrue
-\definecolor{da0}{HTML}{002B36}
-\definecolor{da1}{HTML}{073642}
-\definecolor{da2}{HTML}{008080}
-\definecolor{da3}{HTML}{800080}
-\definecolor{da4}{HTML}{404040}
-\definecolor{ct0}{HTML}{CB4B16}
-\definecolor{ct1}{HTML}{DC322F}
-\definecolor{ct2}{HTML}{DC3682}
-\definecolor{ct3}{HTML}{268BD2}
-\definecolor{ct4}{HTML}{2AA198}
-\definecolor{ct5}{HTML}{B58900}
-\definecolor{ct6}{HTML}{859900}
-\definecolor{br0}{HTML}{BEB9AA}
-\definecolor{br1}{HTML}{EEE8D5}
-\definecolor{br2}{HTML}{FDF6E3}
-\definecolor{sq0}{HTML}{F7FBFF}
-\definecolor{sq1}{HTML}{EFF3FF}
-\definecolor{sq2}{HTML}{DECDF7}
-\definecolor{sq3}{HTML}{C6DBEF}
-\definecolor{sq4}{HTML}{BDD7E7}
-\definecolor{sq5}{HTML}{9ECAE1}
-\definecolor{sq6}{HTML}{6BAED6}
-\definecolor{sq7}{HTML}{4292C6}
-\definecolor{sq8}{HTML}{3182BD}
-\definecolor{sq9}{HTML}{2171B5}
-\definecolor{sqA}{HTML}{08519C}
-\definecolor{sqB}{HTML}{084594}
-\definecolor{sqC}{HTML}{08306B}
-\definecolor{dv-7}{HTML}{8E0152}
-\definecolor{dv-6}{HTML}{C51B7D}
-\definecolor{dv-5}{HTML}{D01C8B}
-\definecolor{dv-4}{HTML}{DE77AE}
-\definecolor{dv-3}{HTML}{E9A3C9}
-\definecolor{dv-2}{HTML}{F1B6DA}
-\definecolor{dv-1}{HTML}{FDE0EF}
-\definecolor{dv+0}{HTML}{F7F7F7}
-\definecolor{dv+1}{HTML}{D1E5F0}
-\definecolor{dv+2}{HTML}{92C5DE}
-\definecolor{dv+3}{HTML}{67A9CF}
-\definecolor{dv+4}{HTML}{4393C3}
-\definecolor{dv+5}{HTML}{0571B0}
-\definecolor{dv+6}{HTML}{2166AC}
-\definecolor{dv+7}{HTML}{053061}
-\definecolor{q0}{named}{ct3}
-\definecolor{q1}{named}{sqB}
-\definecolor{q2}{named}{ct2}
-\definecolor{q3}{named}{da3}
-\definecolor{q4}{HTML}{FEC44F}
-\definecolor{q5}{named}{ct0}
-\definecolor{q6}{HTML}{80EA82}
-\definecolor{q7}{HTML}{2E7D32}
-\newcommand*\testcolor[1]{\tikz \fill[#1] (0em,0ex) rectangle (2em,2ex);}
-\newcommand*\rowtestcolor[1]{#1 & \tikz \fill[#1] (0em,0ex) rectangle (2em,2ex);}
-%    \end{macrocode}
-% \iffalse
-%</class|colors>
-% \fi
-% \color{black}
-%^^A >>>
-%^^A -------------------------------------------------- TikZ, PGF, PGFPLOTS %<<<
-% \ifenglish
-% \else
-% \fi
-% \color{sqB}
-% \iffalse
-%<*class>
-% \fi
-%    \begin{macrocode}
-\RequirePackage{tikz}
-\usetikzlibrary{calc}
-\usetikzlibrary{fadings}
-\RequirePackage{pgfplots}
-\pgfplotsset{compat=1.14}
-\usepgfplotslibrary{external}
-\tikzexternalize[prefix=cache/,optimize command away=\includepdf]
-%    \end{macrocode}
-% \iffalse
-%</class>
-% \fi
-% \color{black}
-%^^A >>>
-%^^A ------------------------------------------------------------ tcolorbox %<<<
-% \ifenglish
-% \else
-% \fi
-% \color{sqB}
-% \iffalse
-%<*class>
-% \fi
-%    \begin{macrocode}
-\RequirePackage{tcolorbox}
-\tcbuselibrary{minted}
-\tcbuselibrary{skins}
-\tcbset{%
-    colback=br2,
-    coltitle=br2,
-    colframe=da1,
-    fonttitle=\sffamily,
-    minted options={autogobble},
-    enhanced,
-    frame code={
-        \draw[very thick]
-               ([xshift=-3mm,yshift=+1mm]frame.north east)
-            -- ([xshift=+0mm,yshift=-2mm]frame.north east)
-            -- ([xshift=+0mm,yshift=+2mm]frame.south east)
-            -- ([xshift=-3mm,yshift=-1mm]frame.south east)
-            -- ([xshift=+3mm,yshift=-1mm]frame.south west)
-            -- ([xshift=-0mm,yshift=+2mm]frame.south west)
-            -- ([xshift=-0mm,yshift=-2mm]frame.north west)
-            -- ([xshift=+3mm,yshift=+1mm]frame.north west)
-            -- cycle;
-    },
-    interior titled code={%
-        \path[tcb fill interior]
-               ([xshift=-2.7mm,yshift=+1.3mm]interior.north east)
-            -- ([xshift=+0.3mm,yshift=-1.7mm]interior.north east)
-            -- ([xshift=+0.3mm,yshift=+1.7mm]interior.south east)
-            -- ([xshift=-2.7mm,yshift=-1.3mm]interior.south east)
-            -- ([xshift=+2.7mm,yshift=-1.3mm]interior.south west)
-            -- ([xshift=-0.3mm,yshift=+1.7mm]interior.south west)
-            -- ([xshift=-0.3mm,yshift=-1.7mm]interior.north west)
-            -- ([xshift=+2.7mm,yshift=+1.3mm]interior.north west)
-            -- cycle;
-    },
-    interior code={%
-        \path[tcb fill interior]
-               ([xshift=-2.7mm,yshift=+1.3mm]interior.north east)
-            -- ([xshift=+0.3mm,yshift=-1.7mm]interior.north east)
-            -- ([xshift=+0.3mm,yshift=+1.7mm]interior.south east)
-            -- ([xshift=-2.7mm,yshift=-1.3mm]interior.south east)
-            -- ([xshift=+2.7mm,yshift=-1.3mm]interior.south west)
-            -- ([xshift=-0.3mm,yshift=+1.7mm]interior.south west)
-            -- ([xshift=-0.3mm,yshift=-1.7mm]interior.north west)
-            -- ([xshift=+2.7mm,yshift=+1.3mm]interior.north west)
-            -- cycle;
-    },
-    title code={%
-        \path[tcb fill frame]
-               ([xshift=-3mm,yshift=+1mm]frame.north east)
-            -- ([xshift=+0mm,yshift=-2mm]frame.north east)
-            -- ([xshift=+0.3mm,yshift=-2mm]interior.north east)
-            -- ([xshift=-3mm,yshift=+1mm]interior.north east)
-            -- ([xshift=+3mm,yshift=+1mm]interior.north west)
-            -- ([xshift=-0.3mm,yshift=-2mm]interior.north west)
-            -- ([xshift=-0mm,yshift=-2mm]frame.north west)
-            -- ([xshift=+3mm,yshift=+1mm]frame.north west)
-            -- cycle;
-    }
-}
-%    \end{macrocode}
-% \iffalse
-%</class>
-% \fi
-% \color{black}
-%^^A >>>
-%^^A ----------------------------------- OTHER PACKAGES WOTHOUT MUCH CONFIG %<<<
-% \ifenglish
-% \else
-% \fi
-% \color{sqB}
-% \iffalse
-%<*class>
-% \fi
-%    \begin{macrocode}
-\RequirePackage[%
-    pdfauthor=alpenwasser,
-    pdfsubject={LaTeX document design},
-    pdftitle={alpenwasser's thesis},
-    bookmarksnumbered=true,
-    pdfkeywords={LaTeX,design,alpenwasser,thesis,class,hexagons},
-    colorlinks=true,
-    linkcolor=sqB,
-    citecolor=ct4,
-    urlcolor=dv-6]{hyperref}
-\RequirePackage[english]{babel}
-\RequirePackage{minted}
-\RequirePackage{tcolorbox}
-\RequirePackage{amsmath}
-\RequirePackage[separate-uncertainty=true]{siunitx}
-\RequirePackage{counttexruns}
-\RequirePackage{booktabs}
-%    \end{macrocode}
-% \iffalse
-%</class>
-% \fi
-% \color{black}
-%^^A >>>
 %^^A -------------------------------------------------------- HELPER MACROS %<<<
 % \ifenglish
 %   \subsection{Helper Macros}
@@ -1465,7 +1454,7 @@
 % \Finale
 %
 %^^A ------------------------------------------------------------------------- %
-%^^A example <<<
+%^^A                                                                 example <<<
 % \iffalse
 %<*example>
 \documentclass[a4paper,11pt,oneside,showtrims]{alpenthesis}
@@ -1695,7 +1684,7 @@ An \verb|align| with some numbered and unnumbered lines:
 %^^A >>>
 %
 %^^A ------------------------------------------------------------------------- %
-%^^A MULTI-LANGUAGE SUPPORT <<<
+%^^A                                                  MULTI-LANGUAGE SUPPORT <<<
 % \iffalse
 %<*de>
 \expandafter\newif\csname ifenglish\endcsname
@@ -1706,7 +1695,7 @@ An \verb|align| with some numbered and unnumbered lines:
 %^^A >>>
 %
 %^^A ------------------------------------------------------------------------- %
-%^^A CHARACTER TABLE <<<
+%^^A                                                         CHARACTER TABLE <<<
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
 %   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
@@ -1724,4 +1713,4 @@ An \verb|align| with some numbered and unnumbered lines:
 %   Right brace   \}     Tilde         \~}
 %^^A >>>
 \endinput
-%^^A vim: foldenable foldcolumn=2 foldmethod=marker foldmarker=<<<,>>>
+%^^A vim: foldenable foldcolumn=4 foldmethod=marker foldmarker=<<<,>>>
