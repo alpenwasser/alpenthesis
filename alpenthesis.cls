@@ -143,7 +143,7 @@
                 }
             }
             % Create vertical contrast bar on left side.
-            % Make scope for clipping.
+            % Put it inside scope for clipping.
             \begin{scope}
                 \path[clip]
                     (current page.north west)

@@ -1603,7 +1603,15 @@ An \verb|align| with some numbered and unnumbered lines:
 \end{align}
 
 
-\appendix\chapterstyle{alpenappendix}
+\cleardoublepage
+\begin{titlingpage*}
+    \fullhexpage{da2}{ct4}
+    \begin{vplace}
+        \flushright\Huge\bfseries\sffamily\appendixpagename
+    \end{vplace}
+\end{titlingpage*}
+\appendix
+\chapterstyle{alpenappendix}
 \chapter{An Appendix Chapter}
 \lipsum[1-3]
 
