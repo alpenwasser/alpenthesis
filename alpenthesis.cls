@@ -1,9 +1,9 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{alpenthesis}%
     [2017/04/06 v0.0.1 PDF-LaTeX class for my thesis]
+\LoadClassWithOptions{memoir}
 \newif\ifhex
 \newif\ifpaper
-\LoadClassWithOptions{memoir}
 \RequirePackage[rmx,nott,intlimits,sumlimits]{kpfonts}
 \RequirePackage[scaled=0.8125]{DejaVuSansMono}
 \RequirePackage[utf8]{inputenc}
@@ -119,7 +119,7 @@
         }%
     \fi
 }
-\newcommand\fullhexpage{%
+\newcommand\fullhexpage[2]{%
     \ifhex
         \tikzset{external/export next=false}%
         \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
@@ -127,14 +127,14 @@
                 (current page.north west)
                 rectangle
                 (current page.south east);
-
             \foreach \y in {0,...,\alpth@totRows} {%
                 \foreach \x in {0,...,\alpth@totCols} {%
                     \pgfmathsetmacro\alpth@isodd{mod(\x,2)}
-                    \fill[br2,draw=br1]
+                    \fill[fill=br2,draw=br1]
                         ($(current page.north west) +
                             (1.5 * \x * \alpth@side,
-                             \alpth@isodd * \alpth@height - \y * 2 * \alpth@height)$)
+                                \alpth@isodd * \alpth@height -
+                                \y * 2 * \alpth@height)$)
                         -- ++(   0:\alpth@side)
                         -- ++( -60:\alpth@side)
                         -- ++(-120:\alpth@side)
@@ -148,57 +148,25 @@
                 \path[clip]
                     (current page.north west)
                     rectangle
-                    ($(current page.south west) + (3.5 * \alpth@side,0)$);
-
-                \foreach \row in {0,...,\alpth@totRows} {%
-                    % First column
-                    \fill[dv-7,draw=dv-5]
-                        ($
-                            (current page.north west)
-                            +
-                            (
-                                0,
-                                - \row * 2 * \alpth@height
-                            )
-                        $)
-                        -- ++(   0:\alpth@side)
-                        -- ++( -60:\alpth@side)
-                        -- ++(-120:\alpth@side)
-                        -- ++(-180:\alpth@side)
-                        -- ++(-240:\alpth@side) -- cycle;
-                    % Second column
-                    \fill[dv-7,draw=dv-5]
-                        ($
-                            (current page.north west)
-                            +
-                            (
-                                1.5 * \alpth@side,
-                                \alpth@height - \row * 2 * \alpth@height
-                            )
-                        $)
-                        -- ++(   0:\alpth@side)
-                        -- ++( -60:\alpth@side)
-                        -- ++(-120:\alpth@side)
-                        -- ++(-180:\alpth@side)
-                        -- ++(-240:\alpth@side) -- cycle;
-                    % Third column
-                    \fill[dv-7,draw=dv-5]
-                        ($
-                            (current page.north west)
-                            +
-                            (
-                                3 * \alpth@side,
-                                - \row * 2 * \alpth@height
-                            )
-                        $)
-                        -- ++(   0:\alpth@side)
-                        -- ++( -60:\alpth@side)
-                        -- ++(-120:\alpth@side)
-                        -- ++(-180:\alpth@side)
-                        -- ++(-240:\alpth@side) -- cycle;
+                    ($(current page.south west) +
+                    (3.5 * \alpth@side,0)$);
+                \foreach \y in {0,...,\alpth@totRows} {%
+                    \foreach \x in {0,...,2} {%
+                        \pgfmathsetmacro\alpth@isodd{mod(\x,2)}
+                        \fill[fill=#1,draw=#2]
+                            ($(current page.north west) +
+                                (1.5 * \x * \alpth@side,
+                                     \alpth@isodd * \alpth@height -
+                                     \y * 2 * \alpth@height)$)
+                            -- ++(   0:\alpth@side)
+                            -- ++( -60:\alpth@side)
+                            -- ++(-120:\alpth@side)
+                            -- ++(-180:\alpth@side)
+                            -- ++(-240:\alpth@side) -- cycle;
+                    }
                 }
             \end{scope}
-        \end{tikzpicture}
+        \end{tikzpicture}%
     \fi
 }
 \RequirePackage{tcolorbox}

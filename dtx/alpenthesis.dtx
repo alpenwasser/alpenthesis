@@ -302,9 +302,9 @@
 %<*class>
 % \fi
 %    \begin{macrocode}
+\LoadClassWithOptions{memoir}
 \newif\ifhex
 \newif\ifpaper
-\LoadClassWithOptions{memoir}
 %    \end{macrocode}
 % \iffalse
 %</class>
@@ -343,7 +343,7 @@
 % \fi
 % \color{black}
 %^^A>>>
-%^^A ----------------------------------------------- DOCUMENT COLOR PALETTE %<<<
+%^^A ------------------------------------------------ DOCUMENT COLOR PALETTE <<<
 % \ifenglish
 %    \subsection{Document Color Palette}
 %    \label{subsec:colors}
@@ -459,7 +459,7 @@
 % \fi
 % \color{black}
 %^^A >>>
-%^^A -------------------------------------------------- TikZ, PGF, PGFPLOTS %<<<
+%^^A --------------------------------------------------- TikZ, PGF, PGFPLOTS <<<
 % \ifenglish
 %    \subsection{Ti\emph{k}Z, \textsc{pgfplots}}
 %    \label{subsec:tikz-pgfplots}
@@ -630,7 +630,7 @@
 %<*class>
 % \fi
 %    \begin{macrocode}
-\newcommand\fullhexpage{%
+\newcommand\fullhexpage[2]{%
     \ifhex
         \tikzset{external/export next=false}%
         \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
@@ -638,14 +638,14 @@
                 (current page.north west)
                 rectangle 
                 (current page.south east);
-
             \foreach \y in {0,...,\alpth@totRows} {%
                 \foreach \x in {0,...,\alpth@totCols} {%
                     \pgfmathsetmacro\alpth@isodd{mod(\x,2)}
-                    \fill[br2,draw=br1]
+                    \fill[fill=br2,draw=br1]
                         ($(current page.north west) +
                             (1.5 * \x * \alpth@side,
-                             \alpth@isodd * \alpth@height - \y * 2 * \alpth@height)$)
+                                \alpth@isodd * \alpth@height - 
+                                \y * 2 * \alpth@height)$)
                         -- ++(   0:\alpth@side)
                         -- ++( -60:\alpth@side)
                         -- ++(-120:\alpth@side)
@@ -654,62 +654,30 @@
                 }
             }
             % Create vertical contrast bar on left side.
-            % Make scope for clipping.
+            % Put it inside scope for clipping.
             \begin{scope}
                 \path[clip]
                     (current page.north west) 
                     rectangle 
-                    ($(current page.south west) + (3.5 * \alpth@side,0)$);
-
-                \foreach \row in {0,...,\alpth@totRows} {%
-                    % First column
-                    \fill[dv-7,draw=dv-5]
-                        ($
-                            (current page.north west)
-                            +
-                            (
-                                0,
-                                - \row * 2 * \alpth@height
-                            )
-                        $)
-                        -- ++(   0:\alpth@side)
-                        -- ++( -60:\alpth@side)
-                        -- ++(-120:\alpth@side)
-                        -- ++(-180:\alpth@side)
-                        -- ++(-240:\alpth@side) -- cycle;
-                    % Second column
-                    \fill[dv-7,draw=dv-5]
-                        ($
-                            (current page.north west)
-                            +
-                            (
-                                1.5 * \alpth@side,
-                                \alpth@height - \row * 2 * \alpth@height
-                            )
-                        $)
-                        -- ++(   0:\alpth@side)
-                        -- ++( -60:\alpth@side)
-                        -- ++(-120:\alpth@side)
-                        -- ++(-180:\alpth@side)
-                        -- ++(-240:\alpth@side) -- cycle;
-                    % Third column
-                    \fill[dv-7,draw=dv-5]
-                        ($
-                            (current page.north west)
-                            +
-                            (
-                                3 * \alpth@side,
-                                - \row * 2 * \alpth@height
-                            )
-                        $)
-                        -- ++(   0:\alpth@side)
-                        -- ++( -60:\alpth@side)
-                        -- ++(-120:\alpth@side)
-                        -- ++(-180:\alpth@side)
-                        -- ++(-240:\alpth@side) -- cycle;
+                    ($(current page.south west) + 
+                    (3.5 * \alpth@side,0)$);
+                \foreach \y in {0,...,\alpth@totRows} {%
+                    \foreach \x in {0,...,2} {%
+                        \pgfmathsetmacro\alpth@isodd{mod(\x,2)}
+                        \fill[fill=#1,draw=#2]
+                            ($(current page.north west) +
+                                (1.5 * \x * \alpth@side,
+                                     \alpth@isodd * \alpth@height - 
+                                     \y * 2 * \alpth@height)$)
+                            -- ++(   0:\alpth@side)
+                            -- ++( -60:\alpth@side)
+                            -- ++(-120:\alpth@side)
+                            -- ++(-180:\alpth@side)
+                            -- ++(-240:\alpth@side) -- cycle;
+                    }
                 }
             \end{scope}
-        \end{tikzpicture}
+        \end{tikzpicture}%
     \fi
 }
 %    \end{macrocode}
@@ -718,7 +686,7 @@
 % \fi
 % \color{black}
 %^^A>>>
-%^^A ------------------------------------------------------------ tcolorbox %<<<
+%^^A ------------------------------------------------------------- tcolorbox <<<
 % \ifenglish
 %    \subsection{\pacname{tcolorbox}}
 %    \label{subsec:tcolorbox}
@@ -802,7 +770,7 @@
 % \fi
 % \color{black}
 %^^A >>>
-%^^A ----------------------------------- OTHER PACKAGES WOTHOUT MUCH CONFIG %<<<
+%^^A ------------------------------------ OTHER PACKAGES WOTHOUT MUCH CONFIG <<<
 % \ifenglish
 %    \subsection{Other Packages}
 %    \label{subsec:other-packages}
@@ -1396,7 +1364,7 @@
 % \color{black}
 %^^A>>>
 %^^A>>>
-%^^A -------------------------------------------------------- HELPER MACROS %<<<
+%^^A --------------------------------------------------------- HELPER MACROS <<<
 % \ifenglish
 %   \subsection{Helper Macros}
 %   \label{subsec:helpermacros}
@@ -1445,7 +1413,7 @@
 \begin{document}
 %% ============================================================= BEGIN CONTENT %
 \begin{titlingpage}
-    \fullhexpage
+    \fullhexpage{dv-7}{dv-5}
     \tikzset{external/export next=false}%
     \begin{tikzpicture}[remember picture,overlay]
         \node[anchor=north east,yshift=-5mm,xshift=-10mm]
