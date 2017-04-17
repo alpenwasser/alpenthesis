@@ -119,6 +119,16 @@
         }%
     \fi
 }
+\newcommand\alpth@providehexagonpath[3]{%
+    ($(current page.north west) +
+        (1.5 * #1 * \alpth@side,
+            #3 * \alpth@height - #2 * 2 * \alpth@height)$)
+    -- ++(   0:\alpth@side)
+    -- ++( -60:\alpth@side)
+    -- ++(-120:\alpth@side)
+    -- ++(-180:\alpth@side)
+    -- ++(-240:\alpth@side) -- cycle;
+}
 \newcommand\fullhexpage[2]{%
     \ifhex
         \tikzset{external/export next=false}%
@@ -131,15 +141,7 @@
                 \foreach \x in {0,...,\alpth@totCols} {%
                     \pgfmathsetmacro\alpth@isodd{mod(\x,2)}
                     \fill[fill=br2,draw=br1]
-                        ($(current page.north west) +
-                            (1.5 * \x * \alpth@side,
-                                \alpth@isodd * \alpth@height -
-                                \y * 2 * \alpth@height)$)
-                        -- ++(   0:\alpth@side)
-                        -- ++( -60:\alpth@side)
-                        -- ++(-120:\alpth@side)
-                        -- ++(-180:\alpth@side)
-                        -- ++(-240:\alpth@side) -- cycle;
+                        \alpth@providehexagonpath{\x}{\y}{\alpth@isodd}
                 }
             }
             % Create vertical contrast bar on left side.
@@ -149,20 +151,12 @@
                     (current page.north west)
                     rectangle
                     ($(current page.south west) +
-                    (3.5 * \alpth@side,0)$);
+                        (3.5 * \alpth@side,0)$);
                 \foreach \y in {0,...,\alpth@totRows} {%
                     \foreach \x in {0,...,2} {%
                         \pgfmathsetmacro\alpth@isodd{mod(\x,2)}
                         \fill[fill=#1,draw=#2]
-                            ($(current page.north west) +
-                                (1.5 * \x * \alpth@side,
-                                     \alpth@isodd * \alpth@height -
-                                     \y * 2 * \alpth@height)$)
-                            -- ++(   0:\alpth@side)
-                            -- ++( -60:\alpth@side)
-                            -- ++(-120:\alpth@side)
-                            -- ++(-180:\alpth@side)
-                            -- ++(-240:\alpth@side) -- cycle;
+                            \alpth@providehexagonpath{\x}{\y}{\alpth@isodd}
                     }
                 }
             \end{scope}
@@ -281,86 +275,36 @@
                 ($(current page.north east) + (-0pt,-11 * \alpth@height)$);
         \else
             \path[clip]
-                (current page.north west)
-                rectangle
-                (current page.east);
+                (current page.north west) rectangle (current page.east);
         \fi
         \foreach \y in {0,...,\alpth@totRowsChap} {%
             \foreach \x in {0,...,\alpth@totCols} {%
-                % Find out if we're in an odd or even column
                 \pgfmathsetmacro\alpth@isodd{mod(\x,2)}
                 \ifpaper
-                    \fill[fill=hex-\x-\y,draw=hexframecol-\x-\y]
+                    \path[fill=hex-\x-\y,draw=hexframecol-\x-\y]
                 \else
-                    \fill[br0,draw=br1,path fading=hexfade \x]
+                    \path[fill=br0,draw=br1,path fading=hexfade \x]
                 \fi
-                    ($(current page.north west) +
-                        (1.5 * \x * \alpth@side,
-                         \alpth@isodd * \alpth@height - \y * 2 * \alpth@height)$)
-                    -- ++(   0:\alpth@side)
-                    -- ++( -60:\alpth@side)
-                    -- ++(-120:\alpth@side)
-                    -- ++(-180:\alpth@side)
-                    -- ++(-240:\alpth@side) -- cycle;
+                    \alpth@providehexagonpath{\x}{\y}{\alpth@isodd}
             }%
         }%
     \end{tikzpicture}%
 }
-\newcommand\alpth@chapnumhexagons{%
-    \tikzset{external/export next=false}
+\newcommand\alpth@numhexagons[4]{%
+    \tikzset{external/export next=false}%
     \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
         \path[clip]
-            ($(current page.north west) + (0pt,-0pt)$)
-            rectangle
-            ($(current page.east) + (-0pt,0pt)$);
-
-        \foreach \n in {1,...,\thechapter} {%
-            \pgfkeysgetvalue{/chapter \thechapter/hexagon \n/x}{\x}
-            \pgfkeysgetvalue{/chapter \thechapter/hexagon \n/y}{\y}
-            % Find out if we're in an odd or even column
+            (current page.north west) rectangle (current page.east);
+        \foreach \n in {#1,...,\thechapter} {%
+            \pgfkeysgetvalue{/#2 \thechapter/hexagon \n/x}{\x}
+            \pgfkeysgetvalue{/#2 \thechapter/hexagon \n/y}{\y}
             \pgfmathsetmacro\alpth@isodd{mod(\x,2)}
             \ifpaper
-                \fill[fill=chapcol-\x-\y,draw=br1]
+                \path[fill=#3-\x-\y,draw=br1]
             \else
-                \fill[fill=dv-7,draw=br1,path fading=hexfade \x]
+                \path[fill=#4,draw=br1,path fading=hexfade \x]
             \fi
-                ($(current page.north west) +
-                    (1.5 * \x * \alpth@side,
-                     \alpth@isodd * \alpth@height - \y * 2 * \alpth@height)$)
-                -- ++(   0:\alpth@side)
-                -- ++( -60:\alpth@side)
-                -- ++(-120:\alpth@side)
-                -- ++(-180:\alpth@side)
-                -- ++(-240:\alpth@side) -- cycle;
-        }%
-    \end{tikzpicture}%
-}
-\newcommand\alpth@appnumhexagons{%
-    \tikzset{external/export next=false}
-    \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
-        \path[clip]
-            ($(current page.north west) + (0pt,-0pt)$)
-            rectangle
-            ($(current page.east) + (-0pt,0pt)$);
-
-        \foreach \n in {A,...,\thechapter} {%
-            \pgfkeysgetvalue{/appendix \thechapter/hexagon \n/x}{\x}
-            \pgfkeysgetvalue{/appendix \thechapter/hexagon \n/y}{\y}
-            % Find out if we're in an odd or even column
-            \pgfmathsetmacro\alpth@isodd{mod(\x,2)}
-            \ifpaper
-                \fill[fill=appcol-\x-\y,draw=br1]
-            \else
-                \fill[ct4,draw=br1,path fading=hexfade \x]
-            \fi
-                ($(current page.north west) +
-                    (1.5 * \x * \alpth@side,
-                     \alpth@isodd * \alpth@height - \y * 2 * \alpth@height)$)
-                -- ++(   0:\alpth@side)
-                -- ++( -60:\alpth@side)
-                -- ++(-120:\alpth@side)
-                -- ++(-180:\alpth@side)
-                -- ++(-240:\alpth@side) -- cycle;
+                \alpth@providehexagonpath{\x}{\y}{\alpth@isodd}
         }%
     \end{tikzpicture}%
 }
@@ -368,10 +312,7 @@
     \tikzset{external/export next=false}%
     \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
         \path[clip]
-            (current page.north west)
-            rectangle
-            (current page.east);
-
+            (current page.north west) rectangle (current page.east);
         \ifpaper\else
             \fill[white,path fading=north]%
                 ($(current page.north west) - (0pt, 10.5 * \alpth@side)$)
@@ -381,32 +322,20 @@
     \end{tikzpicture}%
 }
 \newlength{\edgewidth}
-\makechapterstyle{alpenthesis}{%
-    % Lengths
+\newcommand\alpth@chapstylesetup{%
     \setlength{\afterchapskip}{40pt}%
     \renewcommand*{\chapterheadstart}
-        %{\vspace*{40pt}}%
         {\ifhex\alpth@hexagons\fi\vspace*{40pt}}%
-    \renewcommand*{\afterchapternum}
-        {\par\nobreak\vskip 25pt}%
+    \renewcommand*{\afterchapternum}{\par\nobreak\vskip 25pt}%
     \setlength{\beforechapskip}{18mm}%
     \setlength{\midchapskip}{\paperwidth}%
     \addtolength{\midchapskip}{-\textwidth}%
     \addtolength{\midchapskip}{-\spinemargin}%
-    % Fonts
-    \renewcommand*{\chapnamefont}
-        {\sffamily\LARGE\flushright}%
-    \renewcommand*{\chapnumfont}
-        {\sffamily\HUGE}%
-    \renewcommand*{\chaptitlefont}
-        {\sffamily\HUGE\flushright}%
-    % Output:
+    \renewcommand*{\chapnamefont}{\sffamily\LARGE\flushright}%
+    \renewcommand*{\chapnumfont}{\sffamily\HUGE}%
+    \renewcommand*{\chaptitlefont}{\sffamily\HUGE\flushright}%
+    % Output Routines
     \renewcommand*\printchaptertitle{\chaptitlefont}%
-    \renewcommand*{\printchaptername}{%
-        \ifhex\alpth@chapnumhexagons\fi%
-        \alpth@bottomscreen%
-        \chapnamefont\MakeTextUppercase{\@chapapp}%
-    }%
     \renewcommand*\printchapternonum{\alpth@bottomscreen}%
     % What comes between chaptername and the number:
     \renewcommand*{\chapternamenum}{}%
@@ -422,49 +351,24 @@
             %\rule{\midchapskip}{\beforechapskip}%
         }%
    }%
-   \makeoddfoot{plain}{}{}{\thepage}}%
-\makechapterstyle{alpenappendix}{%
-    % Lengths
-    \setlength{\afterchapskip}{40pt}%
-    \renewcommand*{\chapterheadstart}
-        %{\vspace*{40pt}}%
-        {\ifhex\alpth@hexagons\fi\vspace*{40pt}}%
-    \renewcommand*{\afterchapternum}
-        {\par\nobreak\vskip 25pt}%
-    \setlength{\beforechapskip}{18mm}%
-    \setlength{\midchapskip}{\paperwidth}%
-    \addtolength{\midchapskip}{-\textwidth}%
-    \addtolength{\midchapskip}{-\spinemargin}%
-    % Fonts
-    \renewcommand*{\chapnamefont}
-        {\sffamily\LARGE\flushright}%
-    \renewcommand*{\chapnumfont}
-        {\sffamily\HUGE}%
-    \renewcommand*{\chaptitlefont}
-        {\sffamily\HUGE\flushright}%
-    % Output:
-    \renewcommand*\printchaptertitle{\chaptitlefont}%
+   \makeoddfoot{plain}{}{}{\thepage}
+}
+\makechapterstyle{alpenthesis}{%
+    \alpth@chapstylesetup
     \renewcommand*{\printchaptername}{%
-        \ifhex\alpth@appnumhexagons\fi%
+        \ifhex\alpth@numhexagons{1}{chapter}{chapcol}{dv-7}\fi%
         \alpth@bottomscreen%
         \chapnamefont\MakeTextUppercase{\@chapapp}%
-    }
-    \renewcommand*\printchapternonum{\alpth@bottomscreen}%
-    % What comes between chaptername and the number:
-    \renewcommand*{\chapternamenum}{}%
-    % Print chapter number etc.
-    \renewcommand*{\printchapternum}{%
-        \setlength{\edgewidth}{\marginparwidth}%
-        \addtolength{\edgewidth}{\marginparsep}%
-        \makebox[0pt][l]{%
-            \hspace{.8em}%
-            \resizebox{!}{\beforechapskip}
-                {\chapnumfont \thechapter}%
-            \hspace{.8em}%
-            %\rule{\midchapskip}{\beforechapskip}%
-        }%
-   }%
-   \makeoddfoot{plain}{}{}{\thepage}}%
+    }%
+}%
+\makechapterstyle{alpenappendix}{%
+    \alpth@chapstylesetup
+    \renewcommand*{\printchaptername}{%
+        \ifhex\alpth@numhexagons{A}{appendix}{appcol}{ct4}\fi%
+        \alpth@bottomscreen%
+        \chapnamefont\MakeTextUppercase{\@chapapp}%
+    }%
+}%
 \newcommand*\pacname[1]{\textsf{#1}}
 \newcommand*\code[1]{\texttt{#1}}
 \newcommand*\athes{\pacname{alpenthesis}}

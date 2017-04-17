@@ -611,6 +611,16 @@
         }%
     \fi
 }
+\newcommand\alpth@providehexagonpath[3]{%
+    ($(current page.north west) +
+        (1.5 * #1 * \alpth@side,
+            #3 * \alpth@height - #2 * 2 * \alpth@height)$)
+    -- ++(   0:\alpth@side)
+    -- ++( -60:\alpth@side)
+    -- ++(-120:\alpth@side)
+    -- ++(-180:\alpth@side)
+    -- ++(-240:\alpth@side) -- cycle;
+}
 %    \end{macrocode}
 % \iffalse
 %</class>
@@ -642,15 +652,7 @@
                 \foreach \x in {0,...,\alpth@totCols} {%
                     \pgfmathsetmacro\alpth@isodd{mod(\x,2)}
                     \fill[fill=br2,draw=br1]
-                        ($(current page.north west) +
-                            (1.5 * \x * \alpth@side,
-                                \alpth@isodd * \alpth@height - 
-                                \y * 2 * \alpth@height)$)
-                        -- ++(   0:\alpth@side)
-                        -- ++( -60:\alpth@side)
-                        -- ++(-120:\alpth@side)
-                        -- ++(-180:\alpth@side)
-                        -- ++(-240:\alpth@side) -- cycle;
+                        \alpth@providehexagonpath{\x}{\y}{\alpth@isodd}
                 }
             }
             % Create vertical contrast bar on left side.
@@ -660,20 +662,12 @@
                     (current page.north west) 
                     rectangle 
                     ($(current page.south west) + 
-                    (3.5 * \alpth@side,0)$);
+                        (3.5 * \alpth@side,0)$);
                 \foreach \y in {0,...,\alpth@totRows} {%
                     \foreach \x in {0,...,2} {%
                         \pgfmathsetmacro\alpth@isodd{mod(\x,2)}
                         \fill[fill=#1,draw=#2]
-                            ($(current page.north west) +
-                                (1.5 * \x * \alpth@side,
-                                     \alpth@isodd * \alpth@height - 
-                                     \y * 2 * \alpth@height)$)
-                            -- ++(   0:\alpth@side)
-                            -- ++( -60:\alpth@side)
-                            -- ++(-120:\alpth@side)
-                            -- ++(-180:\alpth@side)
-                            -- ++(-240:\alpth@side) -- cycle;
+                            \alpth@providehexagonpath{\x}{\y}{\alpth@isodd}
                     }
                 }
             \end{scope}
@@ -1022,9 +1016,7 @@
                 ($(current page.north east) + (-0pt,-11 * \alpth@height)$);
         \else
             \path[clip] 
-                (current page.north west)
-                rectangle 
-                (current page.east);
+                (current page.north west) rectangle (current page.east);
         \fi
 %    \end{macrocode}
 % \iffalse
@@ -1059,21 +1051,13 @@
 %    \begin{macrocode}
         \foreach \y in {0,...,\alpth@totRowsChap} {%
             \foreach \x in {0,...,\alpth@totCols} {%
-                % Find out if we're in an odd or even column
                 \pgfmathsetmacro\alpth@isodd{mod(\x,2)}
                 \ifpaper
-                    \fill[fill=hex-\x-\y,draw=hexframecol-\x-\y]
+                    \path[fill=hex-\x-\y,draw=hexframecol-\x-\y]
                 \else
-                    \fill[br0,draw=br1,path fading=hexfade \x]
+                    \path[fill=br0,draw=br1,path fading=hexfade \x]
                 \fi
-                    ($(current page.north west) +
-                        (1.5 * \x * \alpth@side,
-                         \alpth@isodd * \alpth@height - \y * 2 * \alpth@height)$)
-                    -- ++(   0:\alpth@side)
-                    -- ++( -60:\alpth@side)
-                    -- ++(-120:\alpth@side)
-                    -- ++(-180:\alpth@side)
-                    -- ++(-240:\alpth@side) -- cycle;
+                    \alpth@providehexagonpath{\x}{\y}{\alpth@isodd}
             }%
         }%
     \end{tikzpicture}%
@@ -1083,103 +1067,86 @@
 %</class>
 % \fi
 % \color{black}
+%
+% \DescribeMacro{\alpth@numhexagons\marg{1,A}\marg{chapter,appendix}\marg{appcol,chapcol}\marg{color}}
+%
 % \ifenglish
-%    The |\alpth@chapnumhexagons| command prints a number of hexagon colored in
+%    The |\alpth@numhexagons| command prints a number of hexagon colored in
 %    a  contrast  color. The number  of  hexagons  corresponds to  the  current
 %    chapter  number. This command  is  therefore not  executed for  unnumbered
 %    chapters.
 %
 %    The  mechanism for  the offset  based  on even  or odd  column numbers  is
 %    identical to the one used in the background hexagon grid.
+%
+%    The command requires four arguments. The  syntax \meta{X,Y} indicates that
+%    either \emph{X} or \emph{Y} is required.
+%    \begin{description}
+%        \item[\meta{1,A}:] The  starting  point  for   the  iteration  of  the
+%        chapter number. |1| for regularly  numbered chapters, |A| for appendix
+%        chapters. Must be one of these two choices.
+%
+%        \item[\meta{chapter,appendix}:] Is  used  to   look  up  the  randomly
+%            generated coordinates  in the PGF  key trey in  the |randInts.tex|
+%            file. Must be one of these two choices.
+%
+%        \item[\meta{appcol,chapcol}:] The color prefix string for appendix and
+%            numbered chapters,  respectively, for  the paper  version. Must be
+%            one of these two choices.
+%
+%        \item[\meta{color}:] The  color  which  is  to be  used  to  fill  the
+%            contrast hexagons  in the case  of the electronic  version. Can be
+%            any defined color.
+%    \end{description}
 % \else
-%    Der    |\alpth@chapnumhexagons|-Befehl    druckt   Hexagons    in    einer
-%    Kontrastfarbe, deren Anzahl  der aktuellen Kapitelnummer entspricht. F\"ur
-%    unnumerierte Kapitel wird dieser Befehl nat\"urlich nicht ausgef\"uhrt.
+%    Der  |\alpth@numhexagons|-Befehl druckt  Hexagons in  einer Kontrastfarbe,
+%    deren  Anzahl der  aktuellen Kapitelnummer  entspricht. F\"ur unnumerierte
+%    Kapitel wird dieser Befehl nat\"urlich nicht ausgef\"uhrt.
 %
 %    Der  Mechanismus  zur Bestimmung  der  Versetzung  abh\"angig von  gerader
 %    respektive ungerader  Spalten-Nummer ist identisch zu  demjenigen, welcher
 %    f\"ur das Hintergrund-Grid verwendet wird.
+%
+%    Der Befehl ben\"otigt vier  Parameter. Die Syntax \meta{X,Y} signalisiert,
+%    dass entweder \emph{X} oder \emph{Y} angegeben werden muss.
+%    \begin{description}
+%        \item[\meta{1,A}:] Der Startpunkt f\"ur die Iteration der Kapitelzahl.
+%            |1| f\"ur normal nummerierte Kapitel, |A| f\"ur Kapitel im Anhang.
+%            Muss eine dieser beiden Varianten sein.
+%
+%        \item[\meta{chapter,appendix}:] Wird  benutzt, um  im PGF-Baum  in der
+%            Datei |randInts.tex| die  zuf\"allig generierten Koordinaten f\"ur
+%            das jeweils aktive Hexagon nachzuschauen.  Muss eine dieser beiden
+%            Varianten sein.
+%
+%        \item[\meta{appcol,chapcol}:] Das   Prefix  der   Kontrastfarbe  f\"ur
+%            nummerierte  Kapitel   bzw. Kapitel  des  Anhangs  im   Falle  der
+%            Papierversion.  Muss eine dieser beiden Varianten sein.
+%
+%        \item[\meta{color}:] Kontrastfarbe     bei      der     elektronischen
+%            Version. Kann eine beliebige g\"ultige Farbe sein.
+%    \end{description}
 % \fi
 % \color{sqB}
 % \iffalse
 %<*class>
 % \fi
 %    \begin{macrocode}
-\newcommand\alpth@chapnumhexagons{%
-    \tikzset{external/export next=false}
+\newcommand\alpth@numhexagons[4]{%
+    \tikzset{external/export next=false}%
     \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
-        \path[clip] 
-            ($(current page.north west) + (0pt,-0pt)$)
-            rectangle
-            ($(current page.east) + (-0pt,0pt)$);
-
-        \foreach \n in {1,...,\thechapter} {%
-            \pgfkeysgetvalue{/chapter \thechapter/hexagon \n/x}{\x}
-            \pgfkeysgetvalue{/chapter \thechapter/hexagon \n/y}{\y}
-            % Find out if we're in an odd or even column
+        \path[clip]
+            (current page.north west) rectangle (current page.east);
+        \foreach \n in {#1,...,\thechapter} {%
+            \pgfkeysgetvalue{/#2 \thechapter/hexagon \n/x}{\x}
+            \pgfkeysgetvalue{/#2 \thechapter/hexagon \n/y}{\y}
             \pgfmathsetmacro\alpth@isodd{mod(\x,2)}
             \ifpaper
-                \fill[fill=chapcol-\x-\y,draw=br1]
+                \path[fill=#3-\x-\y,draw=br1]
             \else
-                \fill[fill=dv-7,draw=br1,path fading=hexfade \x]
+                \path[fill=#4,draw=br1,path fading=hexfade \x]
             \fi
-                ($(current page.north west) +
-                    (1.5 * \x * \alpth@side,
-                     \alpth@isodd * \alpth@height - \y * 2 * \alpth@height)$)
-                -- ++(   0:\alpth@side)
-                -- ++( -60:\alpth@side)
-                -- ++(-120:\alpth@side)
-                -- ++(-180:\alpth@side)
-                -- ++(-240:\alpth@side) -- cycle;
-        }%
-    \end{tikzpicture}%
-}
-%    \end{macrocode}
-% \iffalse
-%</class>
-% \fi
-% \color{black}
-% \ifenglish
-%    The |\alpth@chapnumhexagons| command does the same thing for the appendix,
-%    but  with a  different color. Also,  the iteration  loop must  be adjusted
-%    because appendix chapters are numbered with letters.
-% \else
-%    Der |\alpth@chapnumhexagons|-Befehl macht das  Gleiche f\"ur den Appendix,
-%    jedoch  mit einer  anderen Farbe. Ebenfalls  muss die  |\foreach|-Schleife
-%    angepasst  werden, da  Kapitel  im Appendix  mit  Buchstaben statt  Zahlen
-%    nummeriert sind.
-% \fi
-% \color{sqB}
-% \iffalse
-%<*class>
-% \fi
-%    \begin{macrocode}
-\newcommand\alpth@appnumhexagons{%
-    \tikzset{external/export next=false}
-    \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
-        \path[clip] 
-            ($(current page.north west) + (0pt,-0pt)$)
-            rectangle
-            ($(current page.east) + (-0pt,0pt)$);
-
-        \foreach \n in {A,...,\thechapter} {%
-            \pgfkeysgetvalue{/appendix \thechapter/hexagon \n/x}{\x}
-            \pgfkeysgetvalue{/appendix \thechapter/hexagon \n/y}{\y}
-            % Find out if we're in an odd or even column
-            \pgfmathsetmacro\alpth@isodd{mod(\x,2)}
-            \ifpaper
-                \fill[fill=appcol-\x-\y,draw=br1]
-            \else
-                \fill[ct4,draw=br1,path fading=hexfade \x]
-            \fi
-                ($(current page.north west) +
-                    (1.5 * \x * \alpth@side,
-                     \alpth@isodd * \alpth@height - \y * 2 * \alpth@height)$)
-                -- ++(   0:\alpth@side)
-                -- ++( -60:\alpth@side)
-                -- ++(-120:\alpth@side)
-                -- ++(-180:\alpth@side)
-                -- ++(-240:\alpth@side) -- cycle;
+                \alpth@providehexagonpath{\x}{\y}{\alpth@isodd}
         }%
     \end{tikzpicture}%
 }
@@ -1226,10 +1193,7 @@
     \tikzset{external/export next=false}%
     \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
         \path[clip] 
-            (current page.north west)
-            rectangle
-            (current page.east);
-    
+            (current page.north west) rectangle (current page.east);
         \ifpaper\else
             \fill[white,path fading=north]%
                 ($(current page.north west) - (0pt, 10.5 * \alpth@side)$)
@@ -1244,11 +1208,21 @@
 % \fi
 % \color{black}
 % \ifenglish
-%    The actual  |chapterstyle| code  is loosely  based on  the \emph{veelo}
-%    chapterstyle from the \pacname{memoir} class.
+%    The  actual  |chapterstyle| code  is  loosely  based on  the  \emph{veelo}
+%    chapterstyle from the \pacname{memoir}  class. Because normal chapters and
+%    appendix chapters  require slightly different parameters,  but are largely
+%    identical in  their |chapterstyle|  configuration, an  additional command,
+%    |\alpth@chapstylesetup|,  is  used  to  bundle  the  common  configuration
+%    elements.   This  command  is  then executed  in  the  |\makechapterstyle|
+%    command for both regular and appendix chapters.
 % \else
-%    Der    eigentliche    |chapterstyle|-Code    basiert    lose    auf    dem
-%    \emph{veelo}-Stil aus der \pacname{memoir}-Klasse.
+%    Der eigentliche |chapterstyle|-Code basiert lose auf dem \emph{veelo}-Stil
+%    aus  der  \pacname{memoir}-Klasse. Weil  normale Kapitel  und  Kapitel  im
+%    Anhang  einige unterschiedliche  Parameter  ben\"otigen,  aber im  Grossen
+%    und  Ganzen identisch  sind, wird  ein zus\"atzlicher  Befel eingef\"uhrt,
+%    |\alpth@chapstylesetup|. Dieser  b\"undelt alle  gemeinsamen Elemente  und
+%    wird von |\makechapterstyle|  f\"ur den Stil der normalen  und der Kapitel
+%    im Anhang ausgef\"uhrt.
 % \fi
 % \color{sqB}
 % \iffalse
@@ -1256,32 +1230,20 @@
 % \fi
 %    \begin{macrocode}
 \newlength{\edgewidth}
-\makechapterstyle{alpenthesis}{%
-    % Lengths
+\newcommand\alpth@chapstylesetup{%
     \setlength{\afterchapskip}{40pt}%
     \renewcommand*{\chapterheadstart}
-        %{\vspace*{40pt}}%
         {\ifhex\alpth@hexagons\fi\vspace*{40pt}}%
-    \renewcommand*{\afterchapternum}
-        {\par\nobreak\vskip 25pt}%
+    \renewcommand*{\afterchapternum}{\par\nobreak\vskip 25pt}%
     \setlength{\beforechapskip}{18mm}%
     \setlength{\midchapskip}{\paperwidth}%
     \addtolength{\midchapskip}{-\textwidth}%
     \addtolength{\midchapskip}{-\spinemargin}%
-    % Fonts
-    \renewcommand*{\chapnamefont}
-        {\sffamily\LARGE\flushright}%
-    \renewcommand*{\chapnumfont}
-        {\sffamily\HUGE}%
-    \renewcommand*{\chaptitlefont}
-        {\sffamily\HUGE\flushright}%
-    % Output:
+    \renewcommand*{\chapnamefont}{\sffamily\LARGE\flushright}%
+    \renewcommand*{\chapnumfont}{\sffamily\HUGE}%
+    \renewcommand*{\chaptitlefont}{\sffamily\HUGE\flushright}%
+    % Output Routines
     \renewcommand*\printchaptertitle{\chaptitlefont}%
-    \renewcommand*{\printchaptername}{%
-        \ifhex\alpth@chapnumhexagons\fi%
-        \alpth@bottomscreen%
-        \chapnamefont\MakeTextUppercase{\@chapapp}%
-    }%
     \renewcommand*\printchapternonum{\alpth@bottomscreen}%
     % What comes between chaptername and the number:
     \renewcommand*{\chapternamenum}{}%
@@ -1297,66 +1259,43 @@
             %\rule{\midchapskip}{\beforechapskip}%
         }%
    }%
-   \makeoddfoot{plain}{}{}{\thepage}}%
+   \makeoddfoot{plain}{}{}{\thepage}
+}
 %    \end{macrocode}
 % \iffalse
 %</class>
 % \fi
 % \color{black}
 % \ifenglish
-%   The appendix  needs its own  style. It's mostly identical, except  for the
-%   numbering hexagons.
+%    For normal chapters and the  appendix, the |\alpth@numhexagons| command is
+%    called  with  the appropriately  different  parameters. See  above for  an
+%    explanation of those.
 % \else
-%   Der Anhang erh\"alt seinen eigenen Stil. Beinahe identisch mit dem normalen
-%   Stil, mit der \"andering f\"ur die Nummerierungs-Hexagons.
+%    F\"ur    normale   Kapitel    und   Kapitel    des   Anhangs    wird   der
+%    |\alpth@numhexagons|-Befehl mit den entsprechenden, angepassten Parametern
+%    aufgerufen. Siehe oben f\"ur eine Erkl\"arung derselben.
 % \fi
 % \color{sqB}
 % \iffalse
 %<*class>
 % \fi
 %    \begin{macrocode}
-\makechapterstyle{alpenappendix}{%
-    % Lengths
-    \setlength{\afterchapskip}{40pt}%
-    \renewcommand*{\chapterheadstart}
-        %{\vspace*{40pt}}%
-        {\ifhex\alpth@hexagons\fi\vspace*{40pt}}%
-    \renewcommand*{\afterchapternum}
-        {\par\nobreak\vskip 25pt}%
-    \setlength{\beforechapskip}{18mm}%
-    \setlength{\midchapskip}{\paperwidth}%
-    \addtolength{\midchapskip}{-\textwidth}%
-    \addtolength{\midchapskip}{-\spinemargin}%
-    % Fonts
-    \renewcommand*{\chapnamefont}
-        {\sffamily\LARGE\flushright}%
-    \renewcommand*{\chapnumfont}
-        {\sffamily\HUGE}%
-    \renewcommand*{\chaptitlefont}
-        {\sffamily\HUGE\flushright}%
-    % Output:
-    \renewcommand*\printchaptertitle{\chaptitlefont}%
+\makechapterstyle{alpenthesis}{%
+    \alpth@chapstylesetup
     \renewcommand*{\printchaptername}{%
-        \ifhex\alpth@appnumhexagons\fi%
+        \ifhex\alpth@numhexagons{1}{chapter}{chapcol}{dv-7}\fi%
         \alpth@bottomscreen%
         \chapnamefont\MakeTextUppercase{\@chapapp}%
-    }
-    \renewcommand*\printchapternonum{\alpth@bottomscreen}%
-    % What comes between chaptername and the number:
-    \renewcommand*{\chapternamenum}{}%
-    % Print chapter number etc.
-    \renewcommand*{\printchapternum}{%
-        \setlength{\edgewidth}{\marginparwidth}%
-        \addtolength{\edgewidth}{\marginparsep}%
-        \makebox[0pt][l]{%
-            \hspace{.8em}%
-            \resizebox{!}{\beforechapskip}
-                {\chapnumfont \thechapter}%
-            \hspace{.8em}%
-            %\rule{\midchapskip}{\beforechapskip}%
-        }%
-   }%
-   \makeoddfoot{plain}{}{}{\thepage}}%
+    }%
+}%
+\makechapterstyle{alpenappendix}{%
+    \alpth@chapstylesetup
+    \renewcommand*{\printchaptername}{%
+        \ifhex\alpth@numhexagons{A}{appendix}{appcol}{ct4}\fi%
+        \alpth@bottomscreen%
+        \chapnamefont\MakeTextUppercase{\@chapapp}%
+    }%
+}%
 %    \end{macrocode}
 % \iffalse
 %</class>
