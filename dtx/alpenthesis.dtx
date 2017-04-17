@@ -302,9 +302,9 @@
 %<*class>
 % \fi
 %    \begin{macrocode}
-\LoadClassWithOptions{memoir}
 \newif\ifhex
 \newif\ifpaper
+\LoadClassWithOptions{memoir}
 %    \end{macrocode}
 % \iffalse
 %</class>
@@ -485,7 +485,7 @@
 % \fi
 % \color{black}
 %^^A >>>
-%^^A ------------------------------------------------- HEXAGON CALCULATIONS %<<<
+%^^A -------------------------------------------------- HEXAGON CALCULATIONS <<<
 % \ifenglish
 %    \subsection{Hexagon Calculations}
 %    \label{subsec:hexagon-calcs}
@@ -616,6 +616,107 @@
 %</class>
 % \fi
 % \color{black}
+%^^A >>>
+%^^A ------------------------------------------ HEXAGON FULL PAGE BACKGROUND <<<
+% \ifenglish
+%    \subsection{Hexagon Page Background}
+%    \label{subsec:hexagon-background}
+% \else
+%    \subsection{Hexagon Seitenhintergrund}
+%    \label{subsec:hexagon-background}
+% \fi
+% \color{sqB}
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\newcommand\fullhexpage{%
+    \ifhex
+        \tikzset{external/export next=false}%
+        \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
+            \path[clip] 
+                (current page.north west)
+                rectangle 
+                (current page.south east);
+
+            \foreach \y in {0,...,\alpth@totRows} {%
+                \foreach \x in {0,...,\alpth@totCols} {%
+                    \pgfmathsetmacro\alpth@isodd{mod(\x,2)}
+                    \fill[br2,draw=br1]
+                        ($(current page.north west) +
+                            (1.5 * \x * \alpth@side,
+                             \alpth@isodd * \alpth@height - \y * 2 * \alpth@height)$)
+                        -- ++(   0:\alpth@side)
+                        -- ++( -60:\alpth@side)
+                        -- ++(-120:\alpth@side)
+                        -- ++(-180:\alpth@side)
+                        -- ++(-240:\alpth@side) -- cycle;
+                }
+            }
+            % Create vertical contrast bar on left side.
+            % Make scope for clipping.
+            \begin{scope}
+                \path[clip]
+                    (current page.north west) 
+                    rectangle 
+                    ($(current page.south west) + (3.5 * \alpth@side,0)$);
+
+                \foreach \row in {0,...,\alpth@totRows} {%
+                    % First column
+                    \fill[dv-7,draw=dv-5]
+                        ($
+                            (current page.north west)
+                            +
+                            (
+                                0,
+                                - \row * 2 * \alpth@height
+                            )
+                        $)
+                        -- ++(   0:\alpth@side)
+                        -- ++( -60:\alpth@side)
+                        -- ++(-120:\alpth@side)
+                        -- ++(-180:\alpth@side)
+                        -- ++(-240:\alpth@side) -- cycle;
+                    % Second column
+                    \fill[dv-7,draw=dv-5]
+                        ($
+                            (current page.north west)
+                            +
+                            (
+                                1.5 * \alpth@side,
+                                \alpth@height - \row * 2 * \alpth@height
+                            )
+                        $)
+                        -- ++(   0:\alpth@side)
+                        -- ++( -60:\alpth@side)
+                        -- ++(-120:\alpth@side)
+                        -- ++(-180:\alpth@side)
+                        -- ++(-240:\alpth@side) -- cycle;
+                    % Third column
+                    \fill[dv-7,draw=dv-5]
+                        ($
+                            (current page.north west)
+                            +
+                            (
+                                3 * \alpth@side,
+                                - \row * 2 * \alpth@height
+                            )
+                        $)
+                        -- ++(   0:\alpth@side)
+                        -- ++( -60:\alpth@side)
+                        -- ++(-120:\alpth@side)
+                        -- ++(-180:\alpth@side)
+                        -- ++(-240:\alpth@side) -- cycle;
+                }
+            \end{scope}
+        \end{tikzpicture}
+    \fi
+}
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \color{black}
 %^^A>>>
 %^^A ------------------------------------------------------------ tcolorbox %<<<
 % \ifenglish
@@ -728,14 +829,12 @@
 \RequirePackage{amsmath}
 \RequirePackage[separate-uncertainty=true]{siunitx}
 \RequirePackage{counttexruns}
-\RequirePackage{booktabs}
 %    \end{macrocode}
 % \iffalse
 %</class>
 % \fi
 % \color{black}
 %^^A >>>
-%
 %^^A --------------------------------------------------------- MEMOIR CONFIG <<<
 %
 %^^A -------------------------------------------------------- General Config <<<
@@ -1296,133 +1395,6 @@
 % \fi
 % \color{black}
 %^^A>>>
-%^^A --------------------------------------- Title Page: Background Hexagons <<<
-% \ifenglish
-%   \subsubsection{Custom Title Page}
-%   \label{subsubsec:titlepage}
-% \else
-%   \subsubsection{Titelseite}
-%   \label{subsubsec:titlepage}
-% \fi
-% \color{sqB}
-% \iffalse
-%<*class>
-% \fi
-%    \begin{macrocode}
-\newenvironment{hextitlingpage}{%
-    \begin{titlingpage}
-        \ifhex
-            \tikzset{external/export next=false}%
-            \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
-                \path[clip] 
-                    (current page.north west)
-                    rectangle 
-                    (current page.south east);
-
-                \foreach \row in {0,...,\alpth@totRows} {%
-                    \foreach \col in {0,...,\alpth@totCols} {%
-                        \fill[br2,draw=br1]
-                            ($
-                                (current page.north west) 
-                                + 
-                                (\col * 3 * \alpth@side,-\row * 2 * \alpth@height)
-                            $)
-                            -- ++(   0:\alpth@side)
-                            -- ++( -60:\alpth@side)
-                            -- ++(-120:\alpth@side)
-                            -- ++(-180:\alpth@side)
-                            -- ++(-240:\alpth@side) -- cycle;
-                        \fill[br2,draw=br1]
-                            ($
-                                (current page.north west)
-                                +
-                                (
-                                    1.5 * \alpth@side + \col * 3 * \alpth@side,
-                                    \alpth@height - \row * 2 * \alpth@height
-                                )
-                            $)
-                            -- ++(   0:\alpth@side)
-                            -- ++( -60:\alpth@side)
-                            -- ++(-120:\alpth@side)
-                            -- ++(-180:\alpth@side)
-                            -- ++(-240:\alpth@side) -- cycle;
-                    }
-                }
-                % Create vertical contrast bar on left side.
-                % Make scope for clipping.
-                \begin{scope}
-                    \path[clip]
-                        (current page.north west) 
-                        rectangle 
-                        ($(current page.south west) + (3.5 * \alpth@side,0)$);
-
-                    \foreach \row in {0,...,\alpth@totRows} {%
-                        % First column
-                        \fill[dv-7,draw=dv-5]
-                            ($
-                                (current page.north west)
-                                +
-                                (
-                                    0,
-                                    - \row * 2 * \alpth@height
-                                )
-                            $)
-                            -- ++(   0:\alpth@side)
-                            -- ++( -60:\alpth@side)
-                            -- ++(-120:\alpth@side)
-                            -- ++(-180:\alpth@side)
-                            -- ++(-240:\alpth@side) -- cycle;
-                        % Second column
-                        \fill[dv-7,draw=dv-5]
-                            ($
-                                (current page.north west)
-                                +
-                                (
-                                    1.5 * \alpth@side,
-                                    \alpth@height - \row * 2 * \alpth@height
-                                )
-                            $)
-                            -- ++(   0:\alpth@side)
-                            -- ++( -60:\alpth@side)
-                            -- ++(-120:\alpth@side)
-                            -- ++(-180:\alpth@side)
-                            -- ++(-240:\alpth@side) -- cycle;
-                        % Third column
-                        \fill[dv-7,draw=dv-5]
-                            ($
-                                (current page.north west)
-                                +
-                                (
-                                    3 * \alpth@side,
-                                    - \row * 2 * \alpth@height
-                                )
-                            $)
-                            -- ++(   0:\alpth@side)
-                            -- ++( -60:\alpth@side)
-                            -- ++(-120:\alpth@side)
-                            -- ++(-180:\alpth@side)
-                            -- ++(-240:\alpth@side) -- cycle;
-                    }
-                \end{scope}
-
-                \path[clip]
-                    ($(current page.north west) + (3.5 * \alpth@side,0)$)
-                    rectangle
-                    ($(current page.south east) - (3 * \alpth@side,0)$);
-
-                \node[xshift=12mm,yshift=-10mm] at (current page.center) 
-                    {\includegraphics[width=140mm]{titlepic.jpg}};
-
-            \end{tikzpicture}%
-        \fi
-    }
-    {\end{titlingpage}}
-%    \end{macrocode}
-% \iffalse
-%</class>
-% \fi
-% \color{black}
-%^^A>>>
 %^^A>>>
 %^^A -------------------------------------------------------- HELPER MACROS %<<<
 % \ifenglish
@@ -1472,7 +1444,8 @@
 %% ============================================================== END PREAMBLE %
 \begin{document}
 %% ============================================================= BEGIN CONTENT %
-\begin{hextitlingpage}
+\begin{titlingpage}
+    \fullhexpage
     \tikzset{external/export next=false}%
     \begin{tikzpicture}[remember picture,overlay]
         \node[anchor=north east,yshift=-5mm,xshift=-10mm]
@@ -1499,15 +1472,15 @@
     Supervisor\\
     Expert\\
 
-    %\vfill
+    \vfill
 
-    %\includegraphics[width=120mm]{titlepic.jpg}
+    \includegraphics[width=120mm]{titlepic.jpg}
 
-    %\vfill
+    \vfill
 
     \today\\
     Version 1.0.0
-\end{hextitlingpage}
+\end{titlingpage}
 \frontmatter
 \tableofcontents*
 
