@@ -3,7 +3,9 @@ EXAMPLE := example
 COLORPACKAGE := alpencolors
 TIKZCACHE := cache
 
-default:
+deffault: doc
+
+all:
 	@latex $(CLASSNAME).ins
 	@pdflatex -shell-escape $(CLASSNAME).dtx
 	@makeindex -s gind.ist -o $(CLASSNAME).ind $(CLASSNAME).idx
@@ -17,6 +19,14 @@ default:
 
 example:
 	@pdflatex -shell-escape $(EXAMPLE)
+
+doc:
+	@latex $(CLASSNAME).ins
+	@pdflatex $(CLASSNAME).dtx
+	@makeindex -s gind.ist -o $(CLASSNAME).ind $(CLASSNAME).idx
+	@mv $(CLASSNAME).pdf $(CLASSNAME)-en.pdf
+	@pdflatex $(CLASSNAME)-de.tex
+	@makeindex -s gind.ist -o $(CLASSNAME)-de.ind $(CLASSNAME)-de.idx
 
 # Preserve PDF documents, template and class file.
 # This is what we might want to hand to an end user.

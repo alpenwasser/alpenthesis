@@ -348,7 +348,6 @@
             \resizebox{!}{\beforechapskip}
                 {\chapnumfont\thechapter}%
             \hspace{.8em}%
-            %\rule{\midchapskip}{\beforechapskip}%
         }%
    }%
    \makeoddfoot{plain}{}{}{\thepage}
