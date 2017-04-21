@@ -70,30 +70,30 @@
 \pgfplotsset{compat=1.14}
 \usepgfplotslibrary{external}
 \tikzexternalize[prefix=cache/,optimize command away=\includepdf]
-\pgfmathsetmacro\alpth@paperwidth{21}
-\pgfmathsetmacro\alpth@paperheight{29.7}
-\pgfmathsetmacro\alpth@numberOfSidesHorizontally{22}
-\pgfmathsetmacro\alpth@side
-    {\alpth@paperwidth / \alpth@numberOfSidesHorizontally}
-\pgfmathtruncatemacro\alpth@totCols
-    {0.666667 * \alpth@numberOfSidesHorizontally + 1}
+\pgfmathsetmacro\AT@paperwidth{21}
+\pgfmathsetmacro\AT@paperheight{29.7}
+\pgfmathsetmacro\AT@numberOfSidesHorizontally{22}
+\pgfmathsetmacro\AT@side
+    {\AT@paperwidth / \AT@numberOfSidesHorizontally}
+\pgfmathtruncatemacro\AT@totCols
+    {0.666667 * \AT@numberOfSidesHorizontally + 1}
 \pgfmathcos{30}
-\pgfmathsetmacro\alpth@height
-    {\pgfmathresult * \alpth@side}
-\pgfmathtruncatemacro\alpth@numberOfHeightsVertically
-    {\alpth@paperheight / \alpth@height}
-\pgfmathtruncatemacro\alpth@totRows
-    {0.5 * \alpth@numberOfHeightsVertically + 1}
-\pgfmathtruncatemacro\alpth@totRowsChap
-    {0.1333 * \alpth@numberOfHeightsVertically + 1}
+\pgfmathsetmacro\AT@height
+    {\pgfmathresult * \AT@side}
+\pgfmathtruncatemacro\AT@numberOfHeightsVertically
+    {\AT@paperheight / \AT@height}
+\pgfmathtruncatemacro\AT@totRows
+    {0.5 * \AT@numberOfHeightsVertically + 1}
+\pgfmathtruncatemacro\AT@totRowsChap
+    {0.1333 * \AT@numberOfHeightsVertically + 1}
 \AtBeginDocument{%
     \ifpaper
-        \foreach \y in {0,...,\alpth@totRowsChap} {%
-            \foreach \x in {0,...,\alpth@totCols}{%
+        \foreach \y in {0,...,\AT@totRowsChap} {%
+            \foreach \x in {0,...,\AT@totCols}{%
                 \pgfmathsetmacro\mix
-                    {100 * \x / \alpth@totCols}%
+                    {100 * \x / \AT@totCols}%
                 \pgfmathsetmacro\mixvert
-                    {100 * \y / \alpth@totRowsChap}%
+                    {100 * \y / \AT@totRowsChap}%
                 \colorlet{hex-\x}{white!\mix!br0}%
                 \colorlet{hex-\x-\y}{white!\mixvert!hex-\x}%
                 \colorlet{hexframecol-\x}{white!\mix!br2}%
@@ -107,11 +107,11 @@
             }%
         }%
     \else
-        \foreach \x in {0,...,\alpth@totCols}{%
+        \foreach \x in {0,...,\AT@totCols}{%
             \pgfmathsetmacro\leftTransp
-                {100 *  \x    / \alpth@totCols}%
+                {100 *  \x    / \AT@totCols}%
             \pgfmathsetmacro\rightTransp
-                {100 * (\x+1) / \alpth@totCols}%
+                {100 * (\x+1) / \AT@totCols}%
             \tikzfading[%
                 name=hexfade \x,
                 right color=transparent!\rightTransp,
@@ -119,15 +119,15 @@
         }%
     \fi
 }
-\newcommand\alpth@providehexagonpath[3]{%
+\newcommand\AT@providehexagonpath[3]{%
     ($(current page.north west) +
-        (1.5 * #1 * \alpth@side,
-            #3 * \alpth@height - #2 * 2 * \alpth@height)$)
-    -- ++(   0:\alpth@side)
-    -- ++( -60:\alpth@side)
-    -- ++(-120:\alpth@side)
-    -- ++(-180:\alpth@side)
-    -- ++(-240:\alpth@side) -- cycle;
+        (1.5 * #1 * \AT@side,
+            #3 * \AT@height - #2 * 2 * \AT@height)$)
+    -- ++(   0:\AT@side)
+    -- ++( -60:\AT@side)
+    -- ++(-120:\AT@side)
+    -- ++(-180:\AT@side)
+    -- ++(-240:\AT@side) -- cycle;
 }
 \newcommand\fullhexpage[2]{%
     \ifhex
@@ -137,11 +137,11 @@
                 (current page.north west)
                 rectangle
                 (current page.south east);
-            \foreach \y in {0,...,\alpth@totRows} {%
-                \foreach \x in {0,...,\alpth@totCols} {%
-                    \pgfmathsetmacro\alpth@isodd{mod(\x,2)}
+            \foreach \y in {0,...,\AT@totRows} {%
+                \foreach \x in {0,...,\AT@totCols} {%
+                    \pgfmathsetmacro\AT@isodd{mod(\x,2)}
                     \fill[fill=br2,draw=br1]
-                        \alpth@providehexagonpath{\x}{\y}{\alpth@isodd}
+                        \AT@providehexagonpath{\x}{\y}{\AT@isodd}
                 }
             }
             % Create vertical contrast bar on left side.
@@ -151,12 +151,12 @@
                     (current page.north west)
                     rectangle
                     ($(current page.south west) +
-                        (3.5 * \alpth@side,0)$);
-                \foreach \y in {0,...,\alpth@totRows} {%
+                        (3.5 * \AT@side,0)$);
+                \foreach \y in {0,...,\AT@totRows} {%
                     \foreach \x in {0,...,2} {%
-                        \pgfmathsetmacro\alpth@isodd{mod(\x,2)}
+                        \pgfmathsetmacro\AT@isodd{mod(\x,2)}
                         \fill[fill=#1,draw=#2]
-                            \alpth@providehexagonpath{\x}{\y}{\alpth@isodd}
+                            \AT@providehexagonpath{\x}{\y}{\AT@isodd}
                     }
                 }
             \end{scope}
@@ -265,32 +265,34 @@
 \captiondelim{: }
 \newfixedcaption{\figcaption}{figure}
 \newfixedcaption{\tabcaption}{table}
-\newcommand\alpth@hexagons{%
+\newcommand\AT@hexagons{%
     \tikzset{external/export next=false}%
     \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
         \ifpaper
             \path[clip]
                 (current page.north west)
                 rectangle
-                ($(current page.north east) + (-0pt,-11 * \alpth@height)$);
+                ($(current page.north east) + (-0pt,-11 * \AT@height)$);
         \else
             \path[clip]
-                (current page.north west) rectangle (current page.east);
+                (current page.north west)
+                rectangle
+                ($(current page.north east) + (-0pt,-11 * \AT@height)$);
         \fi
-        \foreach \y in {0,...,\alpth@totRowsChap} {%
-            \foreach \x in {0,...,\alpth@totCols} {%
-                \pgfmathsetmacro\alpth@isodd{mod(\x,2)}
+        \foreach \y in {0,...,\AT@totRowsChap} {%
+            \foreach \x in {0,...,\AT@totCols} {%
+                \pgfmathsetmacro\AT@isodd{mod(\x,2)}
                 \ifpaper
                     \path[fill=hex-\x-\y,draw=hexframecol-\x-\y]
                 \else
                     \path[fill=br0,draw=br1,path fading=hexfade \x]
                 \fi
-                    \alpth@providehexagonpath{\x}{\y}{\alpth@isodd}
+                    \AT@providehexagonpath{\x}{\y}{\AT@isodd}
             }%
         }%
     \end{tikzpicture}%
 }
-\newcommand\alpth@numhexagons[4]{%
+\newcommand\AT@numhexagons[4]{%
     \tikzset{external/export next=false}%
     \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
         \path[clip]
@@ -298,36 +300,36 @@
         \foreach \n in {#1,...,\thechapter} {%
             \pgfkeysgetvalue{/#2 \thechapter/hexagon \n/x}{\x}
             \pgfkeysgetvalue{/#2 \thechapter/hexagon \n/y}{\y}
-            \pgfmathsetmacro\alpth@isodd{mod(\x,2)}
+            \pgfmathsetmacro\AT@isodd{mod(\x,2)}
             \ifpaper
                 \path[fill=#3-\x-\y,draw=br1]
             \else
                 \path[fill=#4,draw=br1,path fading=hexfade \x]
             \fi
-                \alpth@providehexagonpath{\x}{\y}{\alpth@isodd}
+                \AT@providehexagonpath{\x}{\y}{\AT@isodd}
         }%
     \end{tikzpicture}%
 }
-\newcommand\alpth@bottomscreen{%
+\newcommand\AT@bottomscreen{%
     \tikzset{external/export next=false}%
     \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
         \path[clip]
             (current page.north west) rectangle (current page.east);
         \ifpaper\else
-            \fill[white,path fading=north]%
-                ($(current page.north west) - (0pt, 10.5 * \alpth@side)$)
+            \path[fill=white,path fading=north]%
+                ($(current page.north west) - (0pt, 11.1 * \AT@height)$)
                 rectangle
-                ($(current page.north east) - (0pt,2 * \alpth@side)$);%
+                ($(current page.north east) - (0pt,  5.5 * \AT@height)$);
         \fi
     \end{tikzpicture}%
 }
 \newlength{\edgewidth}
-\newcommand\alpth@chapstylesetup{%
+\newcommand\AT@chapstylesetup{%
     \setlength{\afterchapskip}{40pt}%
     \renewcommand*{\chapterheadstart}
-        {\ifhex\alpth@hexagons\fi\vspace*{40pt}}%
+        {\ifhex\AT@hexagons\fi\vspace*{40pt}}%
     \renewcommand*{\afterchapternum}{\par\nobreak\vskip 25pt}%
-    \setlength{\beforechapskip}{18mm}%
+    \setlength{\beforechapskip}{17mm}%
     \setlength{\midchapskip}{\paperwidth}%
     \addtolength{\midchapskip}{-\textwidth}%
     \addtolength{\midchapskip}{-\spinemargin}%
@@ -336,7 +338,7 @@
     \renewcommand*{\chaptitlefont}{\sffamily\HUGE\flushright}%
     % Output Routines
     \renewcommand*\printchaptertitle{\chaptitlefont}%
-    \renewcommand*\printchapternonum{\alpth@bottomscreen}%
+    \renewcommand*\printchapternonum{\AT@bottomscreen}%
     % What comes between chaptername and the number:
     \renewcommand*{\chapternamenum}{}%
     % Print chapter number etc.
@@ -353,18 +355,18 @@
    \makeoddfoot{plain}{}{}{\thepage}
 }
 \makechapterstyle{alpenthesis}{%
-    \alpth@chapstylesetup
+    \AT@chapstylesetup
     \renewcommand*{\printchaptername}{%
-        \ifhex\alpth@numhexagons{1}{chapter}{chapcol}{dv-7}\fi%
-        \alpth@bottomscreen%
+        \ifhex\AT@numhexagons{1}{chapter}{chapcol}{dv-7}\fi%
+        \AT@bottomscreen%
         \chapnamefont\MakeTextUppercase{\@chapapp}%
     }%
 }%
 \makechapterstyle{alpenappendix}{%
-    \alpth@chapstylesetup
+    \AT@chapstylesetup
     \renewcommand*{\printchaptername}{%
-        \ifhex\alpth@numhexagons{A}{appendix}{appcol}{ct4}\fi%
-        \alpth@bottomscreen%
+        \ifhex\AT@numhexagons{A}{appendix}{appcol}{ct4}\fi%
+        \AT@bottomscreen%
         \chapnamefont\MakeTextUppercase{\@chapapp}%
     }%
 }%

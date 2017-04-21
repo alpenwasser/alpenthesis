@@ -3,7 +3,7 @@ EXAMPLE := example
 COLORPACKAGE := alpencolors
 TIKZCACHE := cache
 
-deffault: doc
+default: doc
 
 all:
 	@latex $(CLASSNAME).ins
@@ -18,6 +18,7 @@ all:
 	@cp $(EXAMPLE).tex ../
 
 example:
+	@latex $(CLASSNAME).ins
 	@pdflatex -shell-escape $(EXAMPLE)
 
 doc:
