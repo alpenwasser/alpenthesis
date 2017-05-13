@@ -963,7 +963,6 @@
 %    \begin{macrocode}
 \maxsecnumdepth{subsubsection}
 \maxtocdepth{subsubsection}
-\chapterstyle{veelo}
 %    \end{macrocode}
 % \iffalse
 %</class>
@@ -1069,6 +1068,29 @@
 % Captions for use outside of floats
 \newfixedcaption{\figcaption}{figure}
 \newfixedcaption{\tabcaption}{table}
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \color{black}
+%^^A>>>
+%^^A ----------------------------------------------------------- Part Styles <<<
+% \ifenglish
+%   \subsubsection{Part Pages}
+%   \label{subsubsec:part-styles}
+% \else
+%   \subsubsection{Part-Seiten}
+%   \label{subsubsec:part-styles}
+% \fi
+% \color{sqB}
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\renewcommand{\part}{%
+    \@setuppart
+    \fullhexpage{dv-7}{dv-5}
+    \secdef\@part\@spart}
 %    \end{macrocode}
 % \iffalse
 %</class>
@@ -1455,6 +1477,22 @@
 %</class>
 % \fi
 % \color{black}
+% \ifenglish
+%    Acually select the |alpenthesis| chapter style.
+% \else
+%    Den |alpenthesis|-Kapitelstil aktivieren.
+% \fi
+% \color{sqB}
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\chapterstyle{alpenthesis}
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \color{black}
 %^^A>>>
 %^^A>>>
 %^^A --------------------------------------------------------- HELPER MACROS <<<
@@ -1506,7 +1544,7 @@
 \begin{document}
 %% ============================================================= BEGIN CONTENT %
 \begin{titlingpage}
-    \fullhexpage{dv-7}{dv-5}
+    \fullhexpage{q1}{q0}
     \tikzset{external/export next=false}%
     \begin{tikzpicture}[remember picture,overlay]
         \node[anchor=north east,yshift=-5mm,xshift=-10mm]
@@ -1546,6 +1584,7 @@
 \tableofcontents*
 
 \mainmatter
+\part{Main Content}
 \chapter{Text}
 \lipsum[1]
 

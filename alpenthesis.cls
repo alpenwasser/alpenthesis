@@ -214,7 +214,6 @@
 \RequirePackage{counttexruns}
 \maxsecnumdepth{subsubsection}
 \maxtocdepth{subsubsection}
-\chapterstyle{veelo}
 \newcommand\aiiistock{%
     \stockaiii
     \settrimmedsize{297mm}{210mm}{*}
@@ -241,6 +240,10 @@
 \captiondelim{: }
 \newfixedcaption{\figcaption}{figure}
 \newfixedcaption{\tabcaption}{table}
+\renewcommand{\part}{%
+    \@setuppart
+    \fullhexpage{dv-7}{dv-5}
+    \secdef\@part\@spart}
 \newcommand\AT@hexagons{%
     \tikzset{external/export next=false}%
     \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
@@ -346,6 +349,7 @@
         \chapnamefont\MakeTextUppercase{\@chapapp}%
     }%
 }%
+\chapterstyle{alpenthesis}
 \newcommand*\pacname[1]{\textsf{#1}}
 \newcommand*\code[1]{\texttt{#1}}
 \newcommand*\athes{\pacname{alpenthesis}}
