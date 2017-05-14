@@ -623,7 +623,7 @@
 \RequirePackage{pgfplots}
 \pgfplotsset{compat=1.14}
 \usepgfplotslibrary{external}
-\tikzexternalize[prefix=cache/,optimize command away=\includepdf]
+\tikzexternalize[prefix=cache/]
 %    \end{macrocode}
 % \iffalse
 %</class>
@@ -844,9 +844,17 @@
 %<*class>
 % \fi
 %    \begin{macrocode}
+\usepackage[chapter]{minted}
 \RequirePackage{tcolorbox}
-\tcbuselibrary{minted}
+\tcbuselibrary{listings}
+\tcbuselibrary{minted} % Must be loaded after the listings option library
 \tcbuselibrary{skins}
+\tcbuselibrary{xparse}
+\AtBeginDocument{%
+    \DeclareTCBListing[blend into=listings]{mybox}{ O{} }{listing only,#1}
+}
+\newcounter{ATlisting}
+\counterwithin{ATlisting}{chapter}
 \tcbset{%
     colback=br2,
     coltitle=br2,
@@ -909,7 +917,7 @@
 % \fi
 % \color{black}
 %^^A >>>
-%^^A ------------------------------------ OTHER PACKAGES WOTHOUT MUCH CONFIG <<<
+%^^A ------------------------------------ OTHER PACKAGES WITHOUT MUCH CONFIG <<<
 % \ifenglish
 %    \subsection{Other Packages}
 %    \label{subsec:other-packages}
@@ -1531,7 +1539,7 @@
 \documentclass[a4paper,11pt,oneside,showtrims]{alpenthesis}
 %\aiiistock
 \usepackage{lipsum}
-\hextrue
+\hexfalse
 \paperfalse
 
 %% ================================================================= SET TITLE %
@@ -1582,11 +1590,29 @@
 \end{titlingpage}
 \frontmatter
 \tableofcontents*
+\newpage
+\listoflistings
+\newpage
+\listoffigures
+\newpage
+\listoftables
 
 \mainmatter
 \part{Main Content}
 \chapter{Text}
 \lipsum[1]
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \coordinate (C) at (0,0);
+        \coordinate (A) at (0,0);
+        \coordinate (B) at (4,2);
+        \draw (C) circle (1);
+        \draw (A) rectangle (B);
+    \end{tikzpicture}
+    \caption{A Ti\emph{k}Z Picture}
+\end{figure}
 
 \sffamily\lipsum[2]
 
@@ -1664,27 +1690,68 @@ This section illustrates the  style of \verb|\section|, \verb|\subsection| and
 \lipsum[2]
 
 \chapter{Code Listings}
-\tikzset{external/export next=false}%
-\begin{tcblisting}{%
-        title=This Is a Code Listing,
-        minted language=tex,
-        listing side text,
-        }
-    \begin{tabular}{ll}
-        a & a \\
-        a & a \\
-    \end{tabular}
-\end{tcblisting}
+\begin{listing}
+    %\tikzset{external/export next=false}% Does not work for some reason
+    \tikzexternaldisable
+    \begin{tcblisting}{%
+            title={\refstepcounter{ATlisting}\label{lst:test} Listing \theATlisting This Is a Code Listing},
+            %title=This Is a Code Listing,
+            minted language=tex,
+            listing side text,
+            }
+        \begin{tabular}{ll}
+            a & a \\
+            a & a \\
+        \end{tabular}
+    \end{tcblisting}
+    \tikzexternalenable
+    \caption{test: listings float env}
+\end{listing}
 
-\tikzset{external/export next=false}%
+Ref test: \ref{lst:test}
+
+%\tikzset{external/export next=false}
+\tikzexternaldisable
+\begin{mybox}[
+    title={test tcolorbox},
+    minted language=tex,
+    ]
+    This is my
+    \LaTeX\ box.
+    \begin{tabularx}{XX}
+        a & a \\
+        a & a \\
+    \end{tabularx}
+\end{mybox}
+\tikzexternalenable
+
+\begin{minted}{tex}
+    \begin{tabularx}{XX}
+        a & a \\
+        a & a \\
+    \end{tabularx}
+\end{minted}
+\refstepcounter{ATlisting}\label{lst:minted}Listing~\theATlisting: Pure Minted Test Listing
+
+\thelstlisting
+\refstepcounter{lstlisting}
+\thelstlisting
+
+\thelisting
+\refstepcounter{listing}
+\thelisting
+
+\tikzexternaldisable
 \begin{tcolorbox}[title=test]
     \lipsum[2]
 \end{tcolorbox}
+\tikzexternalenable
 
-\tikzset{external/export next=false}%
+\tikzexternaldisable
 \begin{tcolorbox}
     \lipsum[2]
 \end{tcolorbox}
+\tikzexternalenable
 
 \chapter{Mathematics}
 

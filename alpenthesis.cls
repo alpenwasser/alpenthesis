@@ -45,7 +45,7 @@
 \RequirePackage{pgfplots}
 \pgfplotsset{compat=1.14}
 \usepgfplotslibrary{external}
-\tikzexternalize[prefix=cache/,optimize command away=\includepdf]
+\tikzexternalize[prefix=cache/]
 \pgfmathsetmacro\AT@paperwidth{21}
 \pgfmathsetmacro\AT@paperheight{29.7}
 \pgfmathsetmacro\AT@numberOfSidesHorizontally{22}
@@ -139,9 +139,17 @@
         \end{tikzpicture}%
     \fi
 }
+\usepackage[chapter]{minted}
 \RequirePackage{tcolorbox}
-\tcbuselibrary{minted}
+\tcbuselibrary{listings}
+\tcbuselibrary{minted} % Must be loaded after the listings option library
 \tcbuselibrary{skins}
+\tcbuselibrary{xparse}
+\AtBeginDocument{%
+    \DeclareTCBListing[blend into=listings]{mybox}{ O{} }{listing only,#1}
+}
+\newcounter{ATlisting}
+\counterwithin{ATlisting}{chapter}
 \tcbset{%
     colback=br2,
     coltitle=br2,
