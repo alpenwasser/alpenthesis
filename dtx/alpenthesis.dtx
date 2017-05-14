@@ -624,6 +624,7 @@
 \pgfplotsset{compat=1.14}
 \usepgfplotslibrary{external}
 \tikzexternalize[prefix=cache/]
+%\tikzexternalize[prefix=cache/,mode=list and make] %% conflicts with tcolorbox
 %    \end{macrocode}
 % \iffalse
 %</class>
@@ -844,7 +845,7 @@
 %<*class>
 % \fi
 %    \begin{macrocode}
-\usepackage[chapter]{minted}
+\RequirePackage[chapter]{minted}
 \RequirePackage{tcolorbox}
 \tcbuselibrary{listings}
 \tcbuselibrary{minted} % Must be loaded after the listings option library
@@ -1539,7 +1540,7 @@
 \documentclass[a4paper,11pt,oneside,showtrims]{alpenthesis}
 %\aiiistock
 \usepackage{lipsum}
-\hexfalse
+\hextrue
 \paperfalse
 
 %% ================================================================= SET TITLE %
@@ -1554,16 +1555,16 @@
 \begin{titlingpage}
     \fullhexpage{q1}{q0}
     \tikzset{external/export next=false}%
-    \begin{tikzpicture}[remember picture,overlay]
-        \node[anchor=north east,yshift=-5mm,xshift=-10mm]
+    \begin{tikzpicture}[remember picture,overlay,very thick]
+        \node[draw,anchor=north east,yshift=-5mm,xshift=-10mm]
             at (current page.north east)
-            {\includegraphics[height=10mm]{logo-top.pdf}};
+            {\texttt{LOGO TOP}};
     \end{tikzpicture}
     \tikzset{external/export next=false}%
-    \begin{tikzpicture}[remember picture,overlay]
-        \node[anchor=south east,yshift=+5mm,xshift=-10mm]
+    \begin{tikzpicture}[remember picture,overlay,very thick]
+        \node[draw,anchor=south east,yshift=+5mm,xshift=-10mm]
             at (current page.south east)
-            {\includegraphics[height=16mm]{logo-bottom.pdf}};
+            {\texttt{LOGO BOTTOM}};
     \end{tikzpicture}
     \flushright\sffamily
 
@@ -1581,7 +1582,12 @@
 
     \vfill
 
-    \includegraphics[width=120mm]{titlepic.jpg}
+    \begin{tikzpicture}[very thick]
+        \draw (0,0) rectangle (12,8);
+        \draw (0,0) -- (12,8);
+        \draw (0,8) -- (12,0);
+        \node[anchor=center] at (6,1) {\LARGE\texttt{TITLE PICTURE}};
+    \end{tikzpicture}
 
     \vfill
 
@@ -1602,18 +1608,6 @@
 \chapter{Text}
 \lipsum[1]
 
-\begin{figure}
-    \centering
-    \begin{tikzpicture}
-        \coordinate (C) at (0,0);
-        \coordinate (A) at (0,0);
-        \coordinate (B) at (4,2);
-        \draw (C) circle (1);
-        \draw (A) rectangle (B);
-    \end{tikzpicture}
-    \caption{A Ti\emph{k}Z Picture}
-\end{figure}
-
 \sffamily\lipsum[2]
 
 \bfseries\lipsum[3]
@@ -1631,6 +1625,36 @@
 \scslshape\lipsum[9]
 
 \normalfont
+
+\chapter{Ti\emph{k}Z Pictures}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \coordinate (C) at (0,0);
+        \coordinate (A) at (0,0);
+        \coordinate (B) at (4,2);
+        \draw (C) circle (1);
+        \draw (A) rectangle (B);
+    \end{tikzpicture}
+    \caption{A Ti\emph{k}Z Picture}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[width=\textwidth,height=50mm]
+            \addplot[
+                dv-7,
+                domain=-3e-3:3e-3,
+                samples=201,
+            ] 
+            {exp(-x^2 / (2e-3^2)) / (1e-3 * sqrt(2*pi))};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{A plot}
+\end{figure}
+
 
 \chapter{Tables}
 \begin{table}

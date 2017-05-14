@@ -18,7 +18,7 @@
     \begin{tikzpicture}[remember picture,overlay]
         \node[anchor=north east,yshift=-5mm,xshift=-10mm]
             at (current page.north east)
-            {\includegraphics[height=10mm]{logo-top.pdf}};
+            {\texttt{LOGO}};
     \end{tikzpicture}
     \tikzset{external/export next=false}%
     \begin{tikzpicture}[remember picture,overlay]
@@ -63,18 +63,6 @@
 \chapter{Text}
 \lipsum[1]
 
-\begin{figure}
-    \centering
-    \begin{tikzpicture}
-        \coordinate (C) at (0,0);
-        \coordinate (A) at (0,0);
-        \coordinate (B) at (4,2);
-        \draw (C) circle (1);
-        \draw (A) rectangle (B);
-    \end{tikzpicture}
-    \caption{A Ti\emph{k}Z Picture}
-\end{figure}
-
 \sffamily\lipsum[2]
 
 \bfseries\lipsum[3]
@@ -92,6 +80,34 @@
 \scslshape\lipsum[9]
 
 \normalfont
+
+\chapter{Ti\emph{k}Z Pictures}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \coordinate (C) at (0,0);
+        \coordinate (A) at (0,0);
+        \coordinate (B) at (4,2);
+        \draw (C) circle (1);
+        \draw (A) rectangle (B);
+    \end{tikzpicture}
+    \caption{A Ti\emph{k}Z Picture}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[width=\textwidth,height=50mm]
+            \addplot[
+                dv-7,
+                domain=-3e-3:3e-3,
+                samples=201,
+            ]
+            {exp(-x^2 / (2e-3^2)) / (1e-3 * sqrt(2*pi))};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{A plot}
+\end{figure}
 
 \chapter{Tables}
 \begin{table}

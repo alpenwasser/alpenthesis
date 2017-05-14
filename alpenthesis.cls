@@ -139,7 +139,7 @@
         \end{tikzpicture}%
     \fi
 }
-\usepackage[chapter]{minted}
+\RequirePackage[chapter]{minted}
 \RequirePackage{tcolorbox}
 \tcbuselibrary{listings}
 \tcbuselibrary{minted} % Must be loaded after the listings option library
