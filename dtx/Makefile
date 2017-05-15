@@ -1,7 +1,7 @@
 CLASSNAME := alpenthesis
 EXAMPLE := example
 COLORPACKAGE := alpencolors
-TIKZCACHE := cache
+TIKZCACHE := tikzCache
 
 default: doc
 
