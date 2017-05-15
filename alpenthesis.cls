@@ -45,7 +45,7 @@
 \RequirePackage{pgfplots}
 \pgfplotsset{compat=1.14}
 \usepgfplotslibrary{external}
-\tikzexternalize[prefix=cache/]
+\tikzexternalize[prefix=tikzCache/]
 \pgfmathsetmacro\AT@paperwidth{21}
 \pgfmathsetmacro\AT@paperheight{29.7}
 \pgfmathsetmacro\AT@numberOfSidesHorizontally{22}

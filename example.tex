@@ -1,7 +1,9 @@
 \documentclass[a4paper,11pt,oneside,showtrims]{alpenthesis}
+%%\aiiistock
 \usepackage{lipsum}
-\hexfalse
+\hextrue
 \paperfalse
+\usepackage[numbered]{matlab-prettifier}
 
 %% ================================================================= SET TITLE %
 \title{My Thesis}
@@ -12,19 +14,20 @@
 %% ============================================================== END PREAMBLE %
 \begin{document}
 %% ============================================================= BEGIN CONTENT %
+%% <<< titlingpage
 \begin{titlingpage}
     \fullhexpage{q1}{q0}
     \tikzset{external/export next=false}%
-    \begin{tikzpicture}[remember picture,overlay]
-        \node[anchor=north east,yshift=-5mm,xshift=-10mm]
+    \begin{tikzpicture}[remember picture,overlay,very thick]
+        \node[draw,anchor=north east,yshift=-5mm,xshift=-10mm]
             at (current page.north east)
-            {\texttt{LOGO}};
+            {\texttt{LOGO TOP}};
     \end{tikzpicture}
     \tikzset{external/export next=false}%
-    \begin{tikzpicture}[remember picture,overlay]
-        \node[anchor=south east,yshift=+5mm,xshift=-10mm]
+    \begin{tikzpicture}[remember picture,overlay,very thick]
+        \node[draw,anchor=south east,yshift=+5mm,xshift=-10mm]
             at (current page.south east)
-            {\includegraphics[height=16mm]{logo-bottom.pdf}};
+            {\texttt{LOGO BOTTOM}};
     \end{tikzpicture}
     \flushright\sffamily
 
@@ -42,13 +45,20 @@
 
     \vfill
 
-    \includegraphics[width=120mm]{titlepic.jpg}
+    \begin{tikzpicture}[very thick]
+        \draw (0,0) rectangle (12,8);
+        \draw (0,0) -- (12,8);
+        \draw (0,8) -- (12,0);
+        \node[anchor=center] at (6,1) {\LARGE\texttt{TITLE PICTURE}};
+    \end{tikzpicture}
 
     \vfill
 
     \today\\
     Version 1.0.0
 \end{titlingpage}
+%% >>>
+%% <<< frontmatter
 \frontmatter
 \tableofcontents*
 \newpage
@@ -57,10 +67,11 @@
 \listoffigures
 \newpage
 \listoftables
+%% >>>
 
 \mainmatter
 \part{Main Content}
-\chapter{Text}
+\chapter{Text} % <<< Text
 \lipsum[1]
 
 \sffamily\lipsum[2]
@@ -81,7 +92,8 @@
 
 \normalfont
 
-\chapter{Ti\emph{k}Z Pictures}
+%% >>>
+\chapter{Ti\emph{k}Z Pictures, pgfplots} % <<< TikZ Pictures, pgfplots
 \begin{figure}
     \centering
     \begin{tikzpicture}
@@ -106,10 +118,121 @@
             {exp(-x^2 / (2e-3^2)) / (1e-3 * sqrt(2*pi))};
         \end{axis}
     \end{tikzpicture}
-    \caption{A plot}
+    \caption{A plot of a function}
+    \label{fig:function}
 \end{figure}
 
-\chapter{Tables}
+\lipsum[3]
+\begin{figure}[htb]
+    \centering
+    %\tikzexternaldisable
+    \begin{tikzpicture}[trim axis left]
+        \newcommand*\imp{IMPORTANT}
+        % https://tex.stackexchange.com/a/78279/131649
+        % https://tex.stackexchange.com/a/369884/131649
+        % https://tex.stackexchange.com/q/36297/131649
+        \pgfplotsset{
+            every axis legend/.append style={
+                at={(1,1.05)},
+                anchor=south east,
+            }
+        }
+        \begin{axis}[
+                scale only axis,
+                xtick = {
+                    -0.0030,
+                    -0.0015,
+                     0,
+                     0.0015,
+                     0.0030
+                },
+                minor xtick = {
+                    -0.0035,
+                    -0.0025,
+                    -0.002,
+                    -0.001,
+                    -0.0005,
+                     0,
+                     0.0005,
+                     0.001,
+                     0.002,
+                     0.0025,
+                     0.0035
+                },
+                extra x ticks={-0.0006}, % p.331ff in pgfplots manual
+                extra x tick labels={\textcolor{dv+6}{\imp}},
+                %xticklabel style={/pgf/number format/.cd,fixed,precision=5},
+                xticklabel style={/pgf/number format/.cd,sci e}, % pgfplotstable: p.34
+                extra x tick style={
+                    grid=major,
+                    tick label style={
+                        rotate=90,
+                        anchor=west,
+                    },
+                    tick pos = right,
+                    ticklabel pos = right,
+                },
+                title style={
+                    yshift={width("\imp")},
+                },
+                scaled ticks=false,
+                width=\textwidth,
+                height=80mm,
+                xlabel=time (\si{\second}),
+                ylabel=Amplitude (\si{\volt}),
+                %xtick scale label code/.code={$\cdot \pi$},
+                title=Plot Title,
+                typeset ticklabels with strut,
+                xlabel style={
+                    yshift={width("\imp") - height("0")},
+                },
+                legend cell align=left,
+                %legend pos = outer north east,
+                every outer x axis line/.append style={black},
+                every outer y axis line/.append style={black},
+                axis line shift=0pt,
+        ]
+
+            \addplot[
+                mark = *,
+                ycomb,
+                dv-7,
+                domain=-3e-3:3e-3,
+                samples=11,
+                every mark/.style={fill=white},
+            ]
+                {exp(-x^2 / (2e-3^2)) / (1e-3 * sqrt(2*pi))};
+            \label{pgfplots:bell}
+            \addlegendentry{Bell Curve}
+
+            \addplot[
+                mark = *,
+                ycomb,
+                q0,
+                samples=11,
+                every mark/.style={fill=white},
+                samples at={-0.0031,-0.0025,...,0.0029},
+            ]
+                {4.75e4 * x + 200};
+            \label{pgfplots:linear}
+            \addlegendentry{Some Linear Function}
+        \end{axis}
+    \end{tikzpicture}
+    %\tikzexternalenable
+    \caption{A plot similar to matlab's stem}
+    \label{fig:stem}
+\end{figure}
+
+We have two curves in Figure~\ref{fig:stem}:
+\begin{itemize}\tightlist
+    \item[\ref{pgfplots:bell}] a bell curve,
+    \item[\ref{pgfplots:linear}] and a linear function.
+\end{itemize}
+
+\lipsum[2]
+
+%% >>>
+\chapter{Tables} % <<< Tables
 \begin{table}
     \centering
     \caption{tabular inside float}
@@ -142,8 +265,8 @@
         \bottomrule
     \end{tabular}
 \end{center}
-
-\chapter{References and Hyperlinks}
+%% >>>
+\chapter{References and Hyperlinks} % <<< References and Hyperlinks
 This sentence refers to Table~\ref{tab:outside}.
 
 This is a citation \cite{testitem}.
@@ -152,7 +275,8 @@ This is a citation \cite{testitem}.
 
 \href{https://hyperlink.com}{\nolinkurl{https://hyperlink.com}}
 
-\chapter{Sectional Headings}
+%% >>>
+\chapter{Sectional Headings} % <<<
 
 This section illustrates the  style of \verb|\section|, \verb|\subsection| and
 \verb|\subsubsection|.
@@ -165,8 +289,8 @@ This section illustrates the  style of \verb|\section|, \verb|\subsection| and
 
 \subsubsection{A subsubsection}
 \lipsum[2]
-
-\chapter{Code Listings}
+%% >>>
+\chapter{Code Listings} % <<<
 \begin{listing}
     %\tikzset{external/export next=false}% Does not work for some reason
     \tikzexternaldisable
@@ -207,7 +331,8 @@ Ref test: \ref{lst:test}
         a & a \\
     \end{tabularx}
 \end{minted}
-\refstepcounter{ATlisting}\label{lst:minted}Listing~\theATlisting: Pure Minted Test Listing
+\refstepcounter{ATlisting}\label{lst:minted}Listing~\theATlisting: Pure Minted
+Test Listing with manual counter
 
 \thelstlisting
 \refstepcounter{lstlisting}
@@ -229,7 +354,68 @@ Ref test: \ref{lst:test}
 \end{tcolorbox}
 \tikzexternalenable
 
-\chapter{Mathematics}
+\section{Matlab}
+%%<<<
+
+\begin{lstlisting}[
+    style=Matlab-editor,
+    gobble=4,
+    title=Matlab Example Title,
+    caption=Matlab Example Caption,
+]
+    %% Aufgabe 1: Knackgeraeusche entfernen (2/12)
+    clear all; close all; clc;
+    load Pruefung2_2.mat
+
+    % ... %
+
+    rxx = xcorr(x, scratch)/length(scratch);
+    rxx = rxx((length(rxx)+1)/2:length(rxx));
+
+    % c) Bestimmen Sie mittels plot() die Position der Knackgeraeusche. Welchen
+    % Abstand weisen sie rund auf?
+    figure; plot(rxx); grid on;
+    % [px,py] = ginput(2);
+    % px(2) - px(1)
+    % ans = 1.4544e+04 = 14544
+
+    % d) Legen sie aufgrund von c) einen Vektor p mit den Positionen der
+    % Knackgeraeusche fest. Der Abstand darf als konstant angenommen werden.
+    p = 14544:14544:length(x);
+
+    figure; plot(x,'r');hold on;
+    for i = p
+        % i: scratch position
+        src1 = x(i-512:i-257);
+        src2 = x(i+256:i+511);
+        x(i-256:i-1) = src1;
+        x(i:i+255)   = src2;
+    end
+    plot(x,'b');
+
+    %% Aufgabe 2: Distanzmessung (2/10)
+
+    % ... %
+
+    filter_koeffs = x; % filterkoeffizienten sind koeffizienten der stossantwort
+    y0_upsampled = upsample(y0,10);
+    y0_filtered  = filter(filter_koeffs,1,y0_upsampled);
+    [peak0, offset] = max(y0_filtered);
+    figure;plot(y0_filtered);grid on;
+
+    % c) Bestimme Sie die Laufzeit und dann die Distanz zur Wand aufgrund von y1.
+    y1_upsampled = upsample(y1,10);
+    y1_filtered  = filter(filter_koeffs,1,y1_upsampled);
+    [peak1, peak_index] = max(y1_filtered);
+    peak_actual = peak_index - offset;
+    figure;plot(y1_filtered);grid on;
+
+    distance = T * peak_actual * c
+\end{lstlisting}
+
+%% >>>
+%% >>>
+\chapter{Mathematics} % <<<
 
 A numbered equation:
 \begin{equation}
@@ -277,7 +463,17 @@ An \verb|align| with some numbered and unnumbered lines:
     \label{eq:mISL:3}
 \end{align}
 
+\begin{equation}
+    f(t) =
+    \begin{cases}
+        1 \quad t \geq 0\\
+        0 \quad t < 0\\
+    \end{cases}
+\end{equation}
+
+%% >>>
 \cleardoublepage
+%% <<< Appendices, Backmatter, Bibliography
 \begin{titlingpage*}
     \fullhexpage{da2}{ct4}
     \begin{vplace}
@@ -300,5 +496,6 @@ An \verb|align| with some numbered and unnumbered lines:
     \bibitem{testitem}
         An Author, ``A Title``, 1979.
 \end{thebibliography}
+%% >>>
 %% ============================================================== END CONTENT %
 \end{document}
