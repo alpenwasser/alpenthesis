@@ -140,6 +140,8 @@
         \end{tikzpicture}%
     \fi
 }
+%%^^A\RequirePackage[chapter,cachedir=mintedCache,outputdir=build]{minted}
+%% \RequirePackage[chapter,outputdir=build,cachedir=mintedCache]{minted}
 \RequirePackage[chapter]{minted}
 \RequirePackage{tcolorbox}
 \tcbuselibrary{listings}
@@ -220,8 +222,10 @@
 \RequirePackage[separate-uncertainty=true]{siunitx}
 \RequirePackage{counttexruns}
 \RequirePackage{morewrites}
-\RequirePackage{minitoc} % Should probably be loaded after hyperref.
-\AtBeginDocument{\doparttoc}
+%%^^A \href{https://tex.stackexchange.com/questions/5944/minitoc-and-memoir#comment126049_5956}
+%%^^A      {\nolinkurl{https://tex.stackexchange.com/questions/5944/minitoc-and-memoir#comment126049_5956}}
+%%^^A\RequirePackage{minitoc} % Should probably be loaded after hyperref.
+%%^^A\AtBeginDocument{\doparttoc}
 \maxsecnumdepth{subsubsection}
 \maxtocdepth{subsubsection}
 \newcommand\aiiistock{%
@@ -254,8 +258,21 @@
     \@setuppart
     \fullhexpage{dv-7}{dv-5}
     \secdef\@part\@spart}
-\renewcommand*{\partpageend}{
-}
+\renewcommand*{\partpageend}{%
+    \afterpartskip
+    \ifm@mnopartnewpage
+    \else
+        \if@twoside
+            \if@openright
+                \null
+                \thispagestyle{afterpart}%
+                \newpage
+            \fi
+        \fi
+    \fi
+    \if@tempswa
+        \twocolumn
+    \fi}
 \newcommand\AT@hexagons{%
     \tikzset{external/export next=false}%
     \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]
@@ -366,3 +383,4 @@
 \newcommand*\code[1]{\texttt{#1}}
 \newcommand*\athes{\pacname{alpenthesis}}
 \input{randInts.tex}
+%% \input{alpenthesis/randInts.tex}

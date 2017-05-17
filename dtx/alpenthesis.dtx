@@ -845,6 +845,8 @@
 %<*class>
 % \fi
 %    \begin{macrocode}
+%%^^A\RequirePackage[chapter,cachedir=mintedCache,outputdir=build]{minted}
+%% \RequirePackage[chapter,outputdir=build,cachedir=mintedCache]{minted}
 \RequirePackage[chapter]{minted}
 \RequirePackage{tcolorbox}
 \tcbuselibrary{listings}
@@ -1103,21 +1105,21 @@
     \@setuppart
     \fullhexpage{dv-7}{dv-5}
     \secdef\@part\@spart}
-\renewcommand*{\partpageend}{
-    %\afterpartskip
-  \ifm@mnopartnewpage
-  \else
-    \if@twoside
-      \if@openright
-        \null
-        \thispagestyle{afterpart}%
-        \newpage
-      \fi
+\renewcommand*{\partpageend}{%
+    \afterpartskip
+    \ifm@mnopartnewpage
+    \else
+        \if@twoside
+            \if@openright
+                \null
+                \thispagestyle{afterpart}%
+                \newpage
+            \fi
+        \fi
     \fi
-  \fi
-  \if@tempswa
-    \twocolumn
-  \fi}
+    \if@tempswa
+        \twocolumn
+    \fi}
 %    \end{macrocode}
 % \iffalse
 %</class>
@@ -1541,6 +1543,7 @@
 \newcommand*\code[1]{\texttt{#1}}
 \newcommand*\athes{\pacname{alpenthesis}}
 \input{randInts.tex}
+%% \input{alpenthesis/randInts.tex}
 %    \end{macrocode}
 % \iffalse
 %</class>
