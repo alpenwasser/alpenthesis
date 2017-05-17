@@ -45,7 +45,8 @@
 \RequirePackage{pgfplots}
 \pgfplotsset{compat=1.14}
 \usepgfplotslibrary{external}
-\tikzexternalize[prefix=tikzCache/]
+%%\tikzexternalize[prefix=tikzCache/]
+\tikzexternalize[prefix=tikzCache/,mode=list and make] %% conflicts with tcolorbox
 \pgfmathsetmacro\AT@paperwidth{21}
 \pgfmathsetmacro\AT@paperheight{29.7}
 \pgfmathsetmacro\AT@numberOfSidesHorizontally{22}
@@ -148,8 +149,6 @@
 \AtBeginDocument{%
     \DeclareTCBListing[blend into=listings]{mybox}{ O{} }{listing only,#1}
 }
-\newcounter{ATlisting}
-\counterwithin{ATlisting}{chapter}
 \tcbset{%
     colback=br2,
     coltitle=br2,
@@ -220,6 +219,9 @@
 \RequirePackage{amsmath}
 \RequirePackage[separate-uncertainty=true]{siunitx}
 \RequirePackage{counttexruns}
+\RequirePackage{morewrites}
+\RequirePackage{minitoc} % Should probably be loaded after hyperref.
+\AtBeginDocument{\doparttoc}
 \maxsecnumdepth{subsubsection}
 \maxtocdepth{subsubsection}
 \newcommand\aiiistock{%
@@ -252,6 +254,8 @@
     \@setuppart
     \fullhexpage{dv-7}{dv-5}
     \secdef\@part\@spart}
+\renewcommand*{\partpageend}{
+}
 \newcommand\AT@hexagons{%
     \tikzset{external/export next=false}%
     \begin{tikzpicture}[remember picture,overlay,x=1cm,y=1cm]

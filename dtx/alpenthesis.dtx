@@ -623,8 +623,8 @@
 \RequirePackage{pgfplots}
 \pgfplotsset{compat=1.14}
 \usepgfplotslibrary{external}
-\tikzexternalize[prefix=tikzCache/]
-%\tikzexternalize[prefix=tikzCache/,mode=list and make] %% conflicts with tcolorbox
+%%\tikzexternalize[prefix=tikzCache/]
+\tikzexternalize[prefix=tikzCache/,mode=list and make] %% conflicts with tcolorbox
 %    \end{macrocode}
 % \iffalse
 %</class>
@@ -854,8 +854,6 @@
 \AtBeginDocument{%
     \DeclareTCBListing[blend into=listings]{mybox}{ O{} }{listing only,#1}
 }
-\newcounter{ATlisting}
-\counterwithin{ATlisting}{chapter}
 \tcbset{%
     colback=br2,
     coltitle=br2,
@@ -945,6 +943,11 @@
 \RequirePackage{amsmath}
 \RequirePackage[separate-uncertainty=true]{siunitx}
 \RequirePackage{counttexruns}
+\RequirePackage{morewrites}
+%%^^A \href{https://tex.stackexchange.com/questions/5944/minitoc-and-memoir#comment126049_5956}
+%%^^A      {\nolinkurl{https://tex.stackexchange.com/questions/5944/minitoc-and-memoir#comment126049_5956}}
+%%^^A\RequirePackage{minitoc} % Should probably be loaded after hyperref.
+%%^^A\AtBeginDocument{\doparttoc}
 %    \end{macrocode}
 % \iffalse
 %</class>
@@ -1100,6 +1103,21 @@
     \@setuppart
     \fullhexpage{dv-7}{dv-5}
     \secdef\@part\@spart}
+\renewcommand*{\partpageend}{
+    %\afterpartskip
+  \ifm@mnopartnewpage
+  \else
+    \if@twoside
+      \if@openright
+        \null
+        \thispagestyle{afterpart}%
+        \newpage
+      \fi
+    \fi
+  \fi
+  \if@tempswa
+    \twocolumn
+  \fi}
 %    \end{macrocode}
 % \iffalse
 %</class>
@@ -1540,7 +1558,7 @@
 \documentclass[a4paper,11pt,oneside,showtrims]{alpenthesis}
 %%\aiiistock
 \usepackage{lipsum}
-\hextrue
+\hexfalse
 \paperfalse
 \usepackage[numbered]{matlab-prettifier}
 
@@ -1600,12 +1618,12 @@
 %% <<< frontmatter
 \frontmatter
 \tableofcontents*
-\newpage
+\clearpage
+\listoffigures*
+\clearpage
+\listoftables*
+\clearpage
 \listoflistings
-\newpage
-\listoffigures
-\newpage
-\listoftables
 %% >>>
 
 \mainmatter
@@ -1768,7 +1786,6 @@ We have two curves in Figure~\ref{fig:stem}:
     \item[\ref{pgfplots:bell}] a bell curve,
     \item[\ref{pgfplots:linear}] and a linear function.
 \end{itemize}
-
 \lipsum[2]
 
 %% >>>
@@ -1831,57 +1848,12 @@ This section illustrates the  style of \verb|\section|, \verb|\subsection| and
 \lipsum[2]
 %% >>>
 \chapter{Code Listings} % <<<
-\begin{listing}
-    %\tikzset{external/export next=false}% Does not work for some reason
-    \tikzexternaldisable
-    \begin{tcblisting}{%
-            title={\refstepcounter{ATlisting}\label{lst:test} Listing \theATlisting This Is a Code Listing},
-            %title=This Is a Code Listing,
-            minted language=tex,
-            listing side text,
-            }
-        \begin{tabular}{ll}
-            a & a \\
-            a & a \\
-        \end{tabular}
-    \end{tcblisting}
-    \tikzexternalenable
-    \caption{test: listings float env}
-\end{listing}
-
-Ref test: \ref{lst:test}
-
-%\tikzset{external/export next=false}
-\tikzexternaldisable
-\begin{mybox}[
-    title={test tcolorbox},
-    minted language=tex,
-    ]
-    This is my
-    \LaTeX\ box.
-    \begin{tabularx}{XX}
-        a & a \\
-        a & a \\
-    \end{tabularx}
-\end{mybox}
-\tikzexternalenable
-
 \begin{minted}{tex}
     \begin{tabularx}{XX}
         a & a \\
         a & a \\
     \end{tabularx}
 \end{minted}
-\refstepcounter{ATlisting}\label{lst:minted}Listing~\theATlisting: Pure Minted
-Test Listing with manual counter
-
-\thelstlisting
-\refstepcounter{lstlisting}
-\thelstlisting
-
-\thelisting
-\refstepcounter{listing}
-\thelisting
 
 \tikzexternaldisable
 \begin{tcolorbox}[title=test]
@@ -2010,6 +1982,11 @@ An \verb|align| with some numbered and unnumbered lines:
         1 \quad t \geq 0\\
         0 \quad t < 0\\
     \end{cases}
+\end{equation}
+
+\begin{equation}
+    % https://tex.stackexchange.com/q/369970/131649
+    A \underset{f,g}{\times} B
 \end{equation}
 
 %% >>>

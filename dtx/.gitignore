@@ -8,3 +8,17 @@
 *.idx
 *.tex
 *.cls
+*.sty
+*.hd
+*.ilg
+*.ind
+*.auxlock
+*.listing
+*.lof
+*.lol
+*.lot
+_minted-example/
+tikzCache/
+example.figlist
+example.makefile
+example.mw

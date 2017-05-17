@@ -1,7 +1,7 @@
 \documentclass[a4paper,11pt,oneside,showtrims]{alpenthesis}
 %%\aiiistock
 \usepackage{lipsum}
-\hextrue
+\hexfalse
 \paperfalse
 \usepackage[numbered]{matlab-prettifier}
 
@@ -61,16 +61,17 @@
 %% <<< frontmatter
 \frontmatter
 \tableofcontents*
-\newpage
-\listoflistings
-\newpage
+\clearpage
 \listoffigures
-\newpage
+\clearpage
 \listoftables
+\clearpage
+\listoflistings
 %% >>>
 
 \mainmatter
 \part{Main Content}
+\parttoc
 \chapter{Text} % <<< Text
 \lipsum[1]
 
@@ -228,7 +229,6 @@ We have two curves in Figure~\ref{fig:stem}:
     \item[\ref{pgfplots:bell}] a bell curve,
     \item[\ref{pgfplots:linear}] and a linear function.
 \end{itemize}
-
 \lipsum[2]
 
 %% >>>
@@ -291,56 +291,12 @@ This section illustrates the  style of \verb|\section|, \verb|\subsection| and
 \lipsum[2]
 %% >>>
 \chapter{Code Listings} % <<<
-\begin{listing}
-    %\tikzset{external/export next=false}% Does not work for some reason
-    \tikzexternaldisable
-    \begin{tcblisting}{%
-            title={\refstepcounter{ATlisting}\label{lst:test} Listing \theATlisting This Is a Code Listing},
-            %title=This Is a Code Listing,
-            minted language=tex,
-            listing side text,
-            }
-        \begin{tabular}{ll}
-            a & a \\
-            a & a \\
-        \end{tabular}
-    \end{tcblisting}
-    \tikzexternalenable
-    \caption{test: listings float env}
-\end{listing}
-
-Ref test: \ref{lst:test}
-
-\tikzexternaldisable
-\begin{mybox}[
-    title={test tcolorbox},
-    minted language=tex,
-    ]
-    This is my
-    \LaTeX\ box.
-    \begin{tabularx}{XX}
-        a & a \\
-        a & a \\
-    \end{tabularx}
-\end{mybox}
-\tikzexternalenable
-
 \begin{minted}{tex}
     \begin{tabularx}{XX}
         a & a \\
         a & a \\
     \end{tabularx}
 \end{minted}
-\refstepcounter{ATlisting}\label{lst:minted}Listing~\theATlisting: Pure Minted
-Test Listing with manual counter
-
-\thelstlisting
-\refstepcounter{lstlisting}
-\thelstlisting
-
-\thelisting
-\refstepcounter{listing}
-\thelisting
 
 \tikzexternaldisable
 \begin{tcolorbox}[title=test]
@@ -469,6 +425,11 @@ An \verb|align| with some numbered and unnumbered lines:
         1 \quad t \geq 0\\
         0 \quad t < 0\\
     \end{cases}
+\end{equation}
+
+\begin{equation}
+    % https://tex.stackexchange.com/q/369970/131649
+    A \underset{f,g}{\times} B
 \end{equation}
 
 %% >>>

@@ -18,6 +18,7 @@ all:
 	@cp $(EXAMPLE).tex ../
 
 example:
+	@mkdir -p $(TIKZCACHE)
 	@latex $(CLASSNAME).ins
 	@pdflatex -shell-escape $(EXAMPLE)
 
