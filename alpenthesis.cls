@@ -148,16 +148,11 @@
 \tcbuselibrary{minted} % Must be loaded after the listings option library
 \tcbuselibrary{skins}
 \tcbuselibrary{xparse}
+\tcbuselibrary{breakable}
 \AtBeginDocument{%
     \DeclareTCBListing[blend into=listings]{mybox}{ O{} }{listing only,#1}
 }
-\tcbset{%
-    colback=br2,
-    coltitle=br2,
-    colframe=da1,
-    fonttitle=\sffamily,
-    minted options={autogobble},
-    enhanced,
+\tcbsubskin{octobox}{enhanced}{
     frame code={
         \draw[very thick]
                ([xshift=-3mm,yshift=+1mm]frame.north east)
@@ -198,14 +193,123 @@
         \path[tcb fill frame]
                ([xshift=-3mm,yshift=+1mm]frame.north east)
             -- ([xshift=+0mm,yshift=-2mm]frame.north east)
-            -- ([xshift=+0.3mm,yshift=-2mm]interior.north east)
-            -- ([xshift=-3mm,yshift=+1mm]interior.north east)
-            -- ([xshift=+3mm,yshift=+1mm]interior.north west)
-            -- ([xshift=-0.3mm,yshift=-2mm]interior.north west)
+            -- ([xshift=+0.3mm,yshift=-4mm]interior.north east)
+            -- ([xshift=-3mm,yshift=-1mm]interior.north east)
+            -- ([xshift=+3mm,yshift=-1mm]interior.north west)
+            -- ([xshift=-0.3mm,yshift=-4mm]interior.north west)
             -- ([xshift=-0mm,yshift=-2mm]frame.north west)
             -- ([xshift=+3mm,yshift=+1mm]frame.north west)
             -- cycle;
-    }
+    },
+}
+\tcbset{%
+    colback=br2,
+    coltitle=br2,
+    colframe=da1,
+    fonttitle=\sffamily,
+    minted options={autogobble},
+    skin=octobox,
+    skin first is subskin of={octobox}{
+        frame code={
+            \draw[very thick]
+                   ([xshift=-3mm,yshift=+1mm]frame.north east)
+                -- ([xshift=+0mm,yshift=-2mm]frame.north east)
+                -- (frame.south east)
+                   (frame.south west)
+                -- ([xshift=-0mm,yshift=-2mm]frame.north west)
+                -- ([xshift=+3mm,yshift=+1mm]frame.north west)
+                -- ([xshift=-3mm,yshift=+1mm]frame.north east)
+                ;
+            \draw[thin,br0]
+                   (frame.south east)
+                -- (frame.south west)
+                ;
+        },
+        interior code={%
+            \path[tcb fill interior]
+                   ([xshift=-2.7mm,yshift=+1.3mm]interior.north east)
+                -- ([xshift=+0.3mm,yshift=-1.7mm]interior.north east)
+                -- (interior.south east)
+                -- (interior.south west)
+                -- ([xshift=-0.3mm,yshift=-1.7mm]interior.north west)
+                -- ([xshift=+2.7mm,yshift=+1.3mm]interior.north west)
+                -- cycle;
+        },
+        interior titled code={%
+            \path[tcb fill interior]
+                   ([xshift=-2.7mm,yshift=+1.3mm]interior.north east)
+                -- ([xshift=+0.3mm,yshift=-1.7mm]interior.north east)
+                -- ([xshift=0mm,yshift=-1pt]interior.south east)
+                -- ([xshift=0mm,yshift=-1pt]interior.south west)
+                -- ([xshift=-0.3mm,yshift=-1.7mm]interior.north west)
+                -- ([xshift=+2.7mm,yshift=+1.3mm]interior.north west)
+                -- cycle;
+        },
+        title code={%
+            \path[tcb fill frame]
+                   ([xshift=-3mm,yshift=+1mm]frame.north east)
+                -- ([xshift=+0mm,yshift=-2mm]frame.north east)
+                -- ([xshift=+0.3mm,yshift=-4mm]interior.north east)
+                -- ([xshift=-3mm,yshift=-1mm]interior.north east)
+                -- ([xshift=+3mm,yshift=-1mm]interior.north west)
+                -- ([xshift=-0.3mm,yshift=-4mm]interior.north west)
+                -- ([xshift=-0mm,yshift=-2mm]frame.north west)
+                -- ([xshift=+3mm,yshift=+1mm]frame.north west)
+                -- cycle;
+        },
+    },
+    skin middle is subskin of={octobox}{
+        frame code={
+            \draw[very thick,da1]
+                   (frame.north east)
+                -- (frame.south east)
+                   (frame.north west)
+                -- (frame.south west)
+                ;
+            \draw[thin,br0]
+                   (frame.north east)
+                -- (frame.north west)
+                   (frame.south east)
+                -- (frame.south west)
+                ;
+        },
+        interior code={%
+            \path[tcb fill interior]
+                   ([xshift=-0.3mm,yshift=-0.5pt]frame.north east)
+                -- ([xshift=-0.3mm,yshift=+0.5pt]frame.south east)
+                -- ([xshift=+0.3mm,yshift=+0.5pt]frame.south west)
+                -- ([xshift=+0.3mm,yshift=-0.5pt]frame.north west)
+                -- cycle
+                ;
+        },
+    },
+    skin last is subskin of={octobox}{
+        frame code={
+            \draw[very thick]
+                   (frame.north east)
+                -- ([xshift=+0mm,yshift=+2mm]frame.south east)
+                -- ([xshift=-3mm,yshift=-1mm]frame.south east)
+                -- ([xshift=+3mm,yshift=-1mm]frame.south west)
+                -- ([xshift=-0mm,yshift=+2mm]frame.south west)
+                -- (frame.north west)
+                ;
+            \draw[thin,br0]
+                   (frame.north east)
+                -- (frame.north west)
+                ;
+        },
+        interior code={%
+            \path[tcb fill interior]
+                   ([yshift=+1pt]interior.north east)
+                -- ([xshift=+0.3mm,yshift=+1.7mm]interior.south east)
+                -- ([xshift=-2.7mm,yshift=-1.3mm]interior.south east)
+                -- ([xshift=+2.7mm,yshift=-1.3mm]interior.south west)
+                -- ([xshift=-0.3mm,yshift=+1.7mm]interior.south west)
+                -- ([yshift=+1pt]interior.north west)
+                -- cycle;
+                ;
+        },
+    },
 }
 \RequirePackage[%
     pdfauthor=alpenwasser,

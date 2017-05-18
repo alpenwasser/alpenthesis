@@ -1,7 +1,7 @@
 \documentclass[a4paper,11pt,oneside,showtrims]{alpenthesis}
 %%\aiiistock
 \usepackage{lipsum}
-\hexfalse
+\hextrue
 \paperfalse
 \usepackage[numbered]{matlab-prettifier}
 
@@ -289,6 +289,30 @@ This section illustrates the  style of \verb|\section|, \verb|\subsection| and
 \subsubsection{A subsubsection}
 \lipsum[2]
 %% >>>
+\chapter{Boxes} % <<<
+\tikzexternaldisable
+\begin{tcolorbox}[breakable,title=Breakable Box With Title]
+    \lipsum[1-9]
+\end{tcolorbox}
+\tikzexternalenable
+
+\vspace{1em}
+
+\tikzexternaldisable
+\begin{tcolorbox}[title=Box with title]
+    \lipsum[2]
+\end{tcolorbox}
+\tikzexternalenable
+
+\vspace{1em}
+
+\tikzexternaldisable
+\begin{tcolorbox}
+    \lipsum[2]
+\end{tcolorbox}
+\tikzexternalenable
+
+%% >>>
 \chapter{Code Listings} % <<<
 \begin{minted}{tex}
     \begin{tabularx}{XX}
@@ -296,18 +320,6 @@ This section illustrates the  style of \verb|\section|, \verb|\subsection| and
         a & a \\
     \end{tabularx}
 \end{minted}
-
-\tikzexternaldisable
-\begin{tcolorbox}[title=test]
-    \lipsum[2]
-\end{tcolorbox}
-\tikzexternalenable
-
-\tikzexternaldisable
-\begin{tcolorbox}
-    \lipsum[2]
-\end{tcolorbox}
-\tikzexternalenable
 
 \section{Matlab}
 %%<<<
