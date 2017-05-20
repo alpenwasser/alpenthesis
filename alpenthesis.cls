@@ -141,7 +141,7 @@
     \fi
 }
 %%^^A\RequirePackage[chapter,cachedir=mintedCache,outputdir=build]{minted}
-%% \RequirePackage[chapter,outputdir=build,cachedir=mintedCache]{minted}
+%% \RequirePackage[chapter,outputdir=build,cachedir=mintedCache,langlinenos=true]{minted}
 \RequirePackage[chapter]{minted}
 \RequirePackage{tcolorbox}
 \tcbuselibrary{listings}
