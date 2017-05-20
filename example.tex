@@ -1,7 +1,7 @@
 \documentclass[a4paper,11pt,oneside,showtrims]{alpenthesis}
 %%\aiiistock
 \usepackage{lipsum}
-\hextrue
+\hexfalse
 \paperfalse
 \usepackage[numbered]{matlab-prettifier}
 
@@ -310,6 +310,23 @@ This section illustrates the  style of \verb|\section|, \verb|\subsection| and
 \begin{tcolorbox}
     \lipsum[2]
 \end{tcolorbox}
+\tikzexternalenable
+
+\newpage
+\tikzexternaldisable
+Opening remarks \ldots
+\begin{tcolorbox}[skin=octoboxfirst,title=Some Manually Broken Boxes]
+    \lipsum[1]
+\end{tcolorbox}
+Intermittent remarks \ldots
+\begin{tcolorbox}[skin=octoboxmiddle]
+    \lipsum[2]
+\end{tcolorbox}
+More intermittent remarks \ldots
+\begin{tcolorbox}[skin=octoboxlast]
+    \lipsum[3]
+\end{tcolorbox}
+Closing remarks \ldots
 \tikzexternalenable
 
 %% >>>
