@@ -152,6 +152,13 @@
 \AtBeginDocument{%
     \DeclareTCBListing[blend into=listings]{mybox}{ O{} }{listing only,#1}
 }
+\lstdefinestyle{tcblatex}{language={[LaTeX]TeX},
+    aboveskip={0\p@ \@plus 6\p@}, belowskip={0\p@ \@plus 6\p@},
+    columns=fullflexible, keepspaces=true,
+    breaklines=true, breakatwhitespace=true,
+    basicstyle=\ttfamily\small, extendedchars=true, nolol,
+    inputencoding=\kvtcb@listingencoding
+ }
 \tcbsubskin{octobox}{enhanced}{
     frame code={
         \draw[very thick]
@@ -303,6 +310,11 @@
             ;
     }
 }
+\tcbsubskin{octoboxshell}{octobox}{
+    colback=da1,
+    colframe=br2,
+    coltitle=da1,
+}
 \tcbset{%
     colback=br2,
     coltitle=br2,
@@ -310,9 +322,21 @@
     fonttitle=\sffamily,
     minted options={autogobble},
     skin=octobox,
+    shield externalize,
     skin first is subskin of={octoboxfirst}{},
     skin middle is subskin of={octoboxmiddle}{},
     skin last is subskin of={octoboxlast}{},
+}
+\newtcblisting{commandshell}{
+    skin=octobox,
+listing only,
+    listing engine=minted,
+    minted language=shell,
+    minted style=solarizedlight,
+    minted options={
+        autogobble,
+    },
+left=0cm,
 }
 \RequirePackage[%
     pdfauthor=alpenwasser,
