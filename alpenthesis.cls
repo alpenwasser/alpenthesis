@@ -41,6 +41,7 @@
 \definecolor{q6}{HTML}{80EA82} \definecolor{q7}{HTML}{2E7D32}
 \RequirePackage{tikz}
 \usetikzlibrary{calc}
+\usetikzlibrary{shapes.geometric}
 \usetikzlibrary{fadings}
 \RequirePackage{pgfplots}
 \pgfplotsset{compat=1.14}
