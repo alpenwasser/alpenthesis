@@ -142,8 +142,8 @@
     \fi
 }
 %%^^A\RequirePackage[chapter,cachedir=mintedCache,outputdir=build]{minted}
-%% \RequirePackage[chapter,outputdir=build,cachedir=mintedCache,langlinenos=true]{minted}
-\RequirePackage[chapter]{minted}
+\RequirePackage[chapter,outputdir=build,cachedir=mintedCache,langlinenos=true]{minted}
+%% \RequirePackage[chapter]{minted}
 \RequirePackage{tcolorbox}
 \tcbuselibrary{listings}
 \tcbuselibrary{minted} % Must be loaded after the listings option library
@@ -351,7 +351,7 @@ left=0cm,
     urlcolor=dv-6]{hyperref}
 \RequirePackage[english]{babel}
 \RequirePackage{amsmath}
-\RequirePackage[separate-uncertainty=true]{siunitx}
+\RequirePackage[separate-uncertainty=true,binary-units=true]{siunitx}
 \RequirePackage{counttexruns}
 \RequirePackage{morewrites}
 %%^^A \href{https://tex.stackexchange.com/questions/5944/minitoc-and-memoir#comment126049_5956}
@@ -514,5 +514,5 @@ left=0cm,
 \newcommand*\pacname[1]{\textsf{#1}}
 \newcommand*\code[1]{\texttt{#1}}
 \newcommand*\athes{\pacname{alpenthesis}}
-\input{randInts.tex}
-%% \input{alpenthesis/randInts.tex}
+%% \input{randInts.tex}
+\input{alpenthesis/randInts.tex}
