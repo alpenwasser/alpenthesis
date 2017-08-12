@@ -268,6 +268,14 @@
 %    im  Normalfall  etwas  viele  unerw\"unschte Seiteneffekte  hat,  ist  ein
 %    unabh\"angiger Switch implementiert.
 % \fi
+%
+% \DescribeEnv{conditions}
+% \ifenglish
+%    A block for describing conditions for equations.
+% \else
+%    Ein  environment,  welches eine  auflisting  mit  Paramtetern f\"ur  eine
+%    Gleichung setzt.
+% \fi
 %^^A >>>
 %
 % \StopEventually{\PrintIndex}
@@ -1075,7 +1083,7 @@
     urlcolor=dv-6]{hyperref}
 \RequirePackage[english]{babel}
 \RequirePackage{amsmath}
-\RequirePackage[separate-uncertainty=true]{siunitx}
+\RequirePackage[separate-uncertainty=true,binary-units=true]{siunitx}
 \RequirePackage{counttexruns}
 \RequirePackage{morewrites}
 %%^^A \href{https://tex.stackexchange.com/questions/5944/minitoc-and-memoir#comment126049_5956}
@@ -1674,6 +1682,9 @@
 \newcommand*\pacname[1]{\textsf{#1}}
 \newcommand*\code[1]{\texttt{#1}}
 \newcommand*\athes{\pacname{alpenthesis}}
+\newenvironment{conditions}
+  {Where: \par\vspace{\abovedisplayskip}\noindent\begin{tabular}{>{$}l<{$} @{${}:{}$} l}}
+  {\end{tabular}\par\vspace{\belowdisplayskip}}
 \input{randInts.tex}
 %% \input{alpenthesis/randInts.tex}
 %    \end{macrocode}
