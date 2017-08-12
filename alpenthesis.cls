@@ -516,6 +516,6 @@ left=0cm,
 \newcommand*\athes{\pacname{alpenthesis}}
 \newenvironment{conditions}
   {Where: \par\vspace{\abovedisplayskip}\noindent\begin{tabular}{>{$}l<{$} @{${}:{}$} l}}
-  {\end{tabular}\par\vspace{\belowdisplayskip}}
+  {\end{tabular}\newline\newline}
 %% \input{randInts.tex}
 \input{alpenthesis/randInts.tex}
