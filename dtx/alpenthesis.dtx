@@ -1031,15 +1031,20 @@
 }
 \tcbset{%
     colback=br2,
-    coltitle=br2,
-    colframe=da1,
-    fonttitle=\sffamily,
+    coltitle=black,
+    boxrule=0.25mm,
+    title filled=true,
+    colbacktitle=br0,
+    colframe=black,
+    fonttitle=\rmfamily\small\centering,
     minted options={autogobble},
-    skin=octobox,
+    %skin=octobox,
+    toptitle=0.5ex,
+    bottomtitle=0.333ex,
     shield externalize,
-    skin first is subskin of={octoboxfirst}{},
-    skin middle is subskin of={octoboxmiddle}{},
-    skin last is subskin of={octoboxlast}{},
+    %skin first is subskin of={octoboxfirst}{},
+    %skin middle is subskin of={octoboxmiddle}{},
+    %skin last is subskin of={octoboxlast}{},
 }
 \newtcblisting{commandshell}{
     skin=octobox,
@@ -1073,14 +1078,14 @@
 %    \begin{macrocode}
 \RequirePackage[%
     pdfauthor=alpenwasser,
-    pdfsubject={LaTeX document design},
-    pdftitle={alpenwasser's thesis},
+    pdfsubject={Bachelor's Thesis: Custom Filters on the Red Pitaya STEMlab},
+    pdftitle={Bachelor's Thesis: Custom Filters on the Red Pitaya STEMlab},
     bookmarksnumbered=true,
     pdfkeywords={LaTeX,design,alpenwasser,thesis,class,hexagons},
     colorlinks=true,
-    linkcolor=sqB,
-    citecolor=ct4,
-    urlcolor=dv-6]{hyperref}
+    linkcolor=sqC,
+    citecolor=da2,
+    urlcolor=sq9]{hyperref}
 \RequirePackage[english]{babel}
 \RequirePackage{amsmath}
 \RequirePackage[separate-uncertainty=true,binary-units=true]{siunitx}
