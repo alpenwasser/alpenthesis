@@ -334,8 +334,7 @@
     %skin last is subskin of={octoboxlast}{},
 }
 \newtcblisting{commandshell}{
-    skin=octobox,
-listing only,
+    listing only,
     listing engine=minted,
     minted language=shell,
     minted style=solarizedlight,
@@ -346,8 +345,8 @@ left=0cm,
 }
 \RequirePackage[%
     pdfauthor={Raphael Frey and Noah Hüsser},
-    pdfsubject={Front-End Signal Processing for Red Pitaya Spectrum Analyzer},
-    pdftitle={Front-End Signal Processing for Red Pitaya Spectrum Analyzer},
+    pdfsubject={Thesis: Front-End Signal Processing for Red Pitaya Spectrum Analyzer},
+    pdftitle={Thesis: Front-End Signal Processing for Red Pitaya Spectrum Analyzer},
     bookmarksnumbered=true,
     pdfkeywords={%
         Red Pitaya,
