@@ -311,12 +311,13 @@
             ;
     }
 }
-\tcbsubskin{octoboxshell}{octobox}{
-    colback=da1,
-    colframe=br2,
-    coltitle=da1,
+\tcbsubskin{alpenshell}{enhanced}{
+    colback=br2,
+    colframe=dv-7,
+    coltitle=black,
+    leftrule=3mm,
 }
-\tcbset{%
+\tcbsubskin{alpenlisting}{enhanced}{
     colback=br2,
     coltitle=black,
     boxrule=0.25mm,
@@ -325,24 +326,23 @@
     colframe=black,
     fonttitle=\rmfamily\small\centering,
     minted options={autogobble},
-    %skin=octobox,
     toptitle=0.5ex,
     bottomtitle=0.333ex,
+}
+\tcbset{%
+    skin=alpenlisting,
     shield externalize,
-    %skin first is subskin of={octoboxfirst}{},
-    %skin middle is subskin of={octoboxmiddle}{},
-    %skin last is subskin of={octoboxlast}{},
 }
 \newtcblisting{commandshell}{
-    skin=octobox,
-listing only,
+    skin=alpenshell,
+    listing only,
     listing engine=minted,
     minted language=shell,
     minted style=solarizedlight,
     minted options={
         autogobble,
     },
-left=0cm,
+    left=0cm,
 }
 \RequirePackage[%
     pdfauthor={Raphael Frey and Noah Hüsser},
