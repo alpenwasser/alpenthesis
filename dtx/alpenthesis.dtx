@@ -1693,6 +1693,26 @@
 %</class>
 % \fi
 % \color{black}
+% \ifenglish
+%    Acually select the |alpenthesis| chapter style.
+% \else
+%    Den |alpenthesis|-Kapitelstil aktivieren.
+% \fi
+% \color{sqB}
+% \iffalse
+%<*class>
+% \fi
+%    \begin{macrocode}
+\renewcommand{\insertchapterspace}{%
+  \addtocontents{lof}{\protect\addvspace{10pt}}%
+  \addtocontents{lot}{\protect\addvspace{10pt}}%
+  \addtocontents{lol}{\protect\addvspace{10pt}}%
+}
+%    \end{macrocode}
+% \iffalse
+%</class>
+% \fi
+% \color{black}
 %^^A>>>
 %^^A>>>
 %^^A --------------------------------------------------------- HELPER MACROS <<<

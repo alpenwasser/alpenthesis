@@ -542,6 +542,11 @@
     }%
 }%
 \chapterstyle{alpenthesis}
+\renewcommand{\insertchapterspace}{%
+  \addtocontents{lof}{\protect\addvspace{10pt}}%
+  \addtocontents{lot}{\protect\addvspace{10pt}}%
+  \addtocontents{lol}{\protect\addvspace{10pt}}%
+}
 \newcommand*\pacname[1]{\textsf{#1}}
 \newcommand*\code[1]{\texttt{#1}}
 \newcommand*\athes{\pacname{alpenthesis}}
